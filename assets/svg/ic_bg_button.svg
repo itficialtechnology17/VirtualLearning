@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="386" height="175" viewBox="0 0 386 175">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.058" cy="0" r="1.35" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#aaea15"/>
+      <stop offset="1" stop-color="#106433"/>
+    </radialGradient>
+    <filter id="Colour_BG" x="0" y="0" width="386" height="175" filterUnits="userSpaceOnUse">
+      <feOffset dx="15" dy="15" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feFlood flood-color="#329d9c" flood-opacity="0.212"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Elements_Buttons_Gradient_Primary" data-name="Elements/ Buttons/ Gradient/ Primary" transform="translate(45 45)">
+    <g transform="matrix(1, 0, 0, 1, -45, -45)" filter="url(#Colour_BG)">
+      <rect id="Colour_BG-2" data-name="Colour BG" width="266" height="55" rx="21" transform="translate(45 45)" fill="url(#radial-gradient)"/>
+    </g>
+  </g>
+</svg>
