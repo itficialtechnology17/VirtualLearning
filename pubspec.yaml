@@ -17,6 +17,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+#export PATH="/Users/amit/Desktop/ITficialProject/FlutterSdk/flutter/bin:$PATH"
+
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
@@ -40,6 +42,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons:
+
+flutter_icons:
+    android: true
+    ios: true
+    image_path: "assets/images/ic_virtualE_logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
