@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:virtual_learning/Intro11.dart';
 import 'package:virtual_learning/page/intro_page.dart';
 
 class SplashPage extends StatefulWidget {

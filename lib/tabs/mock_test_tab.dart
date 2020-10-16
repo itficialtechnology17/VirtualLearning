@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:virtual_learning/page/mock_test.dart';
 import 'package:virtual_learning/utils/custom_color.dart';
 
 class MockTestTab extends StatefulWidget {
@@ -139,27 +140,40 @@ class _StateMockTestTab extends State<MockTestTab> {
                                     width: 16,
                                   ),
                                   Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.stretch,
-                                      children: [
-                                        RichText(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          text: TextSpan(
-                                              text: "Introduction to Algebra",
-                                              style: TextStyle(
-                                                  color: Colors.black)),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MockTest()));
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            RichText(
+                                              maxLines: 1,
+                                              overflow: TextOverflow.fade,
+                                              text: TextSpan(
+                                                  text:
+                                                      "Introduction to Algebra",
+                                                  style: TextStyle(
+                                                      color: Colors.black)),
+                                            ),
+                                            RichText(
+                                              maxLines: 1,
+                                              overflow: TextOverflow.fade,
+                                              text: TextSpan(
+                                                  text: "Chapter Details",
+                                                  style: TextStyle(
+                                                      color: Colors.grey)),
+                                            ),
+                                          ],
                                         ),
-                                        RichText(
-                                          maxLines: 1,
-                                          overflow: TextOverflow.fade,
-                                          text: TextSpan(
-                                              text: "Chapter Details",
-                                              style: TextStyle(
-                                                  color: Colors.grey)),
-                                        ),
-                                      ],
+                                      ),
                                     ),
                                   )
                                 ],
