@@ -18,7 +18,7 @@ class _StateLessonsTab extends State<LessonsTab> {
       body: ListView.builder(
           itemCount: 2,
           shrinkWrap: true,
-          physics: ScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, position) {
             return Container(
               margin: EdgeInsets.all(16),

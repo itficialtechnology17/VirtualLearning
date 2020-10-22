@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:virtual_learning/model/model_subject.dart';
-import 'package:virtual_learning/page/subject_details_page.dart';
+import 'package:virtual_learning/page/subject_details.dart';
 import 'package:virtual_learning/utils/SABT.dart';
-import 'package:virtual_learning/utils/custom_color.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -242,6 +241,6 @@ class _StateHomePage extends State<HomePage> {
 
   _onTapSubject(int position) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => SubjectDetailsPage()));
+        context, MaterialPageRoute(builder: (context) => SubjectDetails()));
   }
 }

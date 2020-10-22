@@ -18,7 +18,7 @@ class _StateMockTestTab extends State<MockTestTab> {
       body: ListView.builder(
           itemCount: 2,
           shrinkWrap: true,
-          physics: ScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           itemBuilder: (context, position) {
             return Container(
               margin: EdgeInsets.all(16),
