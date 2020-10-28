@@ -72,6 +72,7 @@ class _StateHomePage extends State<HomePage> {
             SliverAppBar(
               expandedHeight: 180.0,
               floating: false,
+              brightness: Brightness.dark,
               backgroundColor: Colors.white,
               pinned: true,
               elevation: 0,

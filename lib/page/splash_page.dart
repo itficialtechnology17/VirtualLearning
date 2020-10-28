@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_learning/page/intro_page.dart';
+import 'package:virtual_learning/page/main_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -40,9 +41,14 @@ class _StateSplashPage extends State<SplashPage> {
   }
 
   loadPrefs() async {
-    Navigator.pushReplacement(
+    /*  Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => IntroPage()),
+    );*/
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainPage()),
     );
   }
 }

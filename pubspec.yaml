@@ -75,9 +75,17 @@ flutter:
      - assets/svg/
      - assets/images/ic_logo_with_tag.png
      - assets/images/ic_virtualE_logo.png
+     - assets/images/ic_test_start.png
      - assets/images/
      - assets/images/ic_done.png
      - assets/icons/
+     - assets/icons/ic_menu.png
+     - assets/subject/economics.svg
+     - assets/subject/geometry.svg
+     - assets/subject/mathematics.svg
+     - assets/subject/physics.svg
+     - assets/subject/science.svg
+     - assets/subject/chemistry.svg
 
   fonts:
     - family: Poppins
