@@ -75,6 +75,9 @@ class _StateSubjectDetails extends State<SubjectDetails>
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                     child: Container(
                       margin: EdgeInsets.only(right: 8),
                       decoration: BoxDecoration(

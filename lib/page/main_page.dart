@@ -3,6 +3,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:virtual_learning/model/model_subject.dart';
+import 'package:virtual_learning/page/lesson_listing.dart';
+import 'package:virtual_learning/page/subject_details.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -12,7 +16,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _StateMainPage extends State<MainPage> {
-/*  List<Color> subjectColor = [
+  List<Color> subjectColor = [
     Color(0xffF3FFD7),
     Color(0xffFED4D5),
     Color(0xffFFF2D0),
@@ -20,7 +24,7 @@ class _StateMainPage extends State<MainPage> {
     Color(0xffD4E6FE),
     Color(0xffDBE9E9),
     Color(0xffF6E9D3)
-  ];*/
+  ];
 
   List<ModelSubject> arrOfSubject = [
     ModelSubject(
@@ -97,13 +101,15 @@ class _StateMainPage extends State<MainPage> {
             child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),
               child: ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 children: [
                   Text(
-                    "Hi Nens",
+                    "Hey Guest",
                     style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w600,
-                        fontSize: 22),
+                        fontSize: 24),
                   ),
                   Text("You have completed 6 lesson in this week.",
                       style: TextStyle(
@@ -148,8 +154,8 @@ class _StateMainPage extends State<MainPage> {
                     "Subjects",
                     style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18),
                   ),
                   SizedBox(
                     height: 20,
@@ -159,17 +165,28 @@ class _StateMainPage extends State<MainPage> {
                     crossAxisSpacing: 16.0,
                     mainAxisSpacing: 16.0,
                     shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
                     children: List.generate(
                       arrOfSubject.length,
                       (index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: arrOfSubject[index].bgColor,
+                        return Material(
+                          color: arrOfSubject[index].bgColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(16.0),
+                          ),
+                          child: InkWell(
                             borderRadius: BorderRadius.all(
                               Radius.circular(16.0),
                             ),
-                          ),
-                          child: Center(
+                            splashColor: Colors.grey[200],
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          LessonListing.modelSubject(
+                                              arrOfSubject[index])));
+                            },
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -185,11 +202,11 @@ class _StateMainPage extends State<MainPage> {
                                   height: 8,
                                 ),
                                 Text(
-                                  arrOfSubject[index].name,
+                                  arrOfSubject[index].name.toUpperCase(),
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 14),
+                                      fontSize: 12),
                                 )
                               ],
                             ),
@@ -202,10 +219,152 @@ class _StateMainPage extends State<MainPage> {
                     height: 20,
                   ),
                   Text(
-                    "Test",
+                    "Here you left",
                     style: TextStyle(
                         color: Colors.black,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    decoration: BoxDecoration(
+                        color: Color(0xffF5FAF5),
+                        borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                            "https://image.freepik.com/free-vector/geography-tool-diploma_24911-9910.jpg",
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.height * 0.07,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    text: "Basic What is Virtual E ?",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Poppins",
+                                        fontSize: 14)),
+                                maxLines: 1,
+                              ),
+                              Text(
+                                "2 hours, 40 Min",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CircularPercentIndicator(
+                          radius: 40.0,
+                          lineWidth: 3.0,
+                          percent: 0.7,
+                          backgroundColor: Colors.white,
+                          center: Icon(
+                            Icons.play_arrow,
+                            color: Colors.green[300],
+                          ),
+                          progressColor: Colors.green[300],
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.10,
+                    decoration: BoxDecoration(
+                        color: Color(0xffFEF6F4),
+                        borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                            "https://image.freepik.com/free-vector/colorful-illustration-about-geography-modern-flat-style_1040-3200.jpg",
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.height * 0.07,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 16,
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                    text: "Basic What is Virtual E ?",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Poppins",
+                                        fontSize: 14)),
+                                maxLines: 1,
+                              ),
+                              Text(
+                                "1 hours, 25 Min",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CircularPercentIndicator(
+                          radius: 40.0,
+                          lineWidth: 3.0,
+                          percent: 0.2,
+                          backgroundColor: Colors.white,
+                          center: Icon(
+                            Icons.play_arrow,
+                            color: Colors.green[300],
+                          ),
+                          progressColor: Colors.green[300],
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+
+                  /*SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Test".toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
                         fontSize: 20),
                   ),
                   SizedBox(
@@ -245,242 +404,13 @@ class _StateMainPage extends State<MainPage> {
                   ),
                   SizedBox(
                     height: 20,
-                  ),
+                  ),*/
                 ],
               ),
             ),
           )
-          /*    SliverPersistentHeader(
-            pinned: true,
-            delegate: PersistentHeader(
-              widget: Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(left: 16, right: 16),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey[300],
-                          blurRadius: 4,
-                          offset: Offset(1, 1))
-                    ]),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              currentPosition = 0;
-                              _tabController.index = 0;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: currentPosition == 0
-                                  ? Color(CustomColor.colorThemeDark)
-                                  : Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(24),
-                                  bottomLeft: Radius.circular(24)),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Lessons".toUpperCase(),
-                                style: TextStyle(
-                                    color: currentPosition == 0
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: double.infinity,
-                      width: 1,
-                      margin: EdgeInsets.only(top: 4, bottom: 4),
-                      color: Colors.grey[100],
-                    ),
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              currentPosition = 1;
-                              _tabController.index = 1;
-                            });
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: currentPosition == 1
-                                    ? Color(CustomColor.colorThemeDark)
-                                    : Colors.white,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Mock Test".toUpperCase(),
-                                  style: TextStyle(
-                                      color: currentPosition == 1
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: double.infinity,
-                      width: 1,
-                      margin: EdgeInsets.only(top: 4, bottom: 4),
-                      color: Colors.grey[100],
-                    ),
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              currentPosition = 2;
-                              _tabController.index = 2;
-                            });
-                          },
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: currentPosition == 2
-                                    ? Color(CustomColor.colorThemeDark)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(24),
-                                    bottomRight: Radius.circular(24)),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Q-Bank".toUpperCase(),
-                                  style: TextStyle(
-                                      color: currentPosition == 2
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              )),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SliverFillRemaining(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                LessonsTab(),
-                MockTestTab(),
-                QuestionBankTab(),
-              ],
-            ),
-          )*/
-          /*SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, position) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: lessions.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                left: 8, right: 8, top: 16, bottom: 16),
-                            decoration: BoxDecoration(
-                                color: Color(0xffD7EDF5),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: Colors.white,
-                                  child: Center(
-                                    child: Text(
-                                      (index + 1).toString(),
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: RichText(
-                                    maxLines: 2,
-                                    overflow: TextOverflow.fade,
-                                    text: TextSpan(
-                                        text: lessions[index],
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: "Poppins",
-                                            fontWeight: FontWeight.w500)),
-                                  ),
-                                ),
-                                Image.asset(
-                                  "assets/icons/download.png",
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.05,
-                                  color: Colors.black54,
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              childCount: 1,
-            ),
-          ),*/
         ],
       ),
     );
-  }
-}
-
-class ModelSubject {
-  Color bgColor;
-  String icon;
-  String name;
-
-  ModelSubject(_, __, ___) {
-    this.bgColor = _;
-    this.icon = __;
-    this.name = ___;
   }
 }

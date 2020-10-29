@@ -25,41 +25,7 @@ class _StateHomePage extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    var modelSubject = ModelSubject();
-    modelSubject.subjectName = "Science";
-    modelSubject.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501392.svg";
-    arrOfSubject.add(modelSubject);
 
-    var modelSubject1 = ModelSubject();
-    modelSubject1.subjectName = "Computer";
-    modelSubject1.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501428.svg";
-    arrOfSubject.add(modelSubject1);
-
-    var modelSubject2 = ModelSubject();
-    modelSubject2.subjectName = "Maths";
-    modelSubject2.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501434.svg";
-    arrOfSubject.add(modelSubject2);
-
-    var modelSubject3 = ModelSubject();
-    modelSubject3.subjectName = "Statistics";
-    modelSubject3.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501405.svg";
-    arrOfSubject.add(modelSubject3);
-
-    var modelSubject4 = ModelSubject();
-    modelSubject4.subjectName = "Account";
-    modelSubject4.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501396.svg";
-    arrOfSubject.add(modelSubject4);
-
-    var modelSubject5 = ModelSubject();
-    modelSubject5.subjectName = "Economics";
-    modelSubject5.subjectUrl =
-        "https://www.flaticon.com/svg/static/icons/svg/501/501399.svg";
-    arrOfSubject.add(modelSubject5);
   }
 
   @override
@@ -143,7 +109,7 @@ class _StateHomePage extends State<HomePage> {
         body: ListView(
           shrinkWrap: true,
           children: [
-            GridView.count(
+            /*GridView.count(
               crossAxisCount: 3,
               crossAxisSpacing: 16,
               mainAxisSpacing: 16,
@@ -200,7 +166,7 @@ class _StateHomePage extends State<HomePage> {
                   ),
                 );
               }),
-            ),
+            ),*/
             Container(
               margin: EdgeInsets.only(top: 8, left: 24),
               child: Text(
