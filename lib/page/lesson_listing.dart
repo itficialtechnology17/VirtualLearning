@@ -44,9 +44,9 @@ class _StateLessonListing extends State<LessonListing> {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return Scaffold(
-      backgroundColor: widget.modelSubject.bgColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: widget.modelSubject.bgColor,
+        backgroundColor: Colors.white,
         elevation: 0,
         brightness: Brightness.light,
         centerTitle: true,
@@ -65,7 +65,8 @@ class _StateLessonListing extends State<LessonListing> {
                 child: Container(
                   margin: EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
-                      color: Color(0xffFFFFFF),
+//                      color: Color(0xffFFFFFF),
+                      color: widget.modelSubject.bgColor,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(4),
                         bottomRight: Radius.circular(4),
@@ -93,7 +94,7 @@ class _StateLessonListing extends State<LessonListing> {
               margin: EdgeInsets.only(left: 16, right: 16),
               decoration: index == selectedPosition
                   ? BoxDecoration(
-                      color: Colors.white,
+                      color: widget.modelSubject.bgColor,
                       borderRadius: BorderRadius.circular(24))
                   : null,
               child: Column(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/model/model_subject.dart';
+import 'package:virtual_learning/page/ask_doubt.dart';
 import 'package:virtual_learning/page/lesson_listing.dart';
 import 'package:virtual_learning/page/subject_details.dart';
 
@@ -213,6 +214,135 @@ class _StateMainPage extends State<MainPage> {
                           ),
                         );
                       },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                /* Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AskDoubt()));*/
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.16,
+                                      margin: EdgeInsets.only(top: 25),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Color(0xffD8EBF2)),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Image.asset(
+                                        "assets/images/ic_exam_01.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.30,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(bottom: 8),
+                                        child: Text(
+                                          "Test",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.05,
+                        ),
+                        Expanded(
+                          child: Material(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            child: InkWell(
+                              splashColor: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AskDoubt()));
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.20,
+                                child: Stack(
+                                  children: [
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.16,
+                                      margin: EdgeInsets.only(top: 25),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          color: Color(0xffD8EBF2)),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.topCenter,
+                                      child: Image.asset(
+                                        "assets/images/ic_ask_doubt.png",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.35,
+                                        isAntiAlias: true,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: Padding(
+                                          padding: EdgeInsets.only(bottom: 8),
+                                          child: Text(
+                                            "Ask a doubt",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                   SizedBox(

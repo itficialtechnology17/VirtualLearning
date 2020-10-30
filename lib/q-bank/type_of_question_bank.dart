@@ -17,86 +17,89 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
     '2 Marks Question',
     '3 Marks Question',
     '4 Marks Question',
-    '10 Marks Question'
+    '10 Marks Question',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            centerTitle: true,
-            brightness: Brightness.light,
-            expandedHeight: MediaQuery.of(context).size.height * 0.20 - 16,
-            elevation: 0,
-            pinned: true,
-            titleSpacing: 0.0,
-            automaticallyImplyLeading: false,
-            backgroundColor: Colors.white,
-            leading: Container(
-              child: Center(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                          color: Color(0xffD0E6EE),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(4),
-                            bottomRight: Radius.circular(4),
-                          )),
-                      width: double.infinity,
-                      height: AppBar().preferredSize.height -
-                          AppBar().preferredSize.height * 0.30,
-                      child: Icon(
-                          Platform.isAndroid
-                              ? Icons.keyboard_backspace
-                              : Icons.arrow_back_ios,
-                          color: Colors.black),
+        body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  centerTitle: true,
+                  brightness: Brightness.light,
+                  expandedHeight:
+                      MediaQuery.of(context).size.height * 0.20 - 16,
+                  elevation: 0,
+                  pinned: true,
+                  titleSpacing: 0.0,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Colors.white,
+                  leading: Container(
+                    child: Center(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 8),
+                            decoration: BoxDecoration(
+                                color: Color(0xffD0E6EE),
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(4),
+                                  bottomRight: Radius.circular(4),
+                                )),
+                            width: double.infinity,
+                            height: AppBar().preferredSize.height -
+                                AppBar().preferredSize.height * 0.30,
+                            child: Icon(
+                                Platform.isAndroid
+                                    ? Icons.keyboard_backspace
+                                    : Icons.arrow_back_ios,
+                                color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  flexibleSpace: Container(
+                    height: MediaQuery.of(context).size.height * 0.20 +
+                        MediaQuery.of(context).padding.top +
+                        20,
+                    color: Colors.white,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Type Of Question",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: "Poppins",
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Select Question Type",
+                            style: TextStyle(
+                                color: Colors.grey, fontFamily: "Poppins"),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            flexibleSpace: Container(
-              height: MediaQuery.of(context).size.height * 0.20 +
-                  MediaQuery.of(context).padding.top +
-                  20,
-              color: Colors.white,
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Type Of Question",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: "Poppins",
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      "Select Question Type",
-                      style:
-                          TextStyle(color: Colors.grey, fontFamily: "Poppins"),
-                    ),
-                    SizedBox(
-                      height: 8,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SliverFillRemaining(
-            child: ListView.builder(
+              ];
+            },
+            body: ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: questionType.length,
@@ -123,6 +126,25 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                             SizedBox(
                               width: 16,
                             ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  left: 8, right: 8, top: 4, bottom: 4),
+                              decoration: BoxDecoration(
+                                  color: Colors.green,
+                                  borderRadius: BorderRadius.circular(4)),
+                              child: Center(
+                                child: Text(
+                                  (index + 1).toString() + "M",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
                             Expanded(
                               child: RichText(
                                 maxLines: 2,
@@ -140,7 +162,7 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                               color: Colors.grey,
                             ),
                             SizedBox(
-                              width: 16,
+                              width: 8,
                             ),
                           ],
                         ),
@@ -149,10 +171,6 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                   ),
                 );
               },
-            ),
-          )
-        ],
-      ),
-    );
+            )));
   }
 }
