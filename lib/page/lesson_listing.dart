@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/model/model_subject.dart';
-import 'file:///E:/ITficialProject/FlutterProject/VirtualE/virtual_learning/lib/q-bank/type_of_question_bank.dart';
+import 'package:virtual_learning/page/play_video.dart';
+import 'package:virtual_learning/q-bank/type_of_question_bank.dart';
 
 class LessonListing extends StatefulWidget {
   ModelSubject modelSubject;
@@ -97,195 +98,252 @@ class _StateLessonListing extends State<LessonListing> {
                       color: widget.modelSubject.bgColor,
                       borderRadius: BorderRadius.circular(24))
                   : null,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 16, right: 16, top: 16, bottom: 8),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Image.network(
-                            arrOfChapter[index],
-                            height: MediaQuery.of(context).size.height * 0.08,
-                            width: MediaQuery.of(context).size.height * 0.08,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 16,
-                        ),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Lesson " + (index + 1).toString(),
-                                style: TextStyle(
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12),
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(24),
+                child: InkWell(
+                  splashColor: Colors.grey,
+                  onTap: () {
+                    setState(() {
+                      if (index == selectedPosition) {
+                        selectedPosition = -1;
+                      } else {
+                        selectedPosition = index;
+                      }
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(24),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 16, right: 16, top: 16, bottom: 8),
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(16.0),
+                              child: Image.network(
+                                arrOfChapter[index],
+                                height:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.08,
+                                fit: BoxFit.cover,
                               ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                    text: "Basic What is Virtual E ?",
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Lesson " + (index + 1).toString(),
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily: "Poppins",
-                                        fontSize: 15)),
-                                maxLines: 1,
+                                        color: Colors.lightBlue,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12),
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                        text: "Basic What is Virtual E ?",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily: "Poppins",
+                                            fontSize: 15)),
+                                    maxLines: 1,
+                                  ),
+                                  SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    "3 Topics",
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  ),
+                                ],
                               ),
-                              SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                "3 Topics",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Material(
-                          borderRadius: BorderRadius.circular(8),
-                          child: InkWell(
-                            splashColor: Colors.green,
-                            onTap: () {
-                              setState(() {
-                                if (index == selectedPosition) {
-                                  selectedPosition = -1;
-                                } else {
-                                  selectedPosition = index;
-                                }
-                              });
-                            },
-                            borderRadius: BorderRadius.circular(8),
-                            child: Container(
-                              child: Center(
-                                child: Icon(
-                                  index == selectedPosition
-                                      ? Icons.remove
-                                      : Icons.add,
-                                  size: 15,
+                            ),
+                            Material(
+                              borderRadius: BorderRadius.circular(8),
+                              child: InkWell(
+                                splashColor: Colors.green,
+                                onTap: () {
+                                  setState(() {
+                                    if (index == selectedPosition) {
+                                      selectedPosition = -1;
+                                    } else {
+                                      selectedPosition = index;
+                                    }
+                                  });
+                                },
+                                borderRadius: BorderRadius.circular(8),
+                                child: Container(
+                                  child: Center(
+                                    child: Icon(
+                                      index == selectedPosition
+                                          ? Icons.remove
+                                          : Icons.add,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey, width: 1),
+                                      borderRadius: BorderRadius.circular(8)),
                                 ),
                               ),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.grey, width: 1),
-                                  borderRadius: BorderRadius.circular(8)),
                             ),
-                          ),
+                            SizedBox(
+                              width: 8,
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                      ],
-                    ),
-                  ),
-                  AnimatedOpacity(
-                    opacity: index == selectedPosition ? 1 : 0,
-                    curve: Curves.easeIn,
-                    duration: Duration(seconds: 1),
-                    child: Visibility(
-                      visible: index == selectedPosition ? true : false,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: ListView.separated(
-                              itemCount: 3,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, nIndex) {
-                                return Container(
-                                  padding: EdgeInsets.only(top: 8, bottom: 8),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                      ),
+                      AnimatedOpacity(
+                        opacity: index == selectedPosition ? 1 : 0,
+                        curve: Curves.easeIn,
+                        duration: Duration(seconds: 1),
+                        child: Visibility(
+                          visible: index == selectedPosition ? true : false,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(16),
+                                child: ListView.separated(
+                                  itemCount: 3,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, nIndex) {
+                                    return Container(
+                                      padding:
+                                          EdgeInsets.only(top: 8, bottom: 8),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          nIndex == 0
-                                              ? Container(
-                                                  height: 15,
-                                                  width: 15,
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.green,
-                                                      shape: BoxShape.circle),
-                                                  margin:
-                                                      EdgeInsets.only(top: 3),
-                                                  child: Image(
-                                                    image: AssetImage(
-                                                        "assets/images/ic_done.png"),
-                                                    color: Colors.white,
-                                                  ),
-                                                )
-                                              : Container(
-                                                  height: 15,
-                                                  width: 15,
-                                                  margin:
-                                                      EdgeInsets.only(top: 3),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      border: Border.all(
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              nIndex == 0
+                                                  ? Container(
+                                                      height: 15,
+                                                      width: 15,
+                                                      decoration: BoxDecoration(
                                                           color: Colors.green,
-                                                          width: 1),
-                                                      shape: BoxShape.circle),
-                                                ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                  text:
-                                                      "Basic What is VirtualE ?",
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 13)),
-                                              maxLines: 2,
-                                            ),
-                                            SizedBox(
-                                              height: 12,
-                                            ),
-                                            Row(
+                                                          shape:
+                                                              BoxShape.circle),
+                                                      margin: EdgeInsets.only(
+                                                          top: 3),
+                                                      child: Image(
+                                                        image: AssetImage(
+                                                            "assets/images/ic_done.png"),
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      height: 15,
+                                                      width: 15,
+                                                      margin: EdgeInsets.only(
+                                                          top: 3),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.green,
+                                                              width: 1),
+                                                          shape:
+                                                              BoxShape.circle),
+                                                    ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Material(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                  child: InkWell(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            16),
-                                                    onTap: () {
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  TypeOfQuestionBank()));
-                                                    },
-                                                    child: Container(
-                                                      child: Text("Q-Bank",
+                                                RichText(
+                                                  text: TextSpan(
+                                                      text:
+                                                          "Basic What is VirtualE ?",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontFamily: "Poppins",
+                                                          fontSize: 13)),
+                                                  maxLines: 2,
+                                                ),
+                                                SizedBox(
+                                                  height: 12,
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Material(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16),
+                                                      child: InkWell(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                        onTap: () {
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          TypeOfQuestionBank()));
+                                                        },
+                                                        child: Container(
+                                                          child: Text("Q-Bank",
+                                                              style: TextStyle(
+                                                                  foreground: Paint()
+                                                                    ..shader =
+                                                                        linearGradient)),
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 16,
+                                                                  right: 16,
+                                                                  top: 4,
+                                                                  bottom: 4),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                            .grey[
+                                                                        200],
+                                                                    blurRadius:
+                                                                        2,
+                                                                    spreadRadius:
+                                                                        1)
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          16)),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(
+                                                          left: 16),
+                                                      child: Text("Test",
                                                           style: TextStyle(
                                                               foreground: Paint()
                                                                 ..shader =
@@ -309,133 +367,120 @@ class _StateLessonListing extends State<LessonListing> {
                                                                   .circular(
                                                                       16)),
                                                     ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(left: 16),
-                                                  child: Text("Test",
-                                                      style: TextStyle(
-                                                          foreground: Paint()
-                                                            ..shader =
-                                                                linearGradient)),
-                                                  padding: EdgeInsets.only(
-                                                      left: 16,
-                                                      right: 16,
-                                                      top: 4,
-                                                      bottom: 4),
-                                                  decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Colors
-                                                                .grey[200],
-                                                            blurRadius: 2,
-                                                            spreadRadius: 1)
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              16)),
-                                                ),
+                                                  ],
+                                                )
                                               ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          CircularPercentIndicator(
-                                            radius: 30.0,
-                                            lineWidth: 2.0,
-                                            percent: 0.2,
-                                            backgroundColor: Colors.green[50],
-                                            center: Icon(
-                                              Icons.play_arrow,
-                                              color: Colors.green[300],
-                                              size: 20,
                                             ),
-                                            progressColor: Colors.green[300],
-                                          )
+                                          ),
+                                          Material(
+                                            color: Colors.white,
+                                            type: MaterialType.circle,
+                                            child: InkWell(
+                                              splashColor: Colors.grey,
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            PlayVideo()));
+                                              },
+                                              child: CircularPercentIndicator(
+                                                radius: 30.0,
+                                                lineWidth: 2.0,
+                                                percent: 0.2,
+                                                backgroundColor:
+                                                    Colors.green[50],
+                                                center: Icon(
+                                                  Icons.play_arrow,
+                                                  color: Colors.green[300],
+                                                  size: 20,
+                                                ),
+                                                progressColor:
+                                                    Colors.green[300],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
                                         ],
                                       ),
-                                      SizedBox(
-                                        width: 8,
+                                    );
+                                  },
+                                  separatorBuilder: (context, nIndex) {
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.only(top: 4, bottom: 4),
+                                      color: Colors.grey[200],
+                                      height: 0.5,
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.07,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(colors: [
+                                      Color(0xffff5e62),
+                                      Color(0xffff9966)
+                                    ]),
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(24),
+                                        bottomLeft: Radius.circular(24))),
+                                child: Center(
+                                    child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: Container(
+                                          child: Text("Q-Bank".toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18)),
+                                          padding: EdgeInsets.only(
+                                              left: 16,
+                                              right: 16,
+                                              top: 4,
+                                              bottom: 4),
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, nIndex) {
-                                return Container(
-                                  margin: EdgeInsets.only(top: 4, bottom: 4),
-                                  color: Colors.grey[200],
-                                  height: 0.5,
-                                );
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
-                                  Color(0xffff5e62),
-                                  Color(0xffff9966)
-                                ]),
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(24),
-                                    bottomLeft: Radius.circular(24))),
-                            child: Center(
-                                child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: Container(
-                                      child: Text("Q-Bank".toUpperCase(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18)),
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          right: 16,
-                                          top: 4,
-                                          bottom: 4),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  width: 1,
-                                  color: Colors.white,
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Container(
-                                      child: Text("Test".toUpperCase(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18)),
-                                      padding: EdgeInsets.only(
-                                          left: 16,
-                                          right: 16,
-                                          top: 4,
-                                          bottom: 4),
+                                    Container(
+                                      width: 1,
+                                      color: Colors.white,
                                     ),
-                                  ),
-                                ),
-                              ],
-                            )),
-                          )
-                        ],
+                                    Expanded(
+                                      child: Center(
+                                        child: Container(
+                                          child: Text("Test".toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 18)),
+                                          padding: EdgeInsets.only(
+                                              left: 16,
+                                              right: 16,
+                                              top: 4,
+                                              bottom: 4),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                              )
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             );
           },
