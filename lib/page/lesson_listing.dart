@@ -292,7 +292,7 @@ class _StateLessonListing extends State<LessonListing> {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Material(
+                                                    /*Material(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               16),
@@ -339,7 +339,7 @@ class _StateLessonListing extends State<LessonListing> {
                                                                           16)),
                                                         ),
                                                       ),
-                                                    ),
+                                                    ),*/
                                                     Container(
                                                       margin: EdgeInsets.only(
                                                           left: 16),
@@ -437,18 +437,30 @@ class _StateLessonListing extends State<LessonListing> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          child: Text("Q-Bank".toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18)),
-                                          padding: EdgeInsets.only(
-                                              left: 16,
-                                              right: 16,
-                                              top: 4,
-                                              bottom: 4),
+                                    Material(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TypeOfQuestionBank()));
+                                        },
+                                        child: Expanded(
+                                          child: Center(
+                                            child: Container(
+                                              child: Text(
+                                                  "Q-Bank".toUpperCase(),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18)),
+                                              padding: EdgeInsets.only(
+                                                  left: 16,
+                                                  right: 16,
+                                                  top: 4,
+                                                  bottom: 4),
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
