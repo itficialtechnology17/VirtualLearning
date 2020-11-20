@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/model/model_subject.dart';
@@ -14,7 +15,8 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class _StateMainPage extends State<MainPage> {
+class _StateMainPage extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   List<Color> subjectColor = [
     Color(0xffF3FFD7),
     Color(0xffFED4D5),
@@ -31,7 +33,7 @@ class _StateMainPage extends State<MainPage> {
     ModelSubject(
         Color(0xffFED4D5), "assets/subject/economics.svg", "Economics"),
     ModelSubject(Color(0xffFFF2D0), "assets/subject/geometry.svg", "Geometry"),
-    ModelSubject(Color(0xffF6E9D3), "assets/subject/science.svg", "Science"),
+    ModelSubject(Color(0xffF6E9D3), "assets/subject/STATS.svg", "Stats"),
     ModelSubject(Color(0xffDCFFF9), "assets/subject/mathematics.svg", "Maths"),
     ModelSubject(Color(0xffD4E6FE), "assets/subject/physics.svg", "Physics"),
   ];
@@ -39,6 +41,9 @@ class _StateMainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -159,15 +164,16 @@ class _StateMainPage extends State<MainPage> {
             ),
             GridView.count(
               crossAxisCount: 3,
-              crossAxisSpacing: 16.0,
-              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 8.0,
+              mainAxisSpacing: 24.0,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               children: List.generate(
                 arrOfSubject.length,
                 (index) {
                   return Material(
-                    color: arrOfSubject[index].bgColor,
+                    // color: arrOfSubject[index].bgColor,
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.all(
                       Radius.circular(16.0),
                     ),
@@ -189,19 +195,19 @@ class _StateMainPage extends State<MainPage> {
                         children: [
                           SvgPicture.asset(
                             arrOfSubject[index].icon,
-                            height: MediaQuery.of(context).size.width * 0.10,
-                            width: MediaQuery.of(context).size.width * 0.10,
+                            height: MediaQuery.of(context).size.width * 0.20,
+                            width: MediaQuery.of(context).size.width * 0.20,
                             fit: BoxFit.cover,
                           ),
                           SizedBox(
                             height: 8,
                           ),
                           Text(
-                            arrOfSubject[index].name.toUpperCase(),
+                            arrOfSubject[index].name,
                             style: TextStyle(
                                 color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 12),
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14),
                           )
                         ],
                       ),

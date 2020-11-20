@@ -437,28 +437,35 @@ class _StateLessonListing extends State<LessonListing> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Material(
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      TypeOfQuestionBank()));
-                                        },
-                                        child: Expanded(
-                                          child: Center(
-                                            child: Container(
-                                              child: Text(
-                                                  "Q-Bank".toUpperCase(),
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 18)),
-                                              padding: EdgeInsets.only(
-                                                  left: 16,
-                                                  right: 16,
-                                                  top: 4,
-                                                  bottom: 4),
+                                    Expanded(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(24)),
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(24)),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TypeOfQuestionBank()));
+                                          },
+                                          child: Expanded(
+                                            child: Center(
+                                              child: Container(
+                                                child: Text(
+                                                    "Q-Bank".toUpperCase(),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18)),
+                                                padding: EdgeInsets.only(
+                                                    left: 16,
+                                                    right: 16,
+                                                    top: 4,
+                                                    bottom: 4),
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -469,20 +476,33 @@ class _StateLessonListing extends State<LessonListing> {
                                       color: Colors.white,
                                     ),
                                     Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          child: Text("Test".toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18)),
-                                          padding: EdgeInsets.only(
-                                              left: 16,
-                                              right: 16,
-                                              top: 4,
-                                              bottom: 4),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(24)),
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(24)),
+                                          onTap: () {},
+                                          child: Expanded(
+                                            child: Center(
+                                              child: Container(
+                                                child: Text(
+                                                    "Test".toUpperCase(),
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 18)),
+                                                padding: EdgeInsets.only(
+                                                    left: 16,
+                                                    right: 16,
+                                                    top: 4,
+                                                    bottom: 4),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
+                                    )
                                   ],
                                 )),
                               )

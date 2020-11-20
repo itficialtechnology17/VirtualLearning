@@ -88,6 +88,7 @@ flutter:
      - assets/subject/physics.svg
      - assets/subject/science.svg
      - assets/subject/chemistry.svg
+     - assets/subject/
 
   fonts:
     - family: Poppins
