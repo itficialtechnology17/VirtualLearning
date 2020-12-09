@@ -20,7 +20,7 @@ version: 1.0.0+1
 #export PATH="/Users/amit/Desktop/ITficialProject/FlutterSdk/flutter/bin:$PATH"
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.10.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -40,6 +40,8 @@ dependencies:
   flutter_tindercard: ^0.2.0
   smooth_page_indicator: ^0.2.0
   youtube_player_flutter: ^7.0.0+7
+  get: ^3.22.2
+  http: ^0.12.0
 
 
 dev_dependencies:

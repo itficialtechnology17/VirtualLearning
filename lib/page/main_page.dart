@@ -2,10 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
 import 'package:virtual_learning/page/lesson_listing.dart';
+import 'package:virtual_learning/page/mcq_test_page.dart';
 import 'package:virtual_learning/page/play_video.dart';
 
 class MainPage extends StatefulWidget {
@@ -387,7 +389,9 @@ class _StateMainPage extends State<MainPage>
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Color(0xffD8EBF2),
-                        onTap: () {},
+                        onTap: () {
+                          Get.to(MCQTest());
+                        },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.20,
                           decoration: BoxDecoration(
