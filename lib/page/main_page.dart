@@ -387,12 +387,7 @@ class _StateMainPage extends State<MainPage>
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Color(0xffD8EBF2),
-                        onTap: () {
-                          /* Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => AskDoubt()));*/
-                        },
+                        onTap: () {},
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.20,
                           decoration: BoxDecoration(
