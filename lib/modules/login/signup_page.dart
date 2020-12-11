@@ -1,9 +1,10 @@
-import 'package:adobe_xd/pinned.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:virtual_learning/page/login_page.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/model/model_user.dart';
+import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/utils/methods.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -16,12 +17,15 @@ class _StateSignUpPage extends State<SignUpPage> {
   var selectedPosition = 0;
   var isNameAdded = false;
   var isCityAdded = false;
-  var isContactNoAdded = false;
+  var isSchoolAdded = false;
   var isEmailIdAdded = false;
   var focusNode1;
   var focusNode2;
   var focusNode3;
 
+  ModelUser modelUser = ModelUser();
+
+  LoginController _loginController = Get.find();
   @override
   void initState() {
     super.initState();
@@ -51,7 +55,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                   width: MediaQuery.of(context).size.width * 0.05,
                   fit: BoxFit.cover,
                 ),
-                Padding(
+                /*Padding(
                   padding: EdgeInsets.only(top: 32, left: 14),
                   child: Text(
                     'Sign Up',
@@ -62,9 +66,9 @@ class _StateSignUpPage extends State<SignUpPage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                ),
+                ),*/
                 Padding(
-                  padding: EdgeInsets.only(left: 16),
+                  padding: EdgeInsets.only(top: 32, left: 16),
                   child: Text(
                     "Let's know you better",
                     style: TextStyle(
@@ -112,6 +116,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                                         if (value.length > 3) {
                                           setState(() {
                                             isNameAdded = true;
+                                            modelUser.firstName = value;
                                           });
                                         } else {
                                           setState(() {
@@ -202,6 +207,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                                         if (value.length > 2) {
                                           setState(() {
                                             isCityAdded = true;
+                                            modelUser.address = value;
                                           });
                                         } else {
                                           setState(() {
@@ -292,11 +298,12 @@ class _StateSignUpPage extends State<SignUpPage> {
                                       onChanged: (value) {
                                         if (value.length == 10) {
                                           setState(() {
-                                            isContactNoAdded = true;
+                                            isSchoolAdded = true;
+                                            modelUser.schoolName = value;
                                           });
                                         } else {
                                           setState(() {
-                                            isContactNoAdded = false;
+                                            isSchoolAdded = false;
                                           });
                                         }
                                       },
@@ -313,12 +320,11 @@ class _StateSignUpPage extends State<SignUpPage> {
                                             .requestFocus(focusNode3);
                                       },
                                       focusNode: focusNode2,
-                                      maxLength: 10,
                                       style:
                                           TextStyle(color: Color(0xff205072)),
-                                      keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.streetAddress,
                                       decoration: InputDecoration(
-                                          hintText: "Mobile No.",
+                                          hintText: "School Name",
                                           counterText: "",
                                           hintStyle: TextStyle(
                                               color: Color(0xff3AA59B)
@@ -336,7 +342,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                                     child: Container(
                                       height: 20,
                                       width: 20,
-                                      child: isContactNoAdded
+                                      child: isSchoolAdded
                                           ? Center(
                                               child: Icon(
                                               Icons.done,
@@ -345,18 +351,17 @@ class _StateSignUpPage extends State<SignUpPage> {
                                             ))
                                           : Container(),
                                       decoration: BoxDecoration(
-                                          color: isContactNoAdded
+                                          color: isSchoolAdded
                                               ? Color(0xff205072)
                                               : Colors.white,
                                           shape: BoxShape.circle,
                                           border: Border.all(
-                                              color: Color(isContactNoAdded
+                                              color: Color(isSchoolAdded
                                                       ? 0xff205072
                                                       : 0xff3aa59b)
-                                                  .withOpacity(isContactNoAdded
-                                                      ? 1
-                                                      : 0.3),
-                                              width: isContactNoAdded ? 0 : 1)),
+                                                  .withOpacity(
+                                                      isSchoolAdded ? 1 : 0.3),
+                                              width: isSchoolAdded ? 0 : 1)),
                                     ),
                                   ),
                                 )
@@ -389,6 +394,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                                           if (checkEmailId(value)) {
                                             setState(() {
                                               isEmailIdAdded = true;
+                                              modelUser.email = value;
                                             });
                                           } else {
                                             setState(() {
@@ -464,10 +470,18 @@ class _StateSignUpPage extends State<SignUpPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
+                            if (!isNameAdded) {
+                              showSnackBar(
+                                  "Empty", "Please Enter Name", Colors.red);
+                            } else if (!isCityAdded) {
+                              showSnackBar(
+                                  "Empty", "Please Enter City", Colors.red);
+                            } else if (!isSchoolAdded) {
+                              showSnackBar("Empty", "Please Enter School Name",
+                                  Colors.red);
+                            } else {
+                              _loginController.updateUserDetails(modelUser);
+                            }
                           },
                           borderRadius: BorderRadius.circular(16),
                           child: Container(

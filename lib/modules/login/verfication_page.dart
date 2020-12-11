@@ -1,7 +1,8 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:virtual_learning/page/home_page.dart';
+import 'package:get/instance_manager.dart';
+import 'package:virtual_learning/modules/login/login_controller.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -17,7 +18,10 @@ class _StateVerificationPage extends State<VerificationPage> {
   var isCodeThree = false;
   var isCodeFour = false;
   var isCodeAdded = false;
+  String code1 = "", code2 = "", code3 = "", code4 = "";
   var focusNode1, focusNode2, focusNode3;
+
+  LoginController _loginController = Get.find();
 
   @override
   void initState() {
@@ -42,11 +46,14 @@ class _StateVerificationPage extends State<VerificationPage> {
                 SizedBox(
                   height: MediaQuery.of(context).padding.top,
                 ),
-                SvgPicture.asset(
-                  'assets/svg/ic_back.svg',
-                  height: MediaQuery.of(context).size.width * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.05,
-                  fit: BoxFit.cover,
+                InkWell(
+                  onTap: () {},
+                  child: SvgPicture.asset(
+                    'assets/svg/ic_back.svg',
+                    height: MediaQuery.of(context).size.width * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.05,
+                    fit: BoxFit.cover,
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 32, left: 14),
@@ -104,6 +111,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                       if (value.isNotEmpty) {
                         setState(() {
                           isCodeOne = true;
+                          code1 = value;
                           FocusScope.of(context).requestFocus(focusNode1);
                         });
                       } else {
@@ -142,6 +150,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                       if (value.isNotEmpty) {
                         setState(() {
                           isCodeTwo = true;
+                          code2 = value;
                           FocusScope.of(context).requestFocus(focusNode2);
                         });
                       } else {
@@ -182,6 +191,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                       if (value.isNotEmpty) {
                         setState(() {
                           isCodeThree = true;
+                          code3 = value;
                           FocusScope.of(context).requestFocus(focusNode3);
                         });
                       } else {
@@ -220,6 +230,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                       if (value.isNotEmpty) {
                         setState(() {
                           isCodeFour = true;
+                          code4 = value;
                           if (isCodeOne &&
                               isCodeTwo &&
                               isCodeThree &&
@@ -247,47 +258,64 @@ class _StateVerificationPage extends State<VerificationPage> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.07,
           ),
-          InkWell(
-            onTap: () {
-              if (isCodeAdded) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
-              } else {
-                Flushbar(
-                  messageText: Text(
-                    "Please Enter Valid OTP.",
-                    style: TextStyle(
-                        fontFamily: "Poppins",
-                        color: Colors.white,
-                        fontSize: 16),
-                  ),
-                  duration: Duration(seconds: 3),
-                  backgroundColor: Color(0xff205072),
-                )..show(context);
-              }
-            },
-            borderRadius: BorderRadius.circular(16),
+          Padding(
+            padding: EdgeInsets.only(left: 24, right: 24),
             child: Container(
-                width: MediaQuery.of(context).size.width * 0.80,
-                height: MediaQuery.of(context).size.height * 0.08,
-                margin: EdgeInsets.only(left: 24, right: 24),
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Color(0xffA1E217), Color(0xff196C31)]),
-                    borderRadius: BorderRadius.circular(16)),
-                child: Center(
-                  child: Text(
-                    'CONTINUE',
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: const Color(0xffffffff),
-                        fontWeight: FontWeight.w700),
-                    textAlign: TextAlign.center,
-                  ),
-                )),
-          ),
+              width: MediaQuery.of(context).size.width * 0.80,
+              height: MediaQuery.of(context).size.height * 0.08,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Color(0xffA1E217), Color(0xff196C31)]),
+                          borderRadius: BorderRadius.circular(16)),
+                      child: Center(
+                        child: Text(
+                          'CONTINUE',
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w700),
+                          textAlign: TextAlign.center,
+                        ),
+                      )),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Colors.white60,
+                      borderRadius: BorderRadius.circular(16),
+                      onTap: () {
+                        if (isCodeAdded) {
+                          _loginController
+                              .checkOTP(code1 + code2 + code3 + code4);
+                        } else {
+                          Flushbar(
+                            messageText: Text(
+                              "Please Enter Valid OTP.",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  color: Colors.white,
+                                  fontSize: 16),
+                            ),
+                            duration: Duration(seconds: 3),
+                            backgroundColor: Color(0xff205072),
+                          )..show(context);
+                        }
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )
         ],
       ),
     );

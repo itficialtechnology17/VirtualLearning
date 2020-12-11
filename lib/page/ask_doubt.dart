@@ -3,7 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_learning/model/model_subject.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/controller/dashboard_controller.dart';
 
 class AskDoubt extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class AskDoubt extends StatefulWidget {
 }
 
 class _StateAskDoubt extends State<AskDoubt> {
-  List<ModelSubject> arrOfSubject = [
+  /* List<ModelSubject> arrOfSubject = [
     ModelSubject(
         Color(0xffF3FFD7), "assets/subject/chemistry.svg", "Chemistry"),
     ModelSubject(
@@ -22,7 +23,9 @@ class _StateAskDoubt extends State<AskDoubt> {
     ModelSubject(Color(0xffF6E9D3), "assets/subject/science.svg", "Science"),
     ModelSubject(Color(0xffDCFFF9), "assets/subject/mathematics.svg", "Maths"),
     ModelSubject(Color(0xffD4E6FE), "assets/subject/physics.svg", "Physics"),
-  ];
+  ];*/
+
+  DashboardController _dashboardController = Get.find();
 
   var isSubjectVisible = false;
   var selectedSubject = "Select Subject";
@@ -162,32 +165,38 @@ class _StateAskDoubt extends State<AskDoubt> {
                             child: ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: arrOfSubject.length,
+                              itemCount:
+                                  _dashboardController.arrOfSubject.length,
                               itemBuilder: (context, index) {
                                 return Material(
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        selectedSubject =
-                                            arrOfSubject[index].name.toString();
+                                        selectedSubject = _dashboardController
+                                            .arrOfSubject[index].name
+                                            .toString();
                                         isSubjectVisible = false;
                                       });
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
                                           color: Colors.white,
-                                          borderRadius:
-                                              index == arrOfSubject.length - 1
-                                                  ? BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(0),
-                                                      bottomRight:
-                                                          Radius.circular(0))
-                                                  : BorderRadius.circular(0)),
+                                          borderRadius: index ==
+                                                  _dashboardController
+                                                          .arrOfSubject.length -
+                                                      1
+                                              ? BorderRadius.only(
+                                                  bottomLeft:
+                                                      Radius.circular(0),
+                                                  bottomRight:
+                                                      Radius.circular(0))
+                                              : BorderRadius.circular(0)),
                                       padding: EdgeInsets.only(
                                           left: 8, top: 16, bottom: 16),
-                                      child: Text(arrOfSubject[index].name,
+                                      child: Text(
+                                          _dashboardController
+                                              .arrOfSubject[index].name,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 15,

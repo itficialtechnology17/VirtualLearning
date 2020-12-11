@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_learning/page/intro_page.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/page/main_page.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/my_preference.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -41,14 +44,15 @@ class _StateSplashPage extends State<SplashPage> {
   }
 
   loadPrefs() async {
-    /*  Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => IntroPage()),
-    );*/
+    isLogin = await getBoolValuesSF(KEY_IS_LOGIN) ?? false;
+    isRegister = await getBoolValuesSF(KEY_IS_REGISTER) ?? false;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainPage()),
-    );
+    if (isLogin) {
+      userId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
+
+      Get.to(MainPage());
+    } else {
+      Get.to(LoginPage());
+    }
   }
 }

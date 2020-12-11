@@ -1,8 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:virtual_learning/page/course_page.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/course_page.dart';
 
 class IntroPage extends StatefulWidget {
   @override
@@ -97,10 +97,7 @@ class _StateIntroPage extends State<IntroPage> {
                         color: Colors.transparent,
                         child: InkWell(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => CoursePage()));
+                              Get.to(CoursePage());
                             },
                             borderRadius: BorderRadius.all(Radius.circular(16)),
                             child: Container(
@@ -122,41 +119,6 @@ class _StateIntroPage extends State<IntroPage> {
                                 ),
                               ),
                             ))),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: const Color(0xff3aa59b),
-                          height: 1.5384615384615385,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: 'Already have an account?',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ' ',
-                            style: TextStyle(
-                              color: const Color(0xff106433),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Sign In',
-                            style: TextStyle(
-                              color: const Color(0xff205072),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    )
                   ],
                 ),
               ),

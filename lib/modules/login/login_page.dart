@@ -1,7 +1,10 @@
 import 'package:flushbar/flushbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:virtual_learning/page/verfication_page.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/modules/login/verfication_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,6 +16,8 @@ class LoginPage extends StatefulWidget {
 class _StateLoginPage extends State<LoginPage> {
   var selectedPosition = 0;
   var isContactNoAdded = false;
+
+  LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +101,8 @@ class _StateLoginPage extends State<LoginPage> {
                                         if (value.length == 10) {
                                           setState(() {
                                             isContactNoAdded = true;
+                                            _loginController.enterMobileNumber =
+                                                value;
                                           });
                                         } else {
                                           setState(() {
@@ -165,51 +172,69 @@ class _StateLoginPage extends State<LoginPage> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.07,
                         ),
-                        InkWell(
-                          onTap: () {
-                            if (isContactNoAdded) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          VerificationPage()));
-                            } else {
-                              Flushbar(
-                                messageText: Text(
-                                  "Please Enter Valid Mobile No.",
-                                  style: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: Colors.white,
-                                      fontSize: 16),
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.80,
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          child: Stack(
+                            fit: StackFit.expand,
+                            children: [
+                              Container(
+                                  decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          colors: [
+                                            Color(0xffA1E217),
+                                            Color(0xff196C31)
+                                          ]),
+                                      borderRadius: BorderRadius.circular(16)),
+                                  child: Center(
+                                    child: Text(
+                                      'GET OTP',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: const Color(0xffffffff),
+                                          fontWeight: FontWeight.w700),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  splashColor: Colors.white60,
+                                  borderRadius: BorderRadius.circular(16),
+                                  onTap: () {
+                                    if (isContactNoAdded) {
+                                      _loginController.getOTP();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VerificationPage()));
+                                    } else {
+                                      Flushbar(
+                                        messageText: Text(
+                                          "Please Enter Valid Mobile No.",
+                                          style: TextStyle(
+                                              fontFamily: "Poppins",
+                                              color: Colors.white,
+                                              fontSize: 16),
+                                        ),
+                                        duration: Duration(seconds: 3),
+                                        backgroundColor: Color(0xff205072),
+                                      )..show(context);
+                                    }
+                                  },
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.80,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.08,
+                                  ),
                                 ),
-                                duration: Duration(seconds: 3),
-                                backgroundColor: Color(0xff205072),
-                              )..show(context);
-                            }
-                          },
-                          borderRadius: BorderRadius.circular(16),
-                          child: Container(
-                              width: MediaQuery.of(context).size.width * 0.80,
-                              height: MediaQuery.of(context).size.height * 0.08,
-                              decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                      colors: [
-                                        Color(0xffA1E217),
-                                        Color(0xff196C31)
-                                      ]),
-                                  borderRadius: BorderRadius.circular(16)),
-                              child: Center(
-                                child: Text(
-                                  'GET OTP',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: const Color(0xffffffff),
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )),
+                              )
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,

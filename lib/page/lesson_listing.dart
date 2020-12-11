@@ -67,7 +67,7 @@ class _StateLessonListing extends State<LessonListing> {
                   margin: EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
 //                      color: Color(0xffFFFFFF),
-                      color: widget.modelSubject.bgColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                         topRight: Radius.circular(4),
                         bottomRight: Radius.circular(4),
@@ -95,7 +95,7 @@ class _StateLessonListing extends State<LessonListing> {
               margin: EdgeInsets.only(left: 16, right: 16),
               decoration: index == selectedPosition
                   ? BoxDecoration(
-                      color: widget.modelSubject.bgColor,
+                      color: Colors.green[200],
                       borderRadius: BorderRadius.circular(24))
                   : null,
               child: Material(
