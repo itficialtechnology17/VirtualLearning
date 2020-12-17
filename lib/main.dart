@@ -7,6 +7,7 @@ void main() {
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     home: SplashPage(),
+    // home: MenuDashboardPage(),
     theme: ThemeData(
       primarySwatch: Colors.green,
       fontFamily: "Poppins",

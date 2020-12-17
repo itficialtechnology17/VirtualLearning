@@ -6,3 +6,4 @@ String urlGetCourse = "api/standard-list";
 String urlGetDashboard = "api/subject-list";
 String urlLogin = "api/process-login";
 String urlUpdateProfile = "api/profile-update";
+String urlGetChapter = "api/chapter-list";

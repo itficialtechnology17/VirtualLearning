@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/controller/dashboard_controller.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
 
 class AskDoubt extends StatefulWidget {
   @override
@@ -25,7 +25,7 @@ class _StateAskDoubt extends State<AskDoubt> {
     ModelSubject(Color(0xffD4E6FE), "assets/subject/physics.svg", "Physics"),
   ];*/
 
-  DashboardController _dashboardController = Get.find();
+  SubjectController _subjectController = Get.find();
 
   var isSubjectVisible = false;
   var selectedSubject = "Select Subject";
@@ -165,15 +165,14 @@ class _StateAskDoubt extends State<AskDoubt> {
                             child: ListView.separated(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  _dashboardController.arrOfSubject.length,
+                              itemCount: _subjectController.arrOfSubject.length,
                               itemBuilder: (context, index) {
                                 return Material(
                                   color: Colors.transparent,
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        selectedSubject = _dashboardController
+                                        selectedSubject = _subjectController
                                             .arrOfSubject[index].name
                                             .toString();
                                         isSubjectVisible = false;
@@ -183,7 +182,7 @@ class _StateAskDoubt extends State<AskDoubt> {
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: index ==
-                                                  _dashboardController
+                                                  _subjectController
                                                           .arrOfSubject.length -
                                                       1
                                               ? BorderRadius.only(
@@ -195,7 +194,7 @@ class _StateAskDoubt extends State<AskDoubt> {
                                       padding: EdgeInsets.only(
                                           left: 8, top: 16, bottom: 16),
                                       child: Text(
-                                          _dashboardController
+                                          _subjectController
                                               .arrOfSubject[index].name,
                                           style: TextStyle(
                                               color: Colors.black,

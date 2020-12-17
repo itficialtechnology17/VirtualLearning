@@ -50,9 +50,9 @@ class _StateSplashPage extends State<SplashPage> {
     if (isLogin) {
       userId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
 
-      Get.to(MainPage());
+      Get.off(MainPage());
     } else {
-      Get.to(LoginPage());
+      Get.off(LoginPage());
     }
   }
 }
