@@ -2,7 +2,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/instance_manager.dart';
-import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _StateVerificationPage extends State<VerificationPage> {
   String code1 = "", code2 = "", code3 = "", code4 = "";
   var focusNode1, focusNode2, focusNode3;
 
-  LoginController _loginController = Get.find();
+  LoginController _loginController = Get.put(LoginController());
 
   @override
   void initState() {

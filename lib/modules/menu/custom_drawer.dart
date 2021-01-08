@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/login_page.dart';
+import 'package:virtual_learning/modules/menu/bookmarks.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/my_preference.dart';
 
 class CustomDrawer extends StatelessWidget {
   var userProfile = "";
@@ -75,50 +80,82 @@ class CustomDrawer extends StatelessWidget {
                   icon: Icons.face,
                   text: 'Terms & Conditions',
                   context: context),
+              _createDrawerItem(
+                  icon: Icons.power_settings_new_rounded,
+                  text: 'Logout',
+                  context: context),
             ],
           )
         ],
       ),
     );
   }
-}
-/*
-Widget _createHeader() {
-  return DrawerHeader(
-      margin: EdgeInsets.zero,
-      padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              fit: BoxFit.contain,
-              image: AssetImage("assets/images/ic_ask_doubt.png"))),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Center(
-          child:,
-        ),
-      ));
-}*/
 
-Widget _createDrawerItem(
-    {IconData icon,
-    String text,
-    GestureTapCallback onTap,
-    BuildContext context}) {
-  return InkWell(
-    onTap: () {
-      Navigator.pop(context);
-    },
-    child: ListTile(
-      title: Row(
+  Widget _createDrawerItem(
+      {IconData icon,
+      String text,
+      GestureTapCallback onTap,
+      BuildContext context}) {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        if (text == "Bookmarks") {
+          Get.to(Bookmarks());
+        } else if (text == "Logout") {
+          showDialog(
+              context: context, builder: (context) => _confirmLogout(context));
+        }
+      },
+      child: ListTile(
+        title: Row(
+          children: <Widget>[
+            Icon(icon),
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Text(text.toUpperCase()),
+            )
+          ],
+        ),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  _confirmLogout(BuildContext context) {
+    return AlertDialog(
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Icon(icon),
-          Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: Text(text.toUpperCase()),
+          Wrap(
+            children: <Widget>[
+              Text(
+                "Confirm Logout ?",
+                style: TextStyle(fontSize: 18),
+              )
+            ],
           )
         ],
       ),
-      onTap: onTap,
-    ),
-  );
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+
+            await addBoolToSF(KEY_IS_LOGIN, false);
+            Get.offAll(LoginPage());
+          },
+          textColor: Colors.black,
+          child: const Text('YES'),
+        ),
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+          },
+          textColor: Colors.red,
+          child: const Text('CANCEL'),
+        ),
+      ],
+    );
+  }
 }

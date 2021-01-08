@@ -11,6 +11,13 @@ void main() {
     theme: ThemeData(
       primarySwatch: Colors.green,
       fontFamily: "Poppins",
+      textTheme: TextTheme(
+        body1: TextStyle(fontSize: 18),
+        body2: TextStyle(fontSize: 16),
+        button: TextStyle(letterSpacing: 1.5, fontWeight: FontWeight.bold),
+        headline: TextStyle(fontWeight: FontWeight.bold),
+        subhead: TextStyle(color: Colors.grey),
+      ),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
   ));

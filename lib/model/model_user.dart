@@ -23,25 +23,27 @@ class ModelUser {
     this.instituteId,
     this.createdOn,
     this.otp,
+    this.standardId,
   });
 
   int id;
-  dynamic firstName;
+  String firstName;
   dynamic lastName;
   dynamic gender;
   dynamic dob;
-  dynamic schoolName;
+  String schoolName;
   String mobileNumber;
-  dynamic email;
+  String email;
   dynamic motherName;
   dynamic fatherName;
-  dynamic address;
+  String address;
   dynamic fatherMobileNumber;
   int status;
   dynamic subscribed;
   dynamic instituteId;
   DateTime createdOn;
   int otp;
+  int standardId;
 
   factory ModelUser.fromJson(Map<String, dynamic> json) => ModelUser(
         id: json["id"],
@@ -61,6 +63,7 @@ class ModelUser {
         instituteId: json["institute_id"],
         createdOn: DateTime.parse(json["created_on"]),
         otp: json["otp"],
+        standardId: json["standard_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class ModelUser {
         "institute_id": instituteId,
         "created_on": createdOn.toIso8601String(),
         "otp": otp,
+        "standard_id": standardId,
       };
 }

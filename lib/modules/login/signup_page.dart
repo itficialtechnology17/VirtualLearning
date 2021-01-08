@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/model/model_user.dart';
-import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/utils/methods.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -23,12 +22,11 @@ class _StateSignUpPage extends State<SignUpPage> {
   var focusNode2;
   var focusNode3;
 
-  ModelUser modelUser = ModelUser();
-
   LoginController _loginController = Get.find();
   @override
   void initState() {
     super.initState();
+
     focusNode1 = FocusNode();
     focusNode2 = FocusNode();
     focusNode3 = FocusNode();
@@ -116,7 +114,8 @@ class _StateSignUpPage extends State<SignUpPage> {
                                         if (value.length > 3) {
                                           setState(() {
                                             isNameAdded = true;
-                                            modelUser.firstName = value;
+                                            _loginController.modelUser.value
+                                                .firstName = value;
                                           });
                                         } else {
                                           setState(() {
@@ -207,7 +206,8 @@ class _StateSignUpPage extends State<SignUpPage> {
                                         if (value.length > 2) {
                                           setState(() {
                                             isCityAdded = true;
-                                            modelUser.address = value;
+                                            _loginController.modelUser.value
+                                                .address = value;
                                           });
                                         } else {
                                           setState(() {
@@ -296,10 +296,11 @@ class _StateSignUpPage extends State<SignUpPage> {
                                         EdgeInsets.only(left: 24, right: 16),
                                     child: TextFormField(
                                       onChanged: (value) {
-                                        if (value.length == 10) {
+                                        if (value.length > 6) {
                                           setState(() {
                                             isSchoolAdded = true;
-                                            modelUser.schoolName = value;
+                                            _loginController.modelUser.value
+                                                .schoolName = value;
                                           });
                                         } else {
                                           setState(() {
@@ -394,7 +395,8 @@ class _StateSignUpPage extends State<SignUpPage> {
                                           if (checkEmailId(value)) {
                                             setState(() {
                                               isEmailIdAdded = true;
-                                              modelUser.email = value;
+                                              _loginController.modelUser.value
+                                                  .email = value;
                                             });
                                           } else {
                                             setState(() {
@@ -480,7 +482,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                               showSnackBar("Empty", "Please Enter School Name",
                                   Colors.red);
                             } else {
-                              _loginController.updateUserDetails(modelUser);
+                              _loginController.updateUserDetails();
                             }
                           },
                           borderRadius: BorderRadius.circular(16),

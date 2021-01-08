@@ -22,7 +22,7 @@ class ModelSubject {
   int id;
   String subjectId;
   String standardId;
-  dynamic description;
+  String description;
   DateTime createdOn;
   String name;
   String displayName;

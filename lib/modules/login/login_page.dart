@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/verfication_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -206,11 +206,7 @@ class _StateLoginPage extends State<LoginPage> {
                                   onTap: () {
                                     if (isContactNoAdded) {
                                       _loginController.getOTP();
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  VerificationPage()));
+                                      Get.to(VerificationPage());
                                     } else {
                                       Flushbar(
                                         messageText: Text(

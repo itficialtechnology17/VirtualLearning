@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
+import 'package:virtual_learning/modules/menu/custom_drawer.dart';
+import 'package:virtual_learning/modules/test/test_page.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
-import 'package:virtual_learning/page/custom_drawer.dart';
-import 'package:virtual_learning/page/lesson_listing.dart';
-import 'package:virtual_learning/page/mcq_test_page.dart';
 import 'package:virtual_learning/page/play_video.dart';
 import 'package:virtual_learning/widgets/shimmer_page.dart';
 
@@ -19,18 +19,7 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class _StateMainPage extends State<MainPage>
-    with SingleTickerProviderStateMixin {
-  /* List<Color> subjectColor = [
-    Color(0xffF3FFD7),
-    Color(0xffFED4D5),
-    Color(0xffFFF2D0),
-    Color(0xffDCFFF9),
-    Color(0xffD4E6FE),
-    Color(0xffDBE9E9),
-    Color(0xffF6E9D3)
-  ];*/
-
+class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   var userProfile = "";
   final Duration duration = const Duration(milliseconds: 300);
   AnimationController _controller;
@@ -200,14 +189,18 @@ class _StateMainPage extends State<MainPage>
                                     ),
                                     splashColor: Colors.grey[200],
                                     onTap: () {
-                                      Navigator.push(
+                                      _subjectController.selectedSubject.value =
+                                          _subjectController
+                                              .arrOfSubject[index];
+                                      Get.to(LessonListing());
+                                      /*Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   LessonListing.modelSubject(
                                                       _subjectController
                                                               .arrOfSubject[
-                                                          index])));
+                                                          index])));*/
                                     },
                                     child: Column(
                                       mainAxisAlignment:
@@ -436,7 +429,7 @@ class _StateMainPage extends State<MainPage>
                                     child: InkWell(
                                       splashColor: Color(0xffD8EBF2),
                                       onTap: () {
-                                        Get.to(MCQTest());
+                                        Get.to(TestPage("Chapter Name"));
                                       },
                                       child: Container(
                                         height:

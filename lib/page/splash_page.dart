@@ -48,8 +48,8 @@ class _StateSplashPage extends State<SplashPage> {
     isRegister = await getBoolValuesSF(KEY_IS_REGISTER) ?? false;
 
     if (isLogin) {
-      userId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
-
+      studentId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
+      standardId = await getStringValuesSF(KEY_STANDARD_ID) ?? "0";
       Get.off(MainPage());
     } else {
       Get.off(LoginPage());

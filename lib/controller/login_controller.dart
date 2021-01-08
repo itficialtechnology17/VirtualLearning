@@ -42,8 +42,8 @@ class LoginController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        receivedOTP = responseData['otp'].toString();
         modelUser.value = ModelUser.fromJson(responseData['data']);
+        receivedOTP = responseData['otp'].toString();
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
       }
@@ -64,9 +64,9 @@ class LoginController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        arrOfCourse.value = (responseData['data'] as List)
+        arrOfCourse.assignAll((responseData['data'] as List)
             .map((data) => ModelCourse.fromJson(data))
-            .toList();
+            .toList());
         print("Success");
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
@@ -77,14 +77,16 @@ class LoginController extends GetxController {
     });
   }
 
-  void updateUserDetails(ModelUser modelUser) async {
+  void updateUserDetails() async {
     isSignUp.value = true;
 
     Request request = Request(url: urlUpdateProfile, body: {
       'type': "API",
-      'first_name': modelUser.firstName.toString(),
-      'school_name': modelUser.schoolName.toString(),
-      'address': modelUser.address.toString(),
+      'id': modelUser.value.id.toString(),
+      'first_name': modelUser.value.firstName.toString(),
+      'school_name': modelUser.value.schoolName.toString(),
+      'address': modelUser.value.address.toString(),
+      'email': modelUser.value.email.toString(),
       'standard_id': arrOfCourse[selectedCoursePosition].id.toString(),
     });
 
@@ -93,7 +95,6 @@ class LoginController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        await addBoolToSF(KEY_IS_REGISTER, true);
         await addBoolToSF(KEY_IS_LOGIN, true);
         Get.to(MainPage());
       } else {
@@ -105,11 +106,13 @@ class LoginController extends GetxController {
     });
   }
 
-  void onSelectSubject(int index) {
+  void onSelectSubject(int index) async {
     for (int i = 0; i < arrOfCourse.length; i++) {
       if (index == i) {
         arrOfCourse[i].selected = true;
         selectedCoursePosition = index;
+        standardId = arrOfCourse[i].id.toString();
+        await addStringToSF(KEY_STANDARD_ID, arrOfCourse[i].id.toString());
       } else {
         arrOfCourse[i].selected = false;
       }
@@ -120,13 +123,18 @@ class LoginController extends GetxController {
     arrOfCourse[index] = modelCourse;
   }
 
-  Future<void> checkOTP(enterOTP) async {
+  void checkOTP(enterOTP) async {
     if (enterOTP == receivedOTP) {
-      if (isRegister) {
-        await addBoolToSF(KEY_IS_LOGIN, true);
-        Get.to(MainPage());
-      } else {
+      if (modelUser.value.firstName == null ||
+          modelUser.value.firstName == "") {
         Get.to(CoursePage());
+      } else {
+        await addBoolToSF(KEY_IS_LOGIN, true);
+        studentId = modelUser.value.id.toString();
+        await addStringToSF(KEY_IS_USER_ID, studentId);
+        standardId = modelUser.value.standardId.toString();
+        await addStringToSF(KEY_STANDARD_ID, standardId);
+        Get.offAll(MainPage());
       }
     } else {
       showSnackBar("Mismatched", "Please enter valid otp", Colors.red);

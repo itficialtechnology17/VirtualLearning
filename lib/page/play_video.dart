@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideo extends StatefulWidget {
@@ -17,11 +16,15 @@ class _StatePlayVideo extends State<PlayVideo> {
   YoutubePlayerController _controller;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  SubjectController _subjectController = Get.find();
 
   @override
   void initState() {
     super.initState();
-    setVideo("VzgNRdco5Eo");
+    setVideo(_subjectController
+        .arrOfTopic[_subjectController.activeTopicPosition.value]
+        .content
+        .videoId);
   }
 
   @override
@@ -38,12 +41,13 @@ class _StatePlayVideo extends State<PlayVideo> {
         player: YoutubePlayer(
           controller: _controller,
           showVideoProgressIndicator: true,
-          progressIndicatorColor: Colors.blueAccent,
+          progressIndicatorColor: Colors.green,
           onReady: () {},
           onEnded: (data) {},
         ),
         builder: (context, player) => Scaffold(
           key: _scaffoldKey,
+          backgroundColor: Colors.white,
           body: Container(
             color: Colors.white,
             child: ListView(
@@ -60,113 +64,202 @@ class _StatePlayVideo extends State<PlayVideo> {
                           Navigator.pop(context);
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Icon(
-                              Platform.isAndroid
-                                  ? Icons.keyboard_backspace
-                                  : Icons.arrow_back_ios,
-                              color: Colors.white),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          child: Icon(Icons.arrow_back, color: Colors.white),
                         ),
                       ),
                     )
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                      "What is Periodising? | Class 8 | Learn With VirtualE",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18)),
+                SizedBox(
+                  height: 16,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Text("More videos of this chapter",
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14)),
-                ),
-                Padding(
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: Text(
+                            _subjectController
+                                .arrOfTopic[_subjectController
+                                    .activeTopicPosition.value]
+                                .name,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18)),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(),
+                          child: Icon(
+                            Icons.bookmark_border,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(),
+                          child: Icon(
+                            Icons.share_rounded,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 8,
+                    )
+                  ],
+                )
+
+                /*Padding(
                   padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                   child: ListView.separated(
-                    itemCount: 6,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: _subjectController.arrOfTopic.length,
                     itemBuilder: (context, index) {
-                      return Material(
-                        color: index % 2 == 0
-                            ? Color(0xffFEF6F4)
-                            : Color(0xffF5FAF5),
-                        borderRadius: BorderRadius.circular(8),
-                        child: InkWell(
-                          splashColor: Colors.grey,
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () {
-                            setVideo("L5MJCll5cnk");
-                          },
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * 0.10,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8)),
-                            padding: EdgeInsets.all(8),
-                            child: Row(
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.white,
+                                  spreadRadius: 1,
+                                  blurRadius: 4)
+                            ],
+                            image: DecorationImage(
+                                image: AssetImage("assets/images/ic_bg.png"),
+                                fit: BoxFit.fill)),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(24),
+                          child: InkWell(
+                            splashColor: Colors.white,
+                            onTap: () {
+                              _subjectController.activeTopicPosition.value =
+                                  index;
+
+                              setVideo(_subjectController
+                                  .arrOfTopic[_subjectController
+                                      .activeTopicPosition.value]
+                                  .content
+                                  .videoId);
+                            },
+                            borderRadius: BorderRadius.circular(24),
+                            child: Column(
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    index % 2 == 0
-                                        ? "https://image.freepik.com/free-vector/geography-tool-diploma_24911-9910.jpg"
-                                        : "https://image.freepik.com/free-vector/colorful-illustration-about-geography-modern-flat-style_1040-3200.jpg",
-                                    height: MediaQuery.of(context).size.height *
-                                        0.07,
-                                    width: MediaQuery.of(context).size.height *
-                                        0.07,
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 16, right: 16, top: 16, bottom: 16),
+                                  child: Row(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      RichText(
-                                        text: TextSpan(
-                                            text: "Basic What is Virtual E ?",
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            _subjectController
+                                                    .arrOfTopic[index].id
+                                                    .toString() +
+                                                ". ".toUpperCase(),
                                             style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                                fontFamily: "Poppins",
-                                                fontSize: 14)),
-                                        maxLines: 1,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16),
+                                          ),
+                                          SizedBox(
+                                            width: 16,
+                                          ),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                    text: _subjectController
+                                                        .arrOfTopic[index].name,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontFamily: "Poppins",
+                                                        fontSize: 16)),
+                                                maxLines: 1,
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Text(
+                                                _subjectController
+                                                        .arrOfTopic[index]
+                                                        .minutes +
+                                                    " Mins",
+                                                style: TextStyle(
+                                                    color: Colors.black45,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 12),
+                                              ),
+                                            ],
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        "2 hours, 40 Min",
-                                        style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12),
+                                      Spacer(),
+                                      Material(
+                                        color: Colors.white,
+                                        type: MaterialType.circle,
+                                        child: InkWell(
+                                          splashColor: Colors.grey,
+                                          onTap: () {
+                                            _subjectController
+                                                .activeTopicPosition
+                                                .value = index;
+
+                                            setVideo(_subjectController
+                                                .arrOfTopic[_subjectController
+                                                    .activeTopicPosition.value]
+                                                .content
+                                                .videoId);
+                                          },
+                                          child: CircularPercentIndicator(
+                                            radius: 40.0,
+                                            lineWidth: 2.0,
+                                            percent: 0.4,
+                                            backgroundColor: Colors.white,
+                                            center: Icon(
+                                              Icons.play_arrow,
+                                              color: Colors.green,
+                                              size: 20,
+                                            ),
+                                            progressColor: Colors.green,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 8,
                                       ),
                                     ],
                                   ),
-                                ),
-                                CircularPercentIndicator(
-                                  radius: 40.0,
-                                  lineWidth: 3.0,
-                                  percent: 0.7,
-                                  backgroundColor: Colors.white,
-                                  center: Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.green[300],
-                                  ),
-                                  progressColor: Colors.green[300],
-                                ),
-                                SizedBox(
-                                  width: 8,
                                 ),
                               ],
                             ),
@@ -180,7 +273,7 @@ class _StatePlayVideo extends State<PlayVideo> {
                       );
                     },
                   ),
-                )
+                )*/
               ],
             ),
           ),
@@ -190,21 +283,18 @@ class _StatePlayVideo extends State<PlayVideo> {
   }
 
   void setVideo(String videoId) {
-    setState(() {
-      _controller = YoutubePlayerController(
-        initialVideoId: videoId,
-        flags: const YoutubePlayerFlags(
-          mute: true,
-          autoPlay: true,
-          disableDragSeek: false,
-          loop: false,
-          isLive: false,
-          startAt: 25,
-          forceHD: false,
-          hideControls: false,
-          enableCaption: false,
-        ),
-      );
-    });
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: true,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+        hideControls: false,
+        enableCaption: false,
+      ),
+    );
   }
 }

@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_learning/q-bank/question_bank_by_type.dart';
+import 'package:get/get.dart';
+import 'package:virtual_learning/modules/practice/pratice.dart';
 
 class TypeOfQuestionBank extends StatefulWidget {
   @override
@@ -56,11 +55,7 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                             width: double.infinity,
                             height: AppBar().preferredSize.height -
                                 AppBar().preferredSize.height * 0.30,
-                            child: Icon(
-                                Platform.isAndroid
-                                    ? Icons.keyboard_backspace
-                                    : Icons.arrow_back_ios,
-                                color: Colors.black),
+                            child: Icon(Icons.arrow_back, color: Colors.black),
                           ),
                         ),
                       ),
@@ -110,10 +105,7 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                     color: Colors.transparent,
                     child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => QuestionBankByType()));
+                        Get.to(Practice());
                       },
                       child: Container(
                         padding: EdgeInsets.only(

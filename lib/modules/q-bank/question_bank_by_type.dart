@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -233,11 +231,7 @@ class _StateTypeOfQuestionBank extends State<QuestionBankByType> {
                             width: double.infinity,
                             height: AppBar().preferredSize.height -
                                 AppBar().preferredSize.height * 0.30,
-                            child: Icon(
-                                Platform.isAndroid
-                                    ? Icons.keyboard_backspace
-                                    : Icons.arrow_back_ios,
-                                color: Colors.black),
+                            child: Icon(Icons.arrow_back, color: Colors.black),
                           ),
                         ),
                       ),

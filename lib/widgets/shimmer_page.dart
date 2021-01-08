@@ -16,6 +16,7 @@ class _ShimmerPageState extends State<ShimmerPage> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         leading: Container(),
+        centerTitle: true,
         title: Text(
           "VirtualE",
           style: TextStyle(color: Colors.white, fontFamily: "Poppins"),

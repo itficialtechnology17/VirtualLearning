@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/modules/login/login_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/signup_page.dart';
 
 class CoursePage extends StatefulWidget {
