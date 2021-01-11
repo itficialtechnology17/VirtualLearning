@@ -4,9 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
+import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_page.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
 import 'package:virtual_learning/page/play_video.dart';
@@ -29,6 +31,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   Animation<Offset> _slideAnimation;
 
   DashboardController _dashboardController = Get.put(DashboardController());
+  LoginController _loginController = Get.find();
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -113,7 +116,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                             height: MediaQuery.of(context).size.height * 0.07,
                           ),
                           Text(
-                            "Hey Guest",
+                            "Hey " + _loginController.modelUser.value.firstName,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -124,35 +127,45 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14,
                                   color: Colors.grey)),
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            padding: EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Icon(
-                                  Icons.search,
-                                  color: Colors.grey,
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "Search for Course, Test, Subject",
-                                  style: TextStyle(
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Material(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(4),
+                              onTap: () {
+                                Get.to(SearchPage());
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 12, horizontal: 16),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Icon(
+                                      Icons.search,
                                       color: Colors.grey,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Search for here",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16),
+                                    ),
+                                    SizedBox(
+                                      width: 16,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                           SizedBox(

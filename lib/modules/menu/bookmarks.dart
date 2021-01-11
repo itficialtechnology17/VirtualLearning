@@ -10,11 +10,11 @@ import 'package:virtual_learning/widgets/circle_tab_indicator.dart';
 class Bookmarks extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return StateTestReport();
+    return StateBookmarks();
   }
 }
 
-class StateTestReport extends State<Bookmarks> with TickerProviderStateMixin {
+class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
   int _tabCount;
 
   List<Tab> _tabs = List<Tab>();

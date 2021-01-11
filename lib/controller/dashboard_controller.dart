@@ -16,6 +16,7 @@ class DashboardController extends GetxController {
   SubjectController _subjectController = Get.put(SubjectController());
 
   LoginController _loginController = Get.put(LoginController());
+
   @override
   void onInit() {
     getDashboard();

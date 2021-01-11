@@ -433,7 +433,7 @@ class _StateTopicListing extends State<TopicListing> {
                                 "Practice".toUpperCase(),
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600),
                               )),
                               Material(
@@ -462,7 +462,7 @@ class _StateTopicListing extends State<TopicListing> {
                                 "Test".toUpperCase(),
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600),
                               )),
                               Material(
