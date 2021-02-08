@@ -9,7 +9,7 @@ import 'package:virtual_learning/widgets/square_tab_indicator.dart';
 
 import 'non_search_view.dart';
 
-var searchText = "";
+String searchText = "";
 
 class SearchPage extends StatefulWidget {
   @override
@@ -63,10 +63,14 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
             ),
             title: TextFormField(
               autofocus: true,
+              initialValue: searchText,
               controller: _searchController.tfSearchController.value,
               onChanged: (value) {
                 setState(() {
                   searchText = value;
+                  if (searchText.isNotEmpty) {
+                    _searchController.getSearch(searchText);
+                  }
                 });
               },
               style: TextStyle(),
@@ -96,44 +100,48 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
               )
             ],
           ),
-          body: DefaultTabController(
-            length: 3,
-            child: NestedScrollView(
-              headerSliverBuilder:
-                  (BuildContext context, bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverPersistentHeader(
-                    delegate: _SliverAppBarDelegate(
-                      TabBar(
-                        labelStyle: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white),
-                        labelColor: Colors.green,
-                        unselectedLabelColor: Colors.black,
-                        indicator:
-                            SquareTabIndicator(color: Colors.green, radius: 2),
-                        tabs: [
-                          getTab("Subject"),
-                          getTab("Chapter"),
-                          getTab("Topic"),
-                        ],
-                        controller: _tabController,
-                      ),
-                    ),
-                    pinned: true,
-                  )
-                ];
-              },
-              body: searchText == ""
-                  ? NonSearchView()
-                  : TabBarView(
-                      children: [SubjectTab(), ChapterTab(), TopicTab()],
-                      controller: _tabController,
-                    ),
-            ),
-          ),
+          body: _searchController.isLoading.value
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : DefaultTabController(
+                  length: 3,
+                  child: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverPersistentHeader(
+                          delegate: _SliverAppBarDelegate(
+                            TabBar(
+                              labelStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
+                              labelColor: Colors.green,
+                              unselectedLabelColor: Colors.black,
+                              indicator: SquareTabIndicator(
+                                  color: Colors.green, radius: 2),
+                              tabs: [
+                                getTab("Subject"),
+                                getTab("Chapter"),
+                                getTab("Topic"),
+                              ],
+                              controller: _tabController,
+                            ),
+                          ),
+                          pinned: true,
+                        )
+                      ];
+                    },
+                    body: searchText == ""
+                        ? NonSearchView()
+                        : TabBarView(
+                            children: [SubjectTab(), ChapterTab(), TopicTab()],
+                            controller: _tabController,
+                          ),
+                  ),
+                ),
         ));
   }
 

@@ -29,7 +29,7 @@ class SubjectController extends GetxController {
 
     Request request = Request(url: urlGetChapter, body: {
       'type': "API",
-      'standard_id': "3",
+      'standard_id': standardId.toString(),
       'subject_id': selectedSubject.value.id.toString(),
       'student_id': studentId,
     });
@@ -60,6 +60,7 @@ class SubjectController extends GetxController {
     Request request = Request(url: urlGetTopic, body: {
       'type': "API",
       'chapter_id': selectedChapter.value.id.toString(),
+      'standard_id': standardId.toString(),
       'student_id': studentId,
     });
     request.post().then((value) {

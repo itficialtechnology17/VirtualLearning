@@ -134,7 +134,8 @@ class LoginController extends GetxController {
         await addStringToSF(KEY_IS_USER_ID, studentId);
         standardId = modelUser.value.standardId.toString();
         await addStringToSF(KEY_STANDARD_ID, standardId);
-        Get.offAll(MainPage());
+        Get.off(CoursePage());
+        // Get.offAll(MainPage());
       }
     } else {
       showSnackBar("Mismatched", "Please enter valid otp", Colors.red);

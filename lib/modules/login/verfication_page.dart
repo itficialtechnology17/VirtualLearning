@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 
@@ -47,7 +48,9 @@ class _StateVerificationPage extends State<VerificationPage> {
                   height: MediaQuery.of(context).padding.top,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Get.back();
+                  },
                   child: SvgPicture.asset(
                     'assets/svg/ic_back.svg',
                     height: MediaQuery.of(context).size.width * 0.05,
@@ -70,7 +73,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 16),
                   child: Text(
-                    "Verify your number and never stop learning",
+                    "Verify your number & never stop learning",
                     style: TextStyle(
                       fontSize: 14,
                       color: const Color(0xff3aa59b),

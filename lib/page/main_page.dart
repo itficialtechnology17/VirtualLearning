@@ -6,6 +6,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
@@ -31,6 +32,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   Animation<Offset> _slideAnimation;
 
   DashboardController _dashboardController = Get.put(DashboardController());
+  SubscriptionController _subscriptionController =
+      Get.put(SubscriptionController());
   LoginController _loginController = Get.find();
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -635,7 +638,6 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  menu(context),
                 ],
               )));
   }

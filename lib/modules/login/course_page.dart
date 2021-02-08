@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
-import 'package:virtual_learning/modules/login/signup_page.dart';
+import 'package:virtual_learning/page/main_page.dart';
 
 class CoursePage extends StatefulWidget {
   @override
@@ -212,7 +212,8 @@ class _StateCoursePage extends State<CoursePage> {
                                   backgroundColor: Color(0xff205072),
                                 )..show(context);
                               } else {
-                                Get.to(SignUpPage());
+                                // Get.to(SignUpPage());
+                                Get.off(MainPage());
                               }
                             },
                             child: Container(

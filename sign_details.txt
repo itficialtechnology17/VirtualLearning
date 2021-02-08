@@ -1,0 +1,3 @@
+Key store password: VirtualE
+Key alias: VirtualE
+Key Password:  VirtualE

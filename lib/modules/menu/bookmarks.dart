@@ -100,7 +100,8 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                                   "List of Bookmarks topics",
                                   style: TextStyle(
                                       color: Colors.grey,
-                                      fontFamily: "Poppins"),
+                                      fontFamily: "Poppins",
+                                      fontSize: 12),
                                 ),
                                 SizedBox(
                                   height: 8,

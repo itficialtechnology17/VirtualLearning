@@ -206,7 +206,8 @@ class _StateLoginPage extends State<LoginPage> {
                                   onTap: () {
                                     if (isContactNoAdded) {
                                       _loginController.getOTP();
-                                      Get.to(VerificationPage());
+                                      // Get.to(VerificationPage());
+                                      Get.off(VerificationPage());
                                     } else {
                                       Flushbar(
                                         messageText: Text(

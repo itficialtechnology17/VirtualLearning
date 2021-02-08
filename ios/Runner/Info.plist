@@ -45,6 +45,9 @@
 	<key>io.flutter.embedded_views_preview</key>
     <true/>
 
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>VirtualE would like to save pdf file from server to app</string>
+
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSExceptionDomains</key>
@@ -68,6 +71,7 @@
     <dict>
         <key>NSAllowsArbitraryLoads</key><true/>
     </dict>
+
 
 
 </dict>

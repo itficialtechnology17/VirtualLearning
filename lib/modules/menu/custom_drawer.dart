@@ -4,7 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/modules/menu/bookmarks.dart';
+import 'package:virtual_learning/modules/menu/notification_page.dart';
 import 'package:virtual_learning/modules/menu/parent_connect.dart';
+import 'package:virtual_learning/modules/menu/subscription.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
 
@@ -102,8 +104,12 @@ class CustomDrawer extends StatelessWidget {
         Navigator.pop(context);
         if (text == "Bookmarks") {
           Get.to(Bookmarks());
+        } else if (text == "Notification") {
+          Get.to(NotificationPage());
         } else if (text == "Parent Connect") {
           Get.to(ParentConnect());
+        } else if (text == "Subscribe Now") {
+          Get.to(Subscription());
         } else if (text == "Logout") {
           showDialog(
               context: context, builder: (context) => _confirmLogout(context));

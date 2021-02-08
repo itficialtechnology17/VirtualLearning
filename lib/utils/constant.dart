@@ -5,6 +5,7 @@ final String KEY_STANDARD_ID = "KEY_STANDARD_ID";
 
 bool isRegister = false;
 bool isLogin = false;
+bool isSubscribe = false;
 String studentId = "";
 String standardId = "";
 String defaultChapterIcon =

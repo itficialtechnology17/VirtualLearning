@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/course_page.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
-import 'package:virtual_learning/page/main_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
 
@@ -50,7 +50,9 @@ class _StateSplashPage extends State<SplashPage> {
     if (isLogin) {
       studentId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
       standardId = await getStringValuesSF(KEY_STANDARD_ID) ?? "0";
-      Get.off(MainPage());
+
+      // Get.off(MainPage());
+      Get.off(CoursePage());
     } else {
       Get.off(LoginPage());
     }
