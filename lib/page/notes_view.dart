@@ -5,8 +5,12 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:virtual_learning/utils/url.dart';
 
 class NotesView extends StatefulWidget {
+  final String notesUrl;
+
+  NotesView(this.notesUrl);
   @override
   State<StatefulWidget> createState() {
     return _StateNotesView();
@@ -25,7 +29,7 @@ class _StateNotesView extends State<NotesView> {
   @override
   void initState() {
     requestPersmission();
-    getFileFromUrl("http://www.africau.edu/images/default/sample.pdf").then(
+    getFileFromUrl(storageUrl + widget.notesUrl).then(
       (value) => {
         setState(() {
           if (value != null) {

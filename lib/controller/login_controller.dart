@@ -82,7 +82,7 @@ class LoginController extends GetxController {
 
     Request request = Request(url: urlUpdateProfile, body: {
       'type': "API",
-      'id': modelUser.value.id.toString(),
+      'id': studentId.toString(),
       'first_name': modelUser.value.firstName.toString(),
       'school_name': modelUser.value.schoolName.toString(),
       'address': modelUser.value.address.toString(),
@@ -96,12 +96,13 @@ class LoginController extends GetxController {
 
       if (responseData['status_code'] == 1) {
         await addBoolToSF(KEY_IS_LOGIN, true);
-        Get.to(MainPage());
+        Get.off(MainPage());
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
       }
     }).catchError((onError) {
       isSignUp.value = false;
+      showSnackBar("Error", "Opps! Internal App Error", Colors.red);
       print(onError);
     });
   }
@@ -127,6 +128,7 @@ class LoginController extends GetxController {
     if (enterOTP == receivedOTP) {
       if (modelUser.value.firstName == null ||
           modelUser.value.firstName == "") {
+        studentId = modelUser.value.id.toString();
         Get.to(CoursePage());
       } else {
         await addBoolToSF(KEY_IS_LOGIN, true);

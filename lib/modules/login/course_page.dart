@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
+import 'package:virtual_learning/modules/login/signup_page.dart';
 import 'package:virtual_learning/page/main_page.dart';
+import 'package:virtual_learning/utils/constant.dart';
 
 class CoursePage extends StatefulWidget {
   @override
@@ -95,9 +97,10 @@ class _StateCoursePage extends State<CoursePage> {
                     ),
                   )
                 : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.symmetric(horizontal: 20),
                     child: GridView.count(
-                      crossAxisSpacing: 24,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
                       crossAxisCount: 2,
                       children: List.generate(
                           _loginController.arrOfCourse.length, (index) {
@@ -110,13 +113,18 @@ class _StateCoursePage extends State<CoursePage> {
                               Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    boxShadow: getBoxShadow(index),
+                                    // boxShadow: getBoxShadow(index),
                                     border: Border.all(
-                                        color: Color(_loginController
+                                        color: Color(
+                                            /*_loginController
                                                 .arrOfCourse[index].selected
                                             ? 0xff205072
-                                            : 0xff3AA59B),
-                                        width: 1),
+                                            : */
+                                            0xff3AA59B),
+                                        width: _loginController
+                                                .arrOfCourse[index].selected
+                                            ? 3
+                                            : 1),
                                     borderRadius: BorderRadius.circular(16)),
                                 width: MediaQuery.of(context).size.width * 0.25,
                                 height:
@@ -128,19 +136,43 @@ class _StateCoursePage extends State<CoursePage> {
                                         alignment: Alignment.center,
                                         child: Wrap(
                                           children: [
-                                            Text(
-                                              _loginController
-                                                  .arrOfCourse[index]
-                                                  .displayName,
-                                              style: TextStyle(
-                                                fontSize: 50,
-                                                color: Color(
-                                                    selectedPosition == 1
-                                                        ? 0xff205072
-                                                        : 0xff3AA59B),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              textAlign: TextAlign.center,
+                                            Column(
+                                              children: [
+                                                Text(
+                                                  _loginController
+                                                      .arrOfCourse[index].name,
+                                                  style: TextStyle(
+                                                    fontSize: 50,
+                                                    color: Color(
+                                                        selectedPosition == 1
+                                                            ? 0xff205072
+                                                            : 0xff3AA59B),
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                                isNumeric(_loginController
+                                                        .arrOfCourse[index]
+                                                        .displayName)
+                                                    ? Text("")
+                                                    : Text(
+                                                        _loginController
+                                                            .arrOfCourse[index]
+                                                            .displayName,
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: Color(
+                                                              selectedPosition ==
+                                                                      1
+                                                                  ? 0xff205072
+                                                                  : 0xff3AA59B),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      )
+                                              ],
                                             ),
                                             Text(
                                               '\u1d57\u02b0',
@@ -152,7 +184,7 @@ class _StateCoursePage extends State<CoursePage> {
                                                         : 0xff3AA59B),
                                                 fontWeight: FontWeight.w600,
                                               ),
-                                              textAlign: TextAlign.center,
+                                              textAlign: TextAlign.start,
                                             ),
                                           ],
                                         ),
@@ -212,8 +244,21 @@ class _StateCoursePage extends State<CoursePage> {
                                   backgroundColor: Color(0xff205072),
                                 )..show(context);
                               } else {
-                                // Get.to(SignUpPage());
-                                Get.off(MainPage());
+                                //
+                                if (_loginController
+                                            .modelUser.value.firstName ==
+                                        null ||
+                                    _loginController
+                                            .modelUser.value.firstName ==
+                                        "") {
+                                  if (isLogin) {
+                                    Get.to(MainPage());
+                                  } else {
+                                    Get.off(SignUpPage());
+                                  }
+                                } else {
+                                  Get.off(MainPage());
+                                }
                               }
                             },
                             child: Container(
@@ -293,5 +338,12 @@ class _StateCoursePage extends State<CoursePage> {
       ];
     } else
       return null;
+  }
+
+  bool isNumeric(String s) {
+    if (s == null) {
+      return false;
+    }
+    return double.parse(s, (e) => null) != null;
   }
 }

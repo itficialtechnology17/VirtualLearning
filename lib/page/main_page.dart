@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
-import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
@@ -12,7 +11,6 @@ import 'package:virtual_learning/modules/menu/custom_drawer.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_page.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
-import 'package:virtual_learning/page/play_video.dart';
 import 'package:virtual_learning/widgets/shimmer_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -34,7 +32,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   DashboardController _dashboardController = Get.put(DashboardController());
   SubscriptionController _subscriptionController =
       Get.put(SubscriptionController());
-  LoginController _loginController = Get.find();
+  // LoginController _loginController = Get.find();
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -119,7 +117,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                             height: MediaQuery.of(context).size.height * 0.07,
                           ),
                           Text(
-                            "Hey " + _loginController.modelUser.value.firstName,
+                            // "Hey " + _loginController.modelUser.value.firstName,
+                            "Hey Student",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -273,10 +272,10 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                               splashColor: Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                               onTap: () {
-                                Navigator.push(
+                                /* Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PlayVideo()));
+                                        builder: (context) => PlayVideo()));*/
                               },
                               child: Container(
                                 height:
@@ -358,10 +357,10 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                               splashColor: Colors.grey,
                               borderRadius: BorderRadius.circular(8),
                               onTap: () {
-                                Navigator.push(
+                                /*Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PlayVideo()));
+                                        builder: (context) => PlayVideo()));*/
                               },
                               child: Container(
                                 height:

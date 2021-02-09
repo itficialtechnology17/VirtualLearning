@@ -44,7 +44,7 @@ class _StateTopicListing extends State<TopicListing> {
             ? Scaffold(
                 backgroundColor: Colors.white,
                 appBar: AppBar(
-                  backgroundColor: Colors.lightGreenAccent,
+                  backgroundColor: Colors.green,
                   leading: Container(
                     child: Center(
                       child: Material(
@@ -230,7 +230,7 @@ class _StateTopicListing extends State<TopicListing> {
                 body: Scaffold(
                   backgroundColor: Colors.white,
                   body: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       /*borderRadius: BorderRadius.only(
@@ -241,9 +241,6 @@ class _StateTopicListing extends State<TopicListing> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
-                          height: 16,
-                        ),
                         SizedBox(
                           height: 16,
                         ),
@@ -327,47 +324,41 @@ class _StateTopicListing extends State<TopicListing> {
                                                                 SizedBox(
                                                                   width: 16,
                                                                 ),
-                                                                Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    RichText(
-                                                                      text: TextSpan(
-                                                                          text: (index + 1).toString() +
-                                                                              ". " +
-                                                                              _subjectController
-                                                                                  .arrOfTopic[
-                                                                                      index]
-                                                                                  .name,
-                                                                          style: TextStyle(
-                                                                              color: Colors.black,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              fontFamily: "Poppins",
-                                                                              fontSize: 16)),
-                                                                      maxLines:
-                                                                          2,
-                                                                    ),
-                                                                    SizedBox(
-                                                                      height: 4,
-                                                                    ),
-                                                                    Text(
-                                                                      _subjectController
-                                                                              .arrOfTopic[index]
-                                                                              .minutes +
-                                                                          " Mins",
-                                                                      style: TextStyle(
-                                                                          color: Colors
-                                                                              .black45,
-                                                                          fontWeight: FontWeight
-                                                                              .w600,
-                                                                          fontSize:
-                                                                              12),
-                                                                    ),
-                                                                  ],
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      RichText(
+                                                                        maxLines:
+                                                                            1,
+                                                                        overflow:
+                                                                            TextOverflow.ellipsis,
+                                                                        text: TextSpan(
+                                                                            text: (index + 1).toString() +
+                                                                                ". " +
+                                                                                _subjectController.arrOfTopic[index].name,
+                                                                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontFamily: "Poppins", fontSize: 16)),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height:
+                                                                            4,
+                                                                      ),
+                                                                      Text(
+                                                                        _subjectController.arrOfTopic[index].minutes +
+                                                                            " Mins",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.black45,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            fontSize: 12),
+                                                                      ),
+                                                                    ],
+                                                                  ),
                                                                 )
                                                               ],
                                                             ),
@@ -504,7 +495,7 @@ class _StateTopicListing extends State<TopicListing> {
                               borderRadius: BorderRadius.circular(8)),
                           margin: EdgeInsets.symmetric(
                               horizontal: 16,
-                              vertical: Platform.isAndroid ? 8 : 24),
+                              vertical: Platform.isAndroid ? 0 : 24),
                           child: Row(
                             children: [
                               Expanded(
@@ -566,30 +557,39 @@ class _StateTopicListing extends State<TopicListing> {
                                 height: Get.height * 0.06,
                                 color: Colors.white,
                               ),
-                              Expanded(
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Center(
-                                        child: Text(
-                                      "Notes".toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        splashColor: Colors.grey[50],
-                                        onTap: () {
-                                          Get.to(NotesView());
-                                        },
+                              _subjectController.selectedChapter.value.note !=
+                                      null
+                                  ? Expanded(
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          Center(
+                                              child: Text(
+                                            "Notes".toUpperCase(),
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600),
+                                          )),
+                                          Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              splashColor: Colors.grey[50],
+                                              onTap: () {
+                                                Get.to(NotesView(
+                                                    _subjectController
+                                                        .selectedChapter
+                                                        .value
+                                                        .note
+                                                        .file
+                                                        .toString()));
+                                              },
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     )
-                                  ],
-                                ),
-                              )
+                                  : Container()
                             ],
                           ),
                         )

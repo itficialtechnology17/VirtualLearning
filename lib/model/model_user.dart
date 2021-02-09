@@ -27,23 +27,23 @@ class ModelUser {
   });
 
   int id;
-  String firstName = "";
-  String lastName = "";
-  String gender = "";
-  String dob = "";
-  String schoolName = "";
-  String mobileNumber = "";
-  String email = "";
-  String motherName = "";
-  String fatherName = "";
-  String address = "";
-  String fatherMobileNumber = "";
+  dynamic firstName;
+  dynamic lastName;
+  dynamic gender;
+  dynamic dob;
+  dynamic schoolName;
+  String mobileNumber;
+  dynamic email;
+  dynamic motherName;
+  dynamic fatherName;
+  dynamic address;
+  dynamic fatherMobileNumber;
   int status;
-  String subscribed = "";
-  String instituteId = "";
+  dynamic subscribed;
+  dynamic instituteId;
   DateTime createdOn;
   int otp;
-  int standardId;
+  String standardId;
 
   factory ModelUser.fromJson(Map<String, dynamic> json) => ModelUser(
         id: json["id"],

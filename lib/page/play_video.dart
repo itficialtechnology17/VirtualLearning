@@ -1,11 +1,10 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:seekbar/seekbar.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/modules/player/custom_youtube_player.dart';
+import 'package:virtual_learning/modules/player/custom_youtube_player_builder.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlayVideo extends StatefulWidget {
@@ -39,36 +38,19 @@ class _StatePlayVideo extends State<PlayVideo> {
   @override
   void initState() {
     super.initState();
-/*
-    setVideo(_subjectController
-        .arrOfTopic[_subjectController.activeTopicPosition.value]
-        .content
-        .videoId);
-
-    _idController = TextEditingController();
-    _seekToController = TextEditingController();
-    _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;*/
-
-    // _resumeProgressTimer();
-    _secondProgressTimer = Timer.periodic(const Duration(milliseconds: 5), (_) {
-      setState(() {
-        _secondValue += 0.001;
-        if (_secondValue >= 1) {
-          _secondProgressTimer.cancel();
-        }
-      });
-    });
 
     _controller = YoutubePlayerController(
-      initialVideoId: _ids.first,
+      initialVideoId: _subjectController
+          .arrOfTopic[_subjectController.activeTopicPosition.value]
+          .content
+          .videoId,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
         disableDragSeek: false,
         loop: false,
         isLive: false,
-        hideControls: true,
+        hideControls: false,
         forceHD: false,
         enableCaption: true,
       ),
@@ -79,121 +61,71 @@ class _StatePlayVideo extends State<PlayVideo> {
     _playerState = PlayerState.unknown;
   }
 
-  _resumeProgressTimer() {
-    _progressTimer = Timer.periodic(const Duration(milliseconds: 10), (_) {
-      setState(() {
-        _value += 0.0005;
-        if (_value >= 1) {
-          _progressTimer.cancel();
-          _done = true;
-        }
-      });
-    });
-  }
-
-  void setVideo(String videoId) {
-    _controller = YoutubePlayerController(
-      initialVideoId: videoId,
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        hideControls: false,
-        enableCaption: false,
-      ),
-    );
-  }
-
-  final List<String> _ids = [
-    'nPt8bK2gbaU',
-    'gQDByCdjUXw',
-    'iLnmTe5Q2Qw',
-    '_WoCV4c6XOE',
-    'KmzdUe0RSJo',
-    '6jZDSSZZxjQ',
-    'p2lYr3vM_1w',
-    '7QUtEmBT_-w',
-    '34_PXCzGw1M',
-  ];
-
-  double _value = 0.0;
-  double _secondValue = 0.0;
-
-  Timer _progressTimer;
-  Timer _secondProgressTimer;
-
-  bool _done = false;
-
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
+    return CustomYoutubePlayerBuilder(
       onExitFullScreen: () {
         // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       },
-      player: YoutubePlayer(
+      player: CustomYoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.white,
         liveUIColor: Colors.transparent,
-        topActions: <Widget>[
-          // const SizedBox(width: 8.0),
-          /*Expanded(
-            child: Text(
-              _controller.metadata.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),*/
-          /* IconButton(
-            icon: const Icon(
-              Icons.settings,
-              color: Colors.white,
-              size: 25.0,
-            ),
-            onPressed: () {
-              log('Settings Tapped!');
-            },
-          ),*/
-        ],
         aspectRatio: 16 / 9,
         onReady: () {
           _isPlayerReady = true;
         },
-        onEnded: (data) {
-          _controller
-              .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
-          // _showSnackBar('Next Video Started!');
-        },
-        actionsPadding: EdgeInsets.all(0),
+        onEnded: (data) {},
       ),
       builder: (context, player) => Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Image.asset(
-              'assets/ypf.png',
-              fit: BoxFit.fitWidth,
+          leading: Container(
+            child: Center(
+              child: Material(
+                color: Color(0xffD0E6EE),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    )),
+                    width: double.infinity,
+                    height: AppBar().preferredSize.height -
+                        AppBar().preferredSize.height * 0.30,
+                    child: Padding(
+                      padding: EdgeInsets.all(6),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           centerTitle: true,
           title: Text(
-            'Video',
+            _subjectController
+                .arrOfTopic[_subjectController.activeTopicPosition.value].name,
             style: TextStyle(color: Colors.white),
           ),
         ),
         body: Stack(
           children: [
             player,
-            AspectRatio(
+            /*AspectRatio(
               aspectRatio: 16 / 9,
               child: Stack(
                 children: [
@@ -277,7 +209,7 @@ class _StatePlayVideo extends State<PlayVideo> {
                           : null,
                     ),
                   ),
-                  /*Align(
+                  */ /*Align(
                     child: SeekBar(
                       value: _value,
                       secondValue: _secondValue,
@@ -300,10 +232,10 @@ class _StatePlayVideo extends State<PlayVideo> {
                         }
                       },
                     ),
-                  )*/
+                  )*/ /*
                 ],
               ),
-            ),
+            ),*/
 
             /*Positioned(
               bottom: 0,
@@ -416,7 +348,6 @@ class _StatePlayVideo extends State<PlayVideo> {
                     ],
                   ),
                   _space,*/ /*
-
                   _space,
                   Row(
                     children: <Widget>[
@@ -506,7 +437,6 @@ class _StatePlayVideo extends State<PlayVideo> {
       ),
     );
   }
-
   Widget _text(String title, String value) {
     return RichText(
       text: TextSpan(
@@ -529,9 +459,9 @@ class _StatePlayVideo extends State<PlayVideo> {
   }
 */
 
-  // Widget get _space => const SizedBox(height: 10);
+// Widget get _space => const SizedBox(height: 10);
 
-  /*Color _getStateColor(PlayerState state) {
+/*Color _getStateColor(PlayerState state) {
     switch (state) {
       case PlayerState.unknown:
         return Colors.grey[700];

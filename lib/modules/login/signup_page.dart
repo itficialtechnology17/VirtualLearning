@@ -499,16 +499,20 @@ class _StateSignUpPage extends State<SignUpPage> {
                                       ]),
                                   boxShadow: getBoxShadow(4),
                                   borderRadius: BorderRadius.circular(16)),
-                              child: Center(
-                                child: Text(
-                                  'SIGN UP',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: const Color(0xffffffff),
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.center,
-                                ),
-                              )),
+                              child: _loginController.isSignUp.value
+                                  ? Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        'SIGN UP',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: const Color(0xffffffff),
+                                            fontWeight: FontWeight.w700),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,

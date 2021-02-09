@@ -64,7 +64,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
             title: TextFormField(
               autofocus: true,
               initialValue: searchText,
-              controller: _searchController.tfSearchController.value,
+              // controller: _searchController.tfSearchController.value,
               onChanged: (value) {
                 setState(() {
                   searchText = value;

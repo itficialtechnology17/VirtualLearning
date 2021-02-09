@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/model/model_chapter.dart';
@@ -12,7 +11,7 @@ import 'package:virtual_learning/utils/show_snackbar.dart';
 import 'package:virtual_learning/utils/url.dart';
 
 class SearchController extends GetxController {
-  var tfSearchController = TextEditingController().obs;
+  // var tfSearchController = TextEditingController().obs;
 
   var isLoading = false.obs;
 
