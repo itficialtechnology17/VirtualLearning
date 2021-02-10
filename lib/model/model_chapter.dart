@@ -21,6 +21,7 @@ class ModelChapter {
     this.status,
     this.createdOn,
     this.note,
+    this.topic,
   });
 
   int id;
@@ -32,6 +33,7 @@ class ModelChapter {
   int status;
   DateTime createdOn;
   Note note;
+  int topic;
 
   factory ModelChapter.fromJson(Map<String, dynamic> json) => ModelChapter(
         id: json["id"],
@@ -43,6 +45,7 @@ class ModelChapter {
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
         note: json["note"] == null ? null : Note.fromJson(json["note"]),
+        topic: json["topic"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -55,6 +58,7 @@ class ModelChapter {
         "status": status,
         "created_on": createdOn.toIso8601String(),
         "note": note == null ? null : note.toJson(),
+        "topic": topic,
       };
 }
 

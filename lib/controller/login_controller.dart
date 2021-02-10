@@ -128,9 +128,12 @@ class LoginController extends GetxController {
     if (enterOTP == receivedOTP) {
       if (modelUser.value.firstName == null ||
           modelUser.value.firstName == "") {
+        isLogin = true;
+        await addBoolToSF(KEY_IS_LOGIN, isLogin);
         studentId = modelUser.value.id.toString();
         Get.to(CoursePage());
       } else {
+        isLogin = true;
         await addBoolToSF(KEY_IS_LOGIN, true);
         studentId = modelUser.value.id.toString();
         await addStringToSF(KEY_IS_USER_ID, studentId);

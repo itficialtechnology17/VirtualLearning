@@ -114,6 +114,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                       SliverPersistentHeader(
                         delegate: _SliverAppBarDelegate(
                           TabBar(
+                            isScrollable: true,
                             labelStyle: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 12,

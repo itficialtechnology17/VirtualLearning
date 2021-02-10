@@ -1,12 +1,15 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:virtual_learning/model/model_subscription_plan.dart';
+import 'package:virtual_learning/model/model_subscription.dart';
+import 'package:virtual_learning/network/request.dart';
+import 'package:virtual_learning/utils/show_snackbar.dart';
+import 'package:virtual_learning/utils/url.dart';
 
 class SubscriptionController extends GetxController {
   var isLoadingPlans = false.obs;
-  var arrOfSubscriptionPlan = List<ModelSubscriptionPlan>().obs;
+  var arrOfSubscription = List<ModelSubscription>().obs;
 
   @override
   void onInit() {
@@ -14,10 +17,10 @@ class SubscriptionController extends GetxController {
     getPlans();
   }
 
-  /*void getPlans() async {
+  void getPlans() async {
     isLoadingPlans.value = true;
 
-    Request request = Request(url: urlGetPlans, body: {
+    Request request = Request(url: urlGetSubscription, body: {
       'type': "API",
     });
     request.post().then((value) {
@@ -25,8 +28,8 @@ class SubscriptionController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        arrOfSubscriptionPlan.assignAll((responseData['data'] as List)
-            .map((data) => ModelSubscriptionPlan.fromJson(data))
+        arrOfSubscription.assignAll((responseData['plans'] as List)
+            .map((data) => ModelSubscription.fromJson(data))
             .toList());
         print("Success");
       } else {
@@ -36,29 +39,5 @@ class SubscriptionController extends GetxController {
       isLoadingPlans.value = false;
       print(onError);
     });
-  }*/
-
-  void getPlans() async {
-    final http.Response response = await http.post(
-      "https://theschule.com/backend/index.php/api/plan",
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'type': "API",
-        'user_id': "26",
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      var responseData = jsonDecode(response.body);
-      if (responseData['status_code'] == 1) {
-        arrOfSubscriptionPlan.assignAll((responseData['plan'] as List)
-            .map((data) => ModelSubscriptionPlan.fromJson(data))
-            .toList());
-      }
-    } else {
-      print("");
-    }
   }
 }

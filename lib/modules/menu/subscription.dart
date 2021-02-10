@@ -4,8 +4,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
-import 'package:virtual_learning/utils/constant.dart';
-import 'package:virtual_learning/utils/show_snackbar.dart';
 
 class Subscription extends StatefulWidget {
   @override
@@ -51,603 +49,173 @@ class StateSubscription extends State<Subscription> {
     modelColor4.color2 = Color(0xff0f9b0f);
     arrOfColor.add(modelColor4);
 
-    if (_subscriptionController.arrOfSubscriptionPlan.isEmpty)
+    if (_subscriptionController.arrOfSubscription.isEmpty)
       _subscriptionController.getPlans();
+
+    pageController = PageController(
+        initialPage: currentPage, viewportFraction: viewPortFraction);
   }
+
+  static const SCALE_FRACTION = 0.7;
+  static const FULL_SCALE = 1.0;
+  static const PAGER_HEIGHT = 200.0;
+  double viewPortFraction = 0.9;
+
+  PageController pageController;
+
+  double page = 2.0;
+  int currentPage = 2;
+
+  List<Color> colors = [
+    Color(0xffCDD5E0),
+    Color(0xffAF9500),
+    Color(0xffD7D7D7)
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              centerTitle: true,
-              brightness: Brightness.light,
-              expandedHeight: MediaQuery.of(context).size.height * 0.20 - 16,
-              elevation: 0,
-              pinned: true,
-              titleSpacing: 0.0,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.black,
-              leading: Container(
-                child: Center(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Color(0xFF14C269), Color(0xFF0A0A78)])),
+        ),
+        Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: new PreferredSize(
+              child: new Container(
+                child: AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  leading: InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Icon(Icons.arrow_back),
+                  ),
+                  title: Text(
+                    'Subscribe Now',
+                    style: new TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                  centerTitle: true,
+                ),
+                /*decoration: new BoxDecoration(
+                  gradient: new LinearGradient(
+                      colors: [Color(0xFF14C269), Color(0xFF0A0A78)]),
+                ),*/
+              ),
+              preferredSize: new Size(MediaQuery.of(context).size.width,
+                  AppBar().preferredSize.height),
+            ),
+            body: Container(
+              // color: Colors.white,
+              padding: EdgeInsets.only(left: 16),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Get.height * 0.05,
+                  ),
+                  Expanded(
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemCount:
+                          _subscriptionController.arrOfSubscription.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          margin: EdgeInsets.only(right: 16, bottom: 16),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(4),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color.fromRGBO(0, 0, 0, 0.080),
+                                  blurRadius: 8,
+                                  spreadRadius: 2,
+                                  offset: Offset(1, 1),
+                                )
+                              ]),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 3,
+                                decoration: BoxDecoration(
+                                    color: colors[index],
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(4),
+                                        bottomLeft: Radius.circular(4))),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: colors[index],
+                                          borderRadius: BorderRadius.only(
+                                              topRight: Radius.circular(4),
+                                              bottomLeft: Radius.circular(16),
+                                              bottomRight:
+                                                  Radius.circular(16))),
+                                      padding: EdgeInsets.all(10),
+                                      width: double.infinity,
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              _subscriptionController
+                                                  .arrOfSubscription[index]
+                                                  .title
+                                                  .toString()
+                                                  .toUpperCase(),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Html(
+                                        data: _subscriptionController
+                                            .arrOfSubscription[index]
+                                            .description,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.all(16),
+                                      width: double.infinity,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 24, vertical: 8),
+                                      child: Center(
+                                        child: Text("Subscribe"),
+                                      ),
+                                      decoration: BoxDecoration(
+                                          color: colors[index],
+                                          borderRadius:
+                                              BorderRadius.circular(24)),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        );
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                            color: Color(0xffD0E6EE),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              bottomRight: Radius.circular(4),
-                            )),
-                        width: double.infinity,
-                        height: AppBar().preferredSize.height -
-                            AppBar().preferredSize.height * 0.30,
-                        child: Icon(Icons.arrow_back, color: Colors.black),
-                      ),
                     ),
                   ),
-                ),
-              ),
-              flexibleSpace: Container(
-                height: MediaQuery.of(context).size.height * 0.20 +
-                    MediaQuery.of(context).padding.top +
-                    20,
-                color: Colors.black,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Subscription Plan",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: "Poppins",
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Choose your best plan",
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: "Poppins"),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      )
-                    ],
+                  SizedBox(
+                    height: Get.height * 0.20,
                   ),
-                ),
+                ],
               ),
-            ),
-          ];
-        },
-        body:
-            /*Container(
-          height: MediaQuery.of(context).size.height * 0.70,
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.10,
-              ),
-              child: PageView.builder(
-                controller: PageController(
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                ),
-                itemCount: _subscriptionController.arrOfSubscriptionPlan.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          // currentPosition = index;
-//                          _pageViewController.jumpToPage(currentPosition);
-                          */ /* _pageViewController.animateToPage(currentPosition,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.ease);*/ /*
-                        });
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 32),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              border: _subscriptionController
-                                          .arrOfSubscriptionPlan[index]
-                                          .isSubscribe ==
-                                      1
-                                  ? Border.all(
-                                      color: Color(0xff02AAB0), width: 5)
-                                  : Border.all(
-                                      color: Colors.transparent, width: 0),
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    children: [
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          _subscriptionController
-                                              .arrOfSubscriptionPlan[index]
-                                              .title
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 34,
-                                            color: Colors.black,
-                                            letterSpacing: 0.9995999870300293,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.08,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: <Color>[
-                                              arrOfColor[index].color1,
-                                              arrOfColor[index].color2
-                                            ],
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            _subscriptionController
-                                                .arrOfSubscriptionPlan[index]
-                                                .amount
-                                                .toString()
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              letterSpacing: 0.9995999870300293,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      */ /*Html(
-                                        data: arrOfSubscriptionPlan[index]
-                                            .description
-                                            .toUpperCase(),
-                                      ),*/ /*
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child: Container(
-                                    margin: EdgeInsets.fromLTRB(24, 16, 24, 16),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: <Color>[
-                                            arrOfColor[index].color1,
-                                            arrOfColor[index].color2
-                                          ],
-                                        )),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(24),
-                                        splashColor: Colors.white,
-                                        onTap: () {
-                                          if (isSubscribe) {
-                                            showSnackBar(
-                                                "Message",
-                                                "You have already subscribe this plan",
-                                                Colors.deepOrangeAccent);
-                                          } else {
-                                            setState(() {
-                                              // position = index;
-                                              _subscriptionController
-                                                  .arrOfSubscriptionPlan[index]
-                                                  .isLoading = true;
-                                            });
-                                            // getToken(index);
-                                            // _subScribePlan(index);
-                                          }
-                                        },
-                                        child: Container(
-                                          child: Center(
-                                            child: _subscriptionController
-                                                    .arrOfSubscriptionPlan[
-                                                        index]
-                                                    .isLoading
-                                                ? SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      strokeWidth: 3,
-                                                      backgroundColor:
-                                                          Colors.yellow,
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              Colors.black),
-                                                    ),
-                                                  )
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        _subscriptionController
-                                                                    .arrOfSubscriptionPlan[
-                                                                        index]
-                                                                    .isSubscribe ==
-                                                                1
-                                                            ? "Subscribed"
-                                                            : "Subscribe",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Poppins',
-                                                          fontSize: 20,
-                                                          color: Colors.white,
-                                                          letterSpacing:
-                                                              0.9995999870300293,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      _subscriptionController
-                                                                  .arrOfSubscriptionPlan[
-                                                                      index]
-                                                                  .isSubscribe ==
-                                                              1
-                                                          ? Icon(
-                                                              Icons
-                                                                  .check_circle,
-                                                              color:
-                                                                  Colors.white,
-                                                            )
-                                                          : Container()
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          _subscriptionController.arrOfSubscriptionPlan[index]
-                                          .isSubscribe !=
-                                      1 &&
-                                  isSubscribe
-                              ? Container(
-                                  margin: EdgeInsets.only(right: 32),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white70,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ))
-                              : Container()
-                        ],
-                      ));
-                },
-              ),
-            ),
-          ),
-        )*/
-            Container(
-          height: MediaQuery.of(context).size.height * 0.70,
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.10,
-              ),
-              child: PageView.builder(
-                controller: PageController(
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                ),
-                itemCount: _subscriptionController.arrOfSubscriptionPlan.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          // currentPosition = index;
-//                          _pageViewController.jumpToPage(currentPosition);
-                          /* _pageViewController.animateToPage(currentPosition,
-                              duration: Duration(seconds: 1),
-                              curve: Curves.ease);*/
-                        });
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(right: 32),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              border: _subscriptionController
-                                          .arrOfSubscriptionPlan[index]
-                                          .isSubscribe ==
-                                      1
-                                  ? Border.all(
-                                      color: Color(0xff02AAB0), width: 5)
-                                  : Border.all(
-                                      color: Colors.transparent, width: 0),
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ListView(
-                                    shrinkWrap: true,
-                                    children: [
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Center(
-                                        child: Text(
-                                          _subscriptionController
-                                              .arrOfSubscriptionPlan[index]
-                                              .title
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 34,
-                                            color: Colors.black,
-                                            letterSpacing: 0.9995999870300293,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Container(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.08,
-                                        decoration: BoxDecoration(
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: <Color>[
-                                              arrOfColor[index].color1,
-                                              arrOfColor[index].color2
-                                            ],
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            _subscriptionController
-                                                .arrOfSubscriptionPlan[index]
-                                                .amount
-                                                .toString()
-                                                .toUpperCase(),
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              letterSpacing: 0.9995999870300293,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Html(
-                                        data: _subscriptionController
-                                            .arrOfSubscriptionPlan[index]
-                                            .description
-                                            .toUpperCase(),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Center(
-                                  child: Container(
-                                    margin: EdgeInsets.fromLTRB(24, 16, 24, 16),
-                                    height: MediaQuery.of(context).size.height *
-                                        0.06,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(24),
-                                        gradient: LinearGradient(
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                          colors: <Color>[
-                                            arrOfColor[index].color1,
-                                            arrOfColor[index].color2
-                                          ],
-                                        )),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        borderRadius: BorderRadius.circular(24),
-                                        splashColor: Colors.white,
-                                        onTap: () {
-                                          if (isSubscribe) {
-                                            showSnackBar(
-                                                "Message",
-                                                "You have already subscribe this plan",
-                                                Colors.deepOrangeAccent);
-                                          } else {
-                                            setState(() {
-                                              // position = index;
-                                              _subscriptionController
-                                                  .arrOfSubscriptionPlan[index]
-                                                  .isLoading = true;
-                                            });
-                                            // getToken(index);
-                                            // _subScribePlan(index);
-                                          }
-                                        },
-                                        child: Container(
-                                          child: Center(
-                                            child: _subscriptionController
-                                                    .arrOfSubscriptionPlan[
-                                                        index]
-                                                    .isLoading
-                                                ? SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.08,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      strokeWidth: 3,
-                                                      backgroundColor:
-                                                          Colors.yellow,
-                                                      valueColor:
-                                                          new AlwaysStoppedAnimation<
-                                                                  Color>(
-                                                              Colors.black),
-                                                    ),
-                                                  )
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        _subscriptionController
-                                                                    .arrOfSubscriptionPlan[
-                                                                        index]
-                                                                    .isSubscribe ==
-                                                                1
-                                                            ? "Subscribed"
-                                                            : "Subscribe",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Poppins',
-                                                          fontSize: 20,
-                                                          color: Colors.white,
-                                                          letterSpacing:
-                                                              0.9995999870300293,
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 4,
-                                                      ),
-                                                      _subscriptionController
-                                                                  .arrOfSubscriptionPlan[
-                                                                      index]
-                                                                  .isSubscribe ==
-                                                              1
-                                                          ? Icon(
-                                                              Icons
-                                                                  .check_circle,
-                                                              color:
-                                                                  Colors.white,
-                                                            )
-                                                          : Container()
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          _subscriptionController.arrOfSubscriptionPlan[index]
-                                          .isSubscribe !=
-                                      1 &&
-                                  isSubscribe
-                              ? Container(
-                                  margin: EdgeInsets.only(right: 32),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white70,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ))
-                              : Container()
-                        ],
-                      ));
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
-      /*bottomNavigationBar: Container(
-        height: Get.height * 0.06,
-        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-        child: InkWell(
-          onTap: () {},
-          child: Container(
-            decoration: BoxDecoration(
-                color: Colors.green, borderRadius: BorderRadius.circular(8)),
-            child: Center(
-              child: Text(
-                "Download Parent App",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-          ),
-        ),
-      ),*/
+            ))
+      ],
     );
   }
 }

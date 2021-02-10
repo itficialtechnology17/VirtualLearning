@@ -134,4 +134,24 @@ class SubjectController extends GetxController {
       print(onError);
     });
   }
+
+  void setWatchHistory(String minutes, String contentId, String topicId) async {
+    Request request = Request(url: urlSetWatchHistory, body: {
+      'type': "API",
+      'student_id': studentId,
+      'minutes': minutes,
+      'content_id': contentId,
+      'topic_id': topicId,
+    });
+    request.post().then((value) {
+      final responseData = json.decode(value.body);
+      if (responseData['status_code'] == 1) {
+        print("Saved Watch History");
+      } else {
+        print("Failed To Saved Watch History");
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
 }

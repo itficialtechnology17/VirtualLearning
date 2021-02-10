@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
-import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/widgets/shimmer_chapter.dart';
 
 class LessonListing extends StatefulWidget {
@@ -132,7 +131,7 @@ class _StateLessonListing extends State<LessonListing> {
                                           bottom: 16),
                                       child: Row(
                                         children: [
-                                          ClipRRect(
+                                          /*ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(16.0),
                                             child: Image.network(
@@ -147,9 +146,9 @@ class _StateLessonListing extends State<LessonListing> {
                                                   0.08,
                                               fit: BoxFit.cover,
                                             ),
-                                          ),
+                                          ),*/
                                           SizedBox(
-                                            width: 16,
+                                            width: 8,
                                           ),
                                           Expanded(
                                             child: Column(
@@ -158,7 +157,7 @@ class _StateLessonListing extends State<LessonListing> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text(
+                                                /*Text(
                                                   "Lesson " +
                                                       (index + 1).toString(),
                                                   style: TextStyle(
@@ -169,7 +168,7 @@ class _StateLessonListing extends State<LessonListing> {
                                                 ),
                                                 SizedBox(
                                                   height: 4,
-                                                ),
+                                                ),*/
                                                 RichText(
                                                   text: TextSpan(
                                                       text: _subjectController
@@ -187,10 +186,11 @@ class _StateLessonListing extends State<LessonListing> {
                                                   height: 4,
                                                 ),
                                                 Text(
-                                                  "Minutes: " +
+                                                  "No. Of Topics: " +
                                                       _subjectController
                                                           .arrOfChapter[index]
-                                                          .minutes,
+                                                          .topic
+                                                          .toString(),
                                                   style: TextStyle(
                                                       color: Colors.black45,
                                                       fontWeight:

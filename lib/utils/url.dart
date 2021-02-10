@@ -13,4 +13,5 @@ String urlGetTopic = "api/topic-list";
 String urlGetBookmark = "api/get-favourite";
 String urlSetFavorite = "api/set-favourite";
 String urlRemoveFavorite = "api/remove-favourite";
-String urlGetPlans = "api/remove-favourite";
+String urlGetSubscription = "api/subscription";
+String urlSetWatchHistory = "api/set-watch-history";
