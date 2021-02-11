@@ -10,8 +10,6 @@ import 'package:virtual_learning/modules/q-bank/type_of_question_bank.dart';
 import 'package:virtual_learning/modules/test/test_page.dart';
 import 'package:virtual_learning/page/notes_view.dart';
 import 'package:virtual_learning/page/play_video.dart';
-import 'package:virtual_learning/utils/SABT.dart';
-import 'package:virtual_learning/utils/url.dart';
 
 class TopicListing extends StatefulWidget {
   @override
@@ -39,278 +37,149 @@ class _StateTopicListing extends State<TopicListing> {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Obx(() => _subjectController.isTopicLoading.value
-            ? Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  backgroundColor: Colors.green,
-                  leading: Container(
-                    child: Center(
-                      child: Material(
-                        color: Color(0xffD0E6EE),
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(4),
-                          bottomRight: Radius.circular(4),
-                        ),
-                        child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              bottomRight: Radius.circular(4),
-                            )),
-                            width: double.infinity,
-                            height: AppBar().preferredSize.height -
-                                AppBar().preferredSize.height * 0.30,
-                            child: Padding(
-                              padding: EdgeInsets.all(6),
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                body: Container(
-                  height: Get.height -
-                      (AppBar().preferredSize.height +
-                          Get.mediaQuery.padding.top),
-                  child: Center(
-                    child: SizedBox(
-                      height: Get.width * 0.08,
-                      width: Get.width * 0.08,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        backgroundColor: Colors.white10,
-                        valueColor:
-                            new AlwaysStoppedAnimation<Color>(Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    SliverAppBar(
-                      backgroundColor: Colors.white,
-                      expandedHeight: MediaQuery.of(context).size.height * 0.30,
-                      floating: false,
-                      brightness: Brightness.dark,
-                      leading: Container(
-                        child: Center(
-                          child: Material(
-                            color: Color(0xffD0E6EE),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              bottomRight: Radius.circular(4),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                Get.back();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(4),
-                                  bottomRight: Radius.circular(4),
-                                )),
-                                width: double.infinity,
-                                height: AppBar().preferredSize.height -
-                                    AppBar().preferredSize.height * 0.30,
-                                child: Padding(
-                                  padding: EdgeInsets.all(6),
-                                  child: Icon(
-                                    Icons.arrow_back,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      title: SABT(
-                        child: Text(
-                          _subjectController.selectedChapter.value.name,
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                      pinned: true,
-                      flexibleSpace: Stack(
-                        children: [
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: <Color>[Colors.green, Colors.green],
-                              ),
-                            ),
-                            child: FlexibleSpaceBar(
-                              collapseMode: CollapseMode.parallax,
-                              background: Image.network(
-                                _subjectController.arrOfTopic.isNotEmpty
-                                    ? _subjectController.arrOfTopic[0].icon !=
-                                            null
-                                        ? storageUrl +
-                                            _subjectController
-                                                .arrOfTopic[0].icon
-                                        : dummyImageUrl
-                                    : dummyImageUrl,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    /*SliverPersistentHeader(
-                      delegate: _SliverAppBarDelegate(
-                        Visibility(
-                          visible: _subjectController.arrOfTopic.length == 0
-                              ? false
-                              : true,
-                          child: SizedBox(
-                            height: 50,
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              child: Text(
-                                "Chapter Topic".toUpperCase(),
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      pinned: true,
-                    )*/
-                    SliverPersistentHeader(
-                      floating: false,
-                      delegate: _SliverAppBarDelegate(
-                        _subjectController.arrOfTopic.length != 0
-                            ? SizedBox(
-                                height: AppBar().preferredSize.height,
-                                child: Container(
-                                  color: Colors.black12,
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    // crossAxisAlignment:
-                                    //     CrossAxisAlignment.stretch,
-                                    children: [
-                                      Text(
-                                        "Chapter Topic".toUpperCase(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                height: AppBar().preferredSize.height,
-                                color: Colors.white,
-                              ),
-                      ),
-                      pinned: true,
-                    ),
-                  ];
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        brightness: Brightness.dark,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+            Color(0xff0A0A78),
+            Color(0xff14C269),
+          ])),
+        ),
+        title: Text(
+          _subjectController.selectedChapter.value.name,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        ),
+        leading: Container(
+          child: Center(
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Get.back();
                 },
-                body: Scaffold(
-                  backgroundColor: Colors.white,
-                  body: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                    decoration: BoxDecoration(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  )),
+                  width: double.infinity,
+                  height: AppBar().preferredSize.height -
+                      AppBar().preferredSize.height * 0.30,
+                  child: Padding(
+                    padding: EdgeInsets.all(6),
+                    child: Icon(
+                      Icons.arrow_back,
                       color: Colors.white,
-                      /*borderRadius: BorderRadius.only(
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: Obx(() => _subjectController.isTopicLoading.value
+          ? Container(
+              child: Center(
+                child: SizedBox(
+                  width: Get.width * 0.05,
+                  height: Get.width * 0.05,
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            )
+          : Container(
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                /*borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(16),
                         topRight: Radius.circular(16),
                       )*/
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(
-                          height: 16,
-                        ),
-                        _subjectController.arrOfTopic.length == 0
-                            ? Expanded(
-                                child: Container(
-                                  child: Center(
-                                    child: Text("No topics founds."),
-                                  ),
-                                ),
-                              )
-                            : Expanded(
-                                child: MediaQuery.removePadding(
-                                  context: context,
-                                  removeTop: true,
-                                  child: Obx(() => ListView.separated(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount: _subjectController
-                                            .arrOfTopic.length,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            decoration: BoxDecoration(
+              ),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    height: 16,
+                  ),
+                  _subjectController.arrOfTopic.length == 0
+                      ? Expanded(
+                          child: Container(
+                            height: Get.height -
+                                (AppBar().preferredSize.height +
+                                    MediaQuery.of(context).padding.top),
+                            child: Center(
+                              child: Text("No topics founds."),
+                            ),
+                          ),
+                        )
+                      : Expanded(
+                          child: MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            child: Obx(() => ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      _subjectController.arrOfTopic.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                          boxShadow: [
+                                            BoxShadow(
                                                 color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(24),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.white,
-                                                      spreadRadius: 1,
-                                                      blurRadius: 4)
-                                                ],
-                                                image: DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/images/ic_bg.png"),
-                                                    fit: BoxFit.fill)),
-                                            child: Material(
-                                              color: Colors.transparent,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                              child: InkWell(
-                                                splashColor: Colors.white,
-                                                onTap: () {
-                                                  _subjectController
-                                                      .activeTopicPosition
-                                                      .value = index;
-                                                  Get.to(PlayVideo());
-                                                },
-                                                borderRadius:
-                                                    BorderRadius.circular(24),
-                                                child: Column(
+                                                spreadRadius: 1,
+                                                blurRadius: 4)
+                                          ],
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  "assets/images/ic_bg.png"),
+                                              fit: BoxFit.fill)),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(24),
+                                        child: InkWell(
+                                          splashColor: Colors.white,
+                                          onTap: () {
+                                            _subjectController
+                                                .activeTopicPosition
+                                                .value = index;
+                                            Get.to(PlayVideo());
+                                          },
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    left: 16,
+                                                    right: 16,
+                                                    top: 16,
+                                                    bottom: 16),
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 16,
-                                                          right: 16,
-                                                          top: 16,
-                                                          bottom: 16),
+                                                    Expanded(
                                                       child: Row(
                                                         crossAxisAlignment:
                                                             CrossAxisAlignment
-                                                                .center,
+                                                                .start,
                                                         children: [
-                                                          Expanded(
-                                                            child: Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                /* Text(
+                                                          /* Text(
                                                       _subjectController
                                                               .arrOfTopic[index]
                                                               .id
@@ -321,399 +190,287 @@ class _StateTopicListing extends State<TopicListing> {
                                                               FontWeight.w600,
                                                           fontSize: 16),
                                                     ),*/
-                                                                SizedBox(
-                                                                  width: 16,
-                                                                ),
-                                                                Expanded(
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      RichText(
-                                                                        maxLines:
-                                                                            1,
-                                                                        overflow:
-                                                                            TextOverflow.ellipsis,
-                                                                        text: TextSpan(
-                                                                            text: (index + 1).toString() +
-                                                                                ". " +
-                                                                                _subjectController.arrOfTopic[index].name,
-                                                                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600, fontFamily: "Poppins", fontSize: 16)),
-                                                                      ),
-                                                                      SizedBox(
-                                                                        height:
-                                                                            4,
-                                                                      ),
-                                                                      Text(
-                                                                        _subjectController.arrOfTopic[index].minutes +
-                                                                            " Mins",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.black45,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            fontSize: 12),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
+                                                          SizedBox(
+                                                            width: 16,
                                                           ),
-                                                          // Spacer(),
-                                                          Material(
-                                                            color: Colors
-                                                                .transparent,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                setState(() {
-                                                                  if (_subjectController
-                                                                          .arrOfTopic[
-                                                                              index]
-                                                                          .isFavorite ==
-                                                                      0) {
-                                                                    _subjectController.setFavorite(_subjectController
-                                                                        .arrOfTopic[
-                                                                            index]
-                                                                        .id
-                                                                        .toString());
-
-                                                                    _subjectController
-                                                                        .arrOfTopic[
-                                                                            index]
-                                                                        .isFavorite = 1;
-                                                                  } else {
-                                                                    _subjectController.removeFavorite(_subjectController
-                                                                        .arrOfTopic[
-                                                                            index]
-                                                                        .isFavorite
-                                                                        .toString());
-                                                                    _subjectController
-                                                                        .arrOfTopic[
-                                                                            index]
-                                                                        .isFavorite = 0;
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: Container(
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            10),
-                                                                decoration:
-                                                                    BoxDecoration(),
-                                                                child: Icon(
-                                                                  _subjectController
+                                                          Expanded(
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                RichText(
+                                                                  maxLines: 1,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  text: TextSpan(
+                                                                      text: (index + 1)
+                                                                              .toString() +
+                                                                          ". " +
+                                                                          _subjectController
                                                                               .arrOfTopic[
                                                                                   index]
-                                                                              .isFavorite ==
-                                                                          0
-                                                                      ? Icons
-                                                                          .bookmark_border
-                                                                      : Icons
-                                                                          .bookmark_outlined,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  size: 32,
+                                                                              .name,
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          fontFamily:
+                                                                              "Poppins",
+                                                                          fontSize:
+                                                                              16)),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 8,
-                                                          ),
-                                                          Material(
-                                                            color: Colors.white,
-                                                            type: MaterialType
-                                                                .circle,
-                                                            child: InkWell(
-                                                              splashColor:
-                                                                  Colors.grey,
-                                                              onTap: () {
-                                                                _subjectController
-                                                                    .activeTopicPosition
-                                                                    .value = index;
-                                                                Get.to(
-                                                                    PlayVideo());
-                                                              },
-                                                              child:
-                                                                  CircularPercentIndicator(
-                                                                radius: 30.0,
-                                                                lineWidth: 2.0,
-                                                                percent: 0.4,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                center: Icon(
-                                                                  Icons
-                                                                      .play_arrow,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  size: 20,
+                                                                /*   SizedBox(
+                                                                  height: 4,
                                                                 ),
-                                                                progressColor:
-                                                                    Colors
-                                                                        .green,
-                                                              ),
+                                                                Text(
+                                                                  _subjectController
+                                                                          .arrOfTopic[
+                                                                              index]
+                                                                          .minutes +
+                                                                      " Mins",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black45,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontSize:
+                                                                          12),
+                                                                ),*/
+                                                              ],
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 8,
-                                                          ),
+                                                          )
                                                         ],
                                                       ),
+                                                    ),
+                                                    // Spacer(),
+                                                    /*Material(
+                                                      color: Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            if (_subjectController
+                                                                    .arrOfTopic[
+                                                                        index]
+                                                                    .isFavorite ==
+                                                                0) {
+                                                              _subjectController.setFavorite(
+                                                                  _subjectController
+                                                                      .arrOfTopic[
+                                                                          index]
+                                                                      .id
+                                                                      .toString());
+
+                                                              _subjectController
+                                                                  .arrOfTopic[
+                                                                      index]
+                                                                  .isFavorite = 1;
+                                                            } else {
+                                                              _subjectController.removeFavorite(
+                                                                  _subjectController
+                                                                      .arrOfTopic[
+                                                                          index]
+                                                                      .isFavorite
+                                                                      .toString());
+                                                              _subjectController
+                                                                  .arrOfTopic[
+                                                                      index]
+                                                                  .isFavorite = 0;
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  10),
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Icon(
+                                                            _subjectController
+                                                                        .arrOfTopic[
+                                                                            index]
+                                                                        .isFavorite ==
+                                                                    0
+                                                                ? Icons
+                                                                    .bookmark_border
+                                                                : Icons
+                                                                    .bookmark_outlined,
+                                                            color: Colors.green,
+                                                            size: 32,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 8,
+                                                    ),*/
+                                                    Material(
+                                                      color: Colors.white,
+                                                      type: MaterialType.circle,
+                                                      child: InkWell(
+                                                        splashColor:
+                                                            Colors.grey,
+                                                        onTap: () {
+                                                          _subjectController
+                                                              .activeTopicPosition
+                                                              .value = index;
+                                                          Get.to(PlayVideo());
+                                                        },
+                                                        child:
+                                                            CircularPercentIndicator(
+                                                          radius: 30.0,
+                                                          lineWidth: 2.0,
+                                                          percent: 1.0,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          center: Icon(
+                                                            Icons.play_arrow,
+                                                            color: Colors.green,
+                                                            size: 20,
+                                                          ),
+                                                          progressColor:
+                                                              Colors.green,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 8,
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                            height: 16,
-                                          );
-                                        },
-                                      )),
-                                ),
-                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      height: 16,
+                                    );
+                                  },
+                                )),
+                          ),
+                        ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
+            )),
+      bottomNavigationBar: Obx(() => _subjectController.arrOfTopic.length > 0
+          ? Container(
+              height: Get.height * 0.06,
+              decoration: BoxDecoration(
+                  color: Colors.green, borderRadius: BorderRadius.circular(8)),
+              margin: EdgeInsets.symmetric(
+                  horizontal: 16, vertical: Platform.isAndroid ? 0 : 24),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Center(
+                            child: Text(
+                          "Practice".toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        )),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            splashColor: Colors.grey[50],
+                            onTap: () {
+                              Get.to(TypeOfQuestionBank());
+                            },
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  bottomNavigationBar: _subjectController.arrOfTopic.length > 0
-                      ? Container(
-                          height: Get.height * 0.06,
-                          decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(8)),
-                          margin: EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: Platform.isAndroid ? 0 : 24),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Center(
-                                        child: Text(
-                                      "Practice".toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        splashColor: Colors.grey[50],
-                                        onTap: () {
-                                          Get.to(TypeOfQuestionBank());
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                height: Get.height * 0.06,
-                                color: Colors.white,
-                              ),
-                              Expanded(
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    Center(
-                                        child: Text(
-                                      "Test".toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        splashColor: Colors.grey[50],
-                                        onTap: () {
-                                          Get.to(TestPage(_subjectController
-                                              .selectedChapter.value.name));
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                height: Get.height * 0.06,
-                                color: Colors.white,
-                              ),
-                              _subjectController.selectedChapter.value.note !=
-                                      null
-                                  ? Expanded(
-                                      child: Stack(
-                                        fit: StackFit.expand,
-                                        children: [
-                                          Center(
-                                              child: Text(
-                                            "Notes".toUpperCase(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                          )),
-                                          Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              splashColor: Colors.grey[50],
-                                              onTap: () {
-                                                Get.to(NotesView(
-                                                    _subjectController
-                                                        .selectedChapter
-                                                        .value
-                                                        .note
-                                                        .file
-                                                        .toString()));
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  : Container()
-                            ],
+                  Container(
+                    width: 1,
+                    height: Get.height * 0.06,
+                    color: Colors.white,
+                  ),
+                  Expanded(
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Center(
+                            child: Text(
+                          "Test".toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
+                        )),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            splashColor: Colors.grey[50],
+                            onTap: () {
+                              Get.to(TestPage(_subjectController
+                                  .selectedChapter.value.name));
+                            },
                           ),
                         )
-                      : Container(
-                          height: 1,
-                        ),
-                  /*Row(
-                    children: [
-
-
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(8)),
-                          height: Get.height*0.06,
-                          width: Get.width,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    height: Get.height * 0.06,
+                    color: Colors.white,
+                  ),
+                  _subjectController.selectedChapter.value.note != null
+                      ? Expanded(
+                          child: Stack(
+                            fit: StackFit.expand,
                             children: [
-                              Expanded(
-                                child: Material(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8),
-                                  ),
-                                  color: Colors.green,
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(24)),
-                                    onTap: () {
-                                      Get.to(TypeOfQuestionBank());
-                                    },
-                                    child: Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          child: Text("Practice".toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18)),
-                                          padding: EdgeInsets.only(
-                                              left: 16,
-                                              right: 16,
-                                              top: 4,
-                                              bottom: 4),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 1,
-                                color: Colors.white,
-                              ),
-                              Expanded(
-                                child: Material(
-                                  color: Colors.green,
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(8),
-                                    bottomRight: Radius.circular(8),
-                                  ),
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(24)),
-                                    onTap: () {
-                                      Get.to(TestPage(_subjectController
-                                          .selectedChapter.value.name));
-                                    },
-                                    child: Expanded(
-                                      child: Center(
-                                        child: Container(
-                                          child: Text("Test".toUpperCase(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18)),
-                                          padding: EdgeInsets.only(
-                                              left: 16,
-                                              right: 16,
-                                              top: 4,
-                                              bottom: 4),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                              Center(
+                                  child: Text(
+                                "Notes".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                              )),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  splashColor: Colors.grey[50],
+                                  onTap: () {
+                                    Get.to(NotesView(_subjectController
+                                        .selectedChapter.value.note.file
+                                        .toString()));
+                                  },
                                 ),
                               )
                             ],
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                    ],
-                  ),*/
-                ))));
-  }
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate(this._widget);
-
-  final Widget _widget;
-
-  @override
-  double get minExtent => AppBar().preferredSize.height;
-
-  @override
-  double get maxExtent => AppBar().preferredSize.height;
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new Container(
-      child: _widget,
+                        )
+                      : Container()
+                ],
+              ),
+            )
+          : Container(
+              height: 1,
+            )),
     );
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
   }
 }

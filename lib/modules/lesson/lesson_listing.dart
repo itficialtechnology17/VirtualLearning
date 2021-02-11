@@ -38,21 +38,27 @@ class _StateLessonListing extends State<LessonListing> {
                     image: AssetImage("assets/images/ic_bg.png"),
                     fit: BoxFit.fill))),
         Scaffold(
-          backgroundColor: Colors.white.withOpacity(0.75),
+          backgroundColor: Colors.grey[100],
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            brightness: Brightness.light,
-            centerTitle: true,
+            brightness: Brightness.dark,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                Color(0xff0A0A78),
+                Color(0xff14C269),
+              ])),
+            ),
             title: Text(
               _subjectController.selectedSubject.value.name,
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
             ),
             leading: Container(
               child: Center(
                 child: Material(
-                  color: Color(0xffD0E6EE),
+                  color: Colors.transparent,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(4),
                     bottomRight: Radius.circular(4),
@@ -74,7 +80,7 @@ class _StateLessonListing extends State<LessonListing> {
                         padding: EdgeInsets.all(6),
                         child: Icon(
                           Icons.arrow_back,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -93,6 +99,7 @@ class _StateLessonListing extends State<LessonListing> {
                       ),
                     )
                   : Container(
+                      margin: EdgeInsets.only(top: 16),
                       child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: _subjectController.arrOfChapter.length,
@@ -101,13 +108,14 @@ class _StateLessonListing extends State<LessonListing> {
                             margin: EdgeInsets.symmetric(horizontal: 16),
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(24),
-                                /*boxShadow: [
-                              BoxShadow(
-                                  color: Colors.white,
-                                  spreadRadius: 1,
-                                  blurRadius: 4)
-                            ],*/
+                                borderRadius: BorderRadius.circular(8),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 1,
+                                      offset: Offset(1, 1),
+                                      blurRadius: 2)
+                                ],
                                 image: DecorationImage(
                                     image:
                                         AssetImage("assets/images/ic_bg.png"),
@@ -186,7 +194,7 @@ class _StateLessonListing extends State<LessonListing> {
                                                   height: 4,
                                                 ),
                                                 Text(
-                                                  "No. Of Topics: " +
+                                                  "Topics: " +
                                                       _subjectController
                                                           .arrOfChapter[index]
                                                           .topic

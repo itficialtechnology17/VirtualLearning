@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final modelSubject = modelSubjectFromJson(jsonString);
+
 import 'dart:convert';
 
 List<ModelSubject> modelSubjectFromJson(String str) => List<ModelSubject>.from(
@@ -17,17 +21,21 @@ class ModelSubject {
     this.displayName,
     this.icon,
     this.status,
+    this.color1,
+    this.color2,
   });
 
   int id;
   String subjectId;
   String standardId;
-  String description;
+  dynamic description;
   DateTime createdOn;
   String name;
   String displayName;
   String icon;
   int status;
+  String color1;
+  String color2;
   bool isSelected = false;
 
   factory ModelSubject.fromJson(Map<String, dynamic> json) => ModelSubject(
@@ -40,6 +48,8 @@ class ModelSubject {
         displayName: json["display_name"],
         icon: json["icon"],
         status: json["status"],
+        color1: json["color_1"],
+        color2: json["color_2"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,5 +62,7 @@ class ModelSubject {
         "display_name": displayName,
         "icon": icon,
         "status": status,
+        "color_1": color1,
+        "color_2": color2,
       };
 }
