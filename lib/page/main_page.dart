@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
@@ -32,7 +33,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   DashboardController _dashboardController = Get.put(DashboardController());
   SubscriptionController _subscriptionController =
       Get.put(SubscriptionController());
-  // LoginController _loginController = Get.find();
+  LoginController _loginController = Get.find();
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -107,6 +108,14 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
+                      flexibleSpace: Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                          Color(0xffFFAB4B),
+                          Color(0xffFD5CA0),
+                        ])),
+                      ),
                     ),
                     body: Container(
                       padding: EdgeInsets.only(left: 16, right: 16),
@@ -117,8 +126,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                             height: MediaQuery.of(context).size.height * 0.07,
                           ),
                           Text(
-                            // "Hey " + _loginController.modelUser.value.firstName,
-                            "Hey Student",
+                            "Hey " + _loginController.modelUser.value.firstName,
+                            // "Hey Student",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
@@ -255,183 +264,148 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                           SizedBox(
                             height: 20,
                           ),
-                          Text(
-                            "Here you left",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Material(
-                            color: Color(0xffF5FAF5),
-                            borderRadius: BorderRadius.circular(8),
-                            child: InkWell(
-                              splashColor: Colors.grey,
-                              borderRadius: BorderRadius.circular(8),
-                              onTap: () {
-                                /* Navigator.push(
+                          _dashboardController.arrOfWatchHistory.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Here you left",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    ListView.separated(
+                                      shrinkWrap: true,
+                                      itemCount: _dashboardController
+                                                  .arrOfWatchHistory.length >
+                                              2
+                                          ? 2
+                                          : _dashboardController
+                                              .arrOfWatchHistory.length,
+                                      itemBuilder: (context, index) {
+                                        return Material(
+                                          color: Color(0xffF5FAF5),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: InkWell(
+                                            splashColor: Colors.grey,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            onTap: () {
+                                              /* Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => PlayVideo()));*/
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.10,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8)),
-                                padding: EdgeInsets.all(8),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        "https://image.freepik.com/free-vector/geography-tool-diploma_24911-9910.jpg",
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.07,
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                0.07,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                                text:
-                                                    "Basic What is Virtual E ?",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 14)),
-                                            maxLines: 1,
+                                            },
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.10,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              padding: EdgeInsets.all(8),
+                                              child: Row(
+                                                children: [
+                                                  /* ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                    child: Image.network(
+                                                      "https://image.freepik.com/free-vector/geography-tool-diploma_24911-9910.jpg",
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.07,
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.07,
+                                                    ),
+                                                  ),*/
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        RichText(
+                                                          text: TextSpan(
+                                                              text: _dashboardController
+                                                                  .arrOfWatchHistory[
+                                                                      index]
+                                                                  .name,
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontFamily:
+                                                                      "Poppins",
+                                                                  fontSize:
+                                                                      14)),
+                                                          maxLines: 1,
+                                                        ),
+                                                        Text(
+                                                          "Continue Learning",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontSize: 12),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  CircularPercentIndicator(
+                                                    radius: 30.0,
+                                                    lineWidth: 2.5,
+                                                    percent: 1.0,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    center: Icon(
+                                                      Icons.play_arrow,
+                                                      color: Colors.green[300],
+                                                    ),
+                                                    progressColor:
+                                                        Colors.green[300],
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          Text(
-                                            "2 hours, 40 Min",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    CircularPercentIndicator(
-                                      radius: 40.0,
-                                      lineWidth: 3.0,
-                                      percent: 0.7,
-                                      backgroundColor: Colors.white,
-                                      center: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.green[300],
-                                      ),
-                                      progressColor: Colors.green[300],
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          height: 16,
+                                        );
+                                      },
+                                    )
                                   ],
+                                )
+                              : Container(
+                                  height: 1,
                                 ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Material(
-                            color: Color(0xffFEF6F4),
-                            borderRadius: BorderRadius.circular(8),
-                            child: InkWell(
-                              splashColor: Colors.grey,
-                              borderRadius: BorderRadius.circular(8),
-                              onTap: () {
-                                /*Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PlayVideo()));*/
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.10,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8)),
-                                padding: EdgeInsets.all(8),
-                                child: Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        "https://image.freepik.com/free-vector/colorful-illustration-about-geography-modern-flat-style_1040-3200.jpg",
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.07,
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                0.07,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 16,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                                text:
-                                                    "Basic What is Virtual E ?",
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontFamily: "Poppins",
-                                                    fontSize: 14)),
-                                            maxLines: 1,
-                                          ),
-                                          Text(
-                                            "2 hours, 40 Min",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    CircularPercentIndicator(
-                                      radius: 40.0,
-                                      lineWidth: 3.0,
-                                      percent: 0.7,
-                                      backgroundColor: Colors.white,
-                                      center: Icon(
-                                        Icons.play_arrow,
-                                        color: Colors.green[300],
-                                      ),
-                                      progressColor: Colors.green[300],
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
                           SizedBox(
                             height: 20,
                           ),

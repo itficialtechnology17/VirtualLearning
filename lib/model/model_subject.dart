@@ -28,6 +28,7 @@ class ModelSubject {
   String displayName;
   String icon;
   int status;
+  bool isSelected = false;
 
   factory ModelSubject.fromJson(Map<String, dynamic> json) => ModelSubject(
         id: json["id"],

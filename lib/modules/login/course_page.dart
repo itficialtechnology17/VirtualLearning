@@ -50,11 +50,14 @@ class _StateCoursePage extends State<CoursePage> {
                     onTap: () {
                       Get.back();
                     },
-                    child: SvgPicture.asset(
-                      'assets/svg/ic_back.svg',
-                      height: MediaQuery.of(context).size.width * 0.05,
-                      width: MediaQuery.of(context).size.width * 0.05,
-                      fit: BoxFit.cover,
+                    child: Padding(
+                      padding: EdgeInsets.all(4),
+                      child: SvgPicture.asset(
+                        'assets/svg/ic_back.svg',
+                        height: MediaQuery.of(context).size.width * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.05,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Padding(
@@ -105,8 +108,6 @@ class _StateCoursePage extends State<CoursePage> {
                       children: List.generate(
                           _loginController.arrOfCourse.length, (index) {
                         return Container(
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                           child: Stack(
                             fit: StackFit.expand,
                             children: [
@@ -160,7 +161,7 @@ class _StateCoursePage extends State<CoursePage> {
                                                             .arrOfCourse[index]
                                                             .displayName,
                                                         style: TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: 10,
                                                           color: Color(
                                                               selectedPosition ==
                                                                       1
@@ -175,7 +176,7 @@ class _StateCoursePage extends State<CoursePage> {
                                               ],
                                             ),
                                             Text(
-                                              '\u1d57\u02b0',
+                                              'th',
                                               style: TextStyle(
                                                 fontSize: 25,
                                                 color: Color(

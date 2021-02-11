@@ -1,10 +1,9 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
-import 'package:virtual_learning/modules/login/verfication_page.dart';
+import 'package:virtual_learning/modules/login/verification_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -17,7 +16,15 @@ class _StateLoginPage extends State<LoginPage> {
   var selectedPosition = 0;
   var isContactNoAdded = false;
 
-  LoginController _loginController = Get.put(LoginController());
+  LoginController _loginController;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 1), () {
+      _loginController = Get.put(LoginController());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +40,6 @@ class _StateLoginPage extends State<LoginPage> {
               children: [
                 SizedBox(
                   height: MediaQuery.of(context).padding.top,
-                ),
-                SvgPicture.asset(
-                  'assets/svg/ic_back.svg',
-                  height: MediaQuery.of(context).size.width * 0.05,
-                  width: MediaQuery.of(context).size.width * 0.05,
-                  fit: BoxFit.cover,
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 32, left: 14),
@@ -206,8 +207,8 @@ class _StateLoginPage extends State<LoginPage> {
                                   onTap: () {
                                     if (isContactNoAdded) {
                                       _loginController.getOTP();
-                                      // Get.to(VerificationPage());
-                                      Get.off(VerificationPage());
+                                      Get.to(VerificationPage());
+                                      // Get.off(VerificationPage());
                                     } else {
                                       Flushbar(
                                         messageText: Text(

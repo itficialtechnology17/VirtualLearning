@@ -44,6 +44,7 @@ class LoginController extends GetxController {
       if (responseData['status_code'] == 1) {
         modelUser.value = ModelUser.fromJson(responseData['data']);
         receivedOTP = responseData['otp'].toString();
+        print(receivedOTP);
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
       }
@@ -125,7 +126,7 @@ class LoginController extends GetxController {
   }
 
   void checkOTP(enterOTP) async {
-    if (enterOTP == receivedOTP) {
+    if (enterOTP == modelUser.value.otp.toString()) {
       if (modelUser.value.firstName == null ||
           modelUser.value.firstName == "") {
         isLogin = true;

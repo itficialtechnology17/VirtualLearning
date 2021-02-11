@@ -15,3 +15,6 @@ String urlSetFavorite = "api/set-favourite";
 String urlRemoveFavorite = "api/remove-favourite";
 String urlGetSubscription = "api/subscription";
 String urlSetWatchHistory = "api/set-watch-history";
+String urlGenerateToken = "api/generate-token";
+String urlGetPrice = "api/pricing";
+String urlPaymentDetails = "api/payment-details";

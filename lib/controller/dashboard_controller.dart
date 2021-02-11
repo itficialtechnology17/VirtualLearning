@@ -6,6 +6,7 @@ import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/model/model_user.dart';
+import 'package:virtual_learning/model/model_watch_history.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
@@ -14,7 +15,7 @@ import 'package:virtual_learning/utils/url.dart';
 class DashboardController extends GetxController {
   var isDashboardLoading = false.obs;
   SubjectController _subjectController = Get.put(SubjectController());
-
+  var arrOfWatchHistory = List<ModelWatchHistory>().obs;
   LoginController _loginController = Get.put(LoginController());
 
   @override
@@ -40,6 +41,10 @@ class DashboardController extends GetxController {
             (responseData['subject'] as List)
                 .map((data) => ModelSubject.fromJson(data))
                 .toList());
+
+        arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
+            .map((data) => ModelWatchHistory.fromJson(data))
+            .toList());
 
         _loginController.modelUser.value =
             ModelUser.fromJson(responseData['student']);

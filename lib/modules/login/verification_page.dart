@@ -22,7 +22,7 @@ class _StateVerificationPage extends State<VerificationPage> {
   String code1 = "", code2 = "", code3 = "", code4 = "";
   var focusNode1, focusNode2, focusNode3;
 
-  LoginController _loginController = Get.put(LoginController());
+  LoginController _loginController = Get.find();
 
   @override
   void initState() {
@@ -51,11 +51,14 @@ class _StateVerificationPage extends State<VerificationPage> {
                   onTap: () {
                     Get.back();
                   },
-                  child: SvgPicture.asset(
-                    'assets/svg/ic_back.svg',
-                    height: MediaQuery.of(context).size.width * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.05,
-                    fit: BoxFit.cover,
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: SvgPicture.asset(
+                      'assets/svg/ic_back.svg',
+                      height: MediaQuery.of(context).size.width * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.05,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Padding(

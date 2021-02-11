@@ -38,3 +38,9 @@ void showSnackBarWithAction(String title, String message, Color color) {
       animationDuration: Duration(milliseconds: 500),
       borderRadius: 0);
 }
+
+bool checkEmailId(email) {
+  return RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(email);
+}

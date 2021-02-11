@@ -6,7 +6,7 @@ import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/modules/menu/bookmarks.dart';
 import 'package:virtual_learning/modules/menu/notification_page.dart';
 import 'package:virtual_learning/modules/menu/parent_connect.dart';
-import 'package:virtual_learning/modules/menu/subscription.dart';
+import 'package:virtual_learning/modules/subscription/subscription.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
 
@@ -150,7 +150,6 @@ class CustomDrawer extends StatelessWidget {
         new FlatButton(
           onPressed: () async {
             Navigator.of(context, rootNavigator: true).pop('dialog');
-
             await addBoolToSF(KEY_IS_LOGIN, false);
             Get.offAll(LoginPage());
           },
