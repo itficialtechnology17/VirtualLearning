@@ -14,6 +14,7 @@ import 'package:virtual_learning/utils/url.dart';
 
 class PaymentController extends GetxController {
   LoginController _loginController = Get.find();
+  String planId = "";
 
   final Cashfree _cashfree = Cashfree();
   SubscriptionController _subscriptionController = Get.find();
@@ -30,6 +31,7 @@ class PaymentController extends GetxController {
   void checkCredentials(
       String amount, String subscriptionId, String subjectIds, int i) {
     var message = "";
+    planId = subscriptionId;
     index = i;
 
     if (_loginController.modelUser.value.mobileNumber != null &&
@@ -190,5 +192,39 @@ class PaymentController extends GetxController {
 
   void _handleCashfreeError(CashfreeError cashfreeError) async {
     _subscriptionController.arrOfSubscription[index].isLoading = false;
+  }
+
+  void submitSubscribe(
+      type, referenceId, orderId, signature, orderAmount, paymentMode) async {
+    _subscriptionController.arrOfSubscription[index].isLoading = true;
+
+    Request request = Request(url: urlSubscribe, body: {
+      'student_id': studentId,
+      'type': type,
+      'referenceId': referenceId,
+      'orderId': orderId,
+      'status': "Success",
+      'message': "Payment Successful",
+      'signature': signature,
+      'orderAmount': orderAmount,
+      'paymentMode': paymentMode,
+    });
+
+    request.post().then((value) {
+      _subscriptionController.arrOfSubscription[index].isLoading = false;
+      if (value.statusCode == 200) {
+        var responseData = jsonDecode(value.body);
+        if (responseData['status_code'] == 1) {
+          showSnackBar("Success", responseData['message'], Colors.green);
+        } else {
+          showSnackBar("Opps!", responseData['message'], Colors.red);
+        }
+      } else {
+        showSnackBar("Error", "Opps! Something wrong.", Colors.red);
+      }
+    }).catchError((onError) {
+      _subscriptionController.arrOfSubscription[index].isLoading = false;
+      print(onError);
+    });
   }
 }

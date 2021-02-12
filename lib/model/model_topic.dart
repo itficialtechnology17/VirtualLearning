@@ -1,4 +1,10 @@
+// To parse this JSON data, do
+//
+//     final modelTopic = modelTopicFromJson(jsonString);
+
 import 'dart:convert';
+
+import 'package:virtual_learning/model/model_question.dart';
 
 List<ModelTopic> modelTopicFromJson(String str) =>
     List<ModelTopic>.from(json.decode(str).map((x) => ModelTopic.fromJson(x)));
@@ -12,6 +18,8 @@ class ModelTopic {
     this.name,
     this.minutes,
     this.icon,
+    this.standardId,
+    this.subjectId,
     this.chapterId,
     this.status,
     this.createdOn,
@@ -23,6 +31,8 @@ class ModelTopic {
   String name;
   String minutes;
   String icon;
+  int standardId;
+  int subjectId;
   String chapterId;
   int status;
   DateTime createdOn;
@@ -32,24 +42,29 @@ class ModelTopic {
   factory ModelTopic.fromJson(Map<String, dynamic> json) => ModelTopic(
         id: json["id"],
         name: json["name"],
-        minutes: json["minutes"],
+        minutes: json["minutes"] == null ? null : json["minutes"],
         icon: json["icon"],
+        standardId: json["standard_id"] == null ? null : json["standard_id"],
+        subjectId: json["subject_id"] == null ? null : json["subject_id"],
         chapterId: json["chapter_id"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
-        content: Content.fromJson(json["content"]),
+        content:
+            json["content"] == null ? null : Content.fromJson(json["content"]),
         isFavorite: json["is_favorite"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "minutes": minutes,
+        "minutes": minutes == null ? null : minutes,
         "icon": icon,
+        "standard_id": standardId == null ? null : standardId,
+        "subject_id": subjectId == null ? null : subjectId,
         "chapter_id": chapterId,
         "status": status,
         "created_on": createdOn.toIso8601String(),
-        "content": content.toJson(),
+        "content": content == null ? null : content.toJson(),
         "is_favorite": isFavorite,
       };
 }
@@ -68,6 +83,7 @@ class Content {
     this.vendorId,
     this.status,
     this.createdOn,
+    this.question,
   });
 
   int id;
@@ -82,6 +98,7 @@ class Content {
   dynamic vendorId;
   int status;
   DateTime createdOn;
+  List<ModelQuestion> question;
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
         id: json["id"],
@@ -96,6 +113,8 @@ class Content {
         vendorId: json["vendor_id"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
+        question: List<ModelQuestion>.from(
+            json["question"].map((x) => ModelQuestion.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -111,5 +130,6 @@ class Content {
         "vendor_id": vendorId,
         "status": status,
         "created_on": createdOn.toIso8601String(),
+        "question": List<dynamic>.from(question.map((x) => x.toJson())),
       };
 }

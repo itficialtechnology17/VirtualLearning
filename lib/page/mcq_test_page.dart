@@ -276,7 +276,7 @@ class _StateMCQTes extends State<MCQTest> {
                                               setState(() {
                                                 _testController
                                                     .arrOfQuestion[index]
-                                                    .givenAns = 1;
+                                                    .givenAnswer = 1;
                                                 _testController
                                                         .arrOfQuestion[index]
                                                         .givenAnswer =
@@ -318,7 +318,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                       color: _testController
                                                                   .arrOfQuestion[
                                                                       index]
-                                                                  .givenAns ==
+                                                                  .givenAnswer ==
                                                               1
                                                           ? Colors.green[200]
                                                           : Colors.grey[200],
@@ -332,7 +332,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                           color: _testController
                                                                       .arrOfQuestion[
                                                                           index]
-                                                                      .givenAns ==
+                                                                      .givenAnswer ==
                                                                   1
                                                               ? Colors.white
                                                               : Colors.black),
@@ -377,7 +377,7 @@ class _StateMCQTes extends State<MCQTest> {
                                               setState(() {
                                                 _testController
                                                     .arrOfQuestion[index]
-                                                    .givenAns = 2;
+                                                    .givenAnswer = 2;
                                                 _testController
                                                         .arrOfQuestion[index]
                                                         .givenAnswer =
@@ -419,7 +419,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                       color: _testController
                                                                   .arrOfQuestion[
                                                                       index]
-                                                                  .givenAns ==
+                                                                  .givenAnswer ==
                                                               2
                                                           ? Colors.green[200]
                                                           : Colors.grey[200],
@@ -433,7 +433,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                           color: _testController
                                                                       .arrOfQuestion[
                                                                           index]
-                                                                      .givenAns ==
+                                                                      .givenAnswer ==
                                                                   2
                                                               ? Colors.white
                                                               : Colors.black),
@@ -478,7 +478,7 @@ class _StateMCQTes extends State<MCQTest> {
                                               setState(() {
                                                 _testController
                                                     .arrOfQuestion[index]
-                                                    .givenAns = 3;
+                                                    .givenAnswer = 3;
                                                 _testController
                                                         .arrOfQuestion[index]
                                                         .givenAnswer =
@@ -520,7 +520,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                       color: _testController
                                                                   .arrOfQuestion[
                                                                       index]
-                                                                  .givenAns ==
+                                                                  .givenAnswer ==
                                                               3
                                                           ? Colors.green[200]
                                                           : Colors.grey[200],
@@ -534,7 +534,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                           color: _testController
                                                                       .arrOfQuestion[
                                                                           index]
-                                                                      .givenAns ==
+                                                                      .givenAnswer ==
                                                                   3
                                                               ? Colors.white
                                                               : Colors.black),
@@ -579,7 +579,7 @@ class _StateMCQTes extends State<MCQTest> {
                                               setState(() {
                                                 _testController
                                                     .arrOfQuestion[index]
-                                                    .givenAns = 4;
+                                                    .givenAnswer = 4;
                                                 _testController
                                                         .arrOfQuestion[index]
                                                         .givenAnswer =
@@ -621,7 +621,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                       color: _testController
                                                                   .arrOfQuestion[
                                                                       index]
-                                                                  .givenAns ==
+                                                                  .givenAnswer ==
                                                               4
                                                           ? Colors.green[200]
                                                           : Colors.grey[200],
@@ -635,7 +635,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                           color: _testController
                                                                       .arrOfQuestion[
                                                                           index]
-                                                                      .givenAns ==
+                                                                      .givenAnswer ==
                                                                   4
                                                               ? Colors.white
                                                               : Colors.black),

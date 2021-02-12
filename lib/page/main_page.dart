@@ -8,14 +8,14 @@ import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
+import 'package:virtual_learning/modules/menu/custom_drawer.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_page.dart';
+import 'package:virtual_learning/page/ask_doubt.dart';
 import 'package:virtual_learning/utils/SABT.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
 import 'package:virtual_learning/widgets/shimmer_page.dart';
-
-import 'ask_doubt.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -57,6 +57,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
         SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
     return Scaffold(
+        // key: _scaffoldKey,
         body: Obx(() => _dashboardController.isDashboardLoading.value
             ? ShimmerPage()
             : Stack(
@@ -70,6 +71,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                               image: AssetImage("assets/images/ic_bg.png"),
                               fit: BoxFit.fill))),
                   Scaffold(
+                    key: _scaffoldKey,
                     backgroundColor: Colors.transparent,
                     body: NestedScrollView(
                       headerSliverBuilder:
@@ -89,7 +91,9 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                 type: MaterialType.circle,
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    _scaffoldKey.currentState.openDrawer();
+                                  },
                                   child: Image.asset(
                                     'assets/icons/ic_menu.png',
                                   ),
@@ -222,16 +226,18 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                     bottomLeft: Radius.circular(16),
                                     bottomRight: Radius.circular(16),
                                   ),
-                                  gradient: LinearGradient(colors: [
-                                    Color(0xff0A0A78),
-                                    Color(0xff14C269),
-                                  ])),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomLeft,
+                                      end: Alignment.topRight,
+                                      colors: [
+                                        Color(0xff14C269),
+                                        Color(0xff0A0A78),
+                                      ])),
                             ),
                           ),
                         ];
                       },
                       body: Container(
-                        padding: EdgeInsets.only(right: 16),
                         child: ListView(
                           shrinkWrap: true,
                           children: [
@@ -537,179 +543,160 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                     child: Row(
                                       children: [
                                         Expanded(
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            child: InkWell(
-                                              splashColor: Color(0xffD8EBF2),
-                                              onTap: () {
-                                                Get.to(
-                                                    TestPage("Chapter Name"));
-                                              },
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.20,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
                                                 decoration: BoxDecoration(
+                                                  color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.16,
-                                                      margin: EdgeInsets.only(
-                                                          top: 25),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          color: Color(
-                                                              0xffD8EBF2)),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                      child: Image.asset(
-                                                        "assets/images/ic_exam_01.png",
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.25,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.30,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment: Alignment
-                                                          .bottomCenter,
-                                                      child: Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                bottom: 16),
-                                                        child: Text(
-                                                          "Test",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontSize: 14),
-                                                        ),
-                                                      ),
-                                                    ),
+                                                      BorderRadius.circular(16),
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/icons/ic_test_banner.png")),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black
+                                                            .withOpacity(0.05),
+                                                        // color: Color(0xff0A0A78).withOpacity(0.2),
+                                                        spreadRadius: 1,
+                                                        offset: Offset(0, 3),
+                                                        blurRadius: 15)
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.16),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16)),
+                                                child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 8),
+                                                      child: Text(
+                                                        "Test".toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16),
+                                                      ),
+                                                    )),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16)),
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                  child: InkWell(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                    onTap: () {
+                                                      Get.to(TestPage(
+                                                          "Chapter Name"));
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         SizedBox(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.05,
+                                          width: 16,
                                         ),
                                         Expanded(
-                                          child: Material(
-                                            color: Colors.transparent,
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            child: InkWell(
-                                              splashColor: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AskDoubt()));
-                                              },
-                                              child: Container(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.20,
+                                          child: Stack(
+                                            children: [
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
                                                 decoration: BoxDecoration(
+                                                  color: Colors.white,
                                                   borderRadius:
-                                                      BorderRadius.circular(8),
-                                                ),
-                                                child: Stack(
-                                                  children: [
-                                                    Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.16,
-                                                      margin: EdgeInsets.only(
-                                                          top: 25),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          color: Color(
-                                                              0xffD8EBF2)),
-                                                    ),
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.topCenter,
-                                                      child: Image.asset(
-                                                        "assets/images/ic_ask_doubt.png",
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.25,
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.35,
-                                                        isAntiAlias: true,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                        alignment: Alignment
-                                                            .bottomCenter,
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: 16),
-                                                          child: Text(
-                                                            "Ask a doubt",
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize: 14),
-                                                          ),
-                                                        )),
+                                                      BorderRadius.circular(16),
+                                                  image: DecorationImage(
+                                                      image: AssetImage(
+                                                          "assets/icons/ic_ask_doubt_banner.png")),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.black
+                                                            .withOpacity(0.05),
+                                                        // color: Color(0xff0A0A78).withOpacity(0.2),
+                                                        spreadRadius: 1,
+                                                        offset: Offset(0, 3),
+                                                        blurRadius: 15)
                                                   ],
                                                 ),
                                               ),
-                                            ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.black
+                                                        .withOpacity(0.16),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16)),
+                                                child: Align(
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 8),
+                                                      child: Text(
+                                                        "Ask Doubt"
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                            fontSize: 16),
+                                                      ),
+                                                    )),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: Get.height * 0.15,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.transparent,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16)),
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                  child: InkWell(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16),
+                                                    onTap: () {
+                                                      Get.to(AskDoubt());
+                                                    },
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
                                   ),
                                 ],
                               ),
@@ -768,6 +755,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
+                    drawer: CustomDrawer(),
                   )
                 ],
               )));

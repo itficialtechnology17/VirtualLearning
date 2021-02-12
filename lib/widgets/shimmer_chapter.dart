@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerChapter extends StatelessWidget {
@@ -24,52 +23,24 @@ class ShimmerChapter extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 20,
                   itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: 50,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(16)),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    width: Get.width * 0.70,
-                                    height: 10.0,
-                                    color: Colors.white,
-                                  ),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 6.0),
-                                  ),
-                                  Container(
-                                    width: Get.width * 0.50,
-                                    height: 10.0,
-                                    color: Colors.white,
-                                  ),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(vertical: 2.0),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: Get.height * 0.03,
-                        )
-                      ],
+                    return ListTile(
+                      title: Container(
+                        width: 100,
+                        height: 10.0,
+                        color: Colors.white,
+                      ),
+                      subtitle: Container(
+                        width: 30,
+                        height: 10.0,
+                        color: Colors.white,
+                      ),
+                      trailing: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16)),
+                      ),
                     );
                   },
                   physics: BouncingScrollPhysics(),

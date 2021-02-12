@@ -32,23 +32,29 @@ class _StateLessonListing extends State<LessonListing> {
 
     return Stack(
       children: [
-        Container(
+        /* Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/ic_bg.png"),
-                    fit: BoxFit.fill))),
+                    fit: BoxFit.fill))),*/
         Scaffold(
-          backgroundColor: Colors.grey[100],
+          // backgroundColor: Colors.grey[100],
+          // backgroundColor: Color(0xfff3f3f3),
+          backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
             brightness: Brightness.dark,
             flexibleSpace: Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                Color(0xff0A0A78),
-                Color(0xff14C269),
-              ])),
+                  gradient: LinearGradient(
+                colors: [
+                  Color(0xff14C269),
+                  Color(0xff0A0A78),
+                ],
+                begin: Alignment.bottomLeft,
+                end: Alignment.topRight,
+              )),
             ),
             title: Text(
               _subjectController.selectedSubject.value.name,
@@ -105,21 +111,23 @@ class _StateLessonListing extends State<LessonListing> {
                         itemCount: _subjectController.arrOfChapter.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16),
+                            margin: EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey,
-                                      spreadRadius: 1,
-                                      offset: Offset(1, 1),
-                                      blurRadius: 2)
-                                ],
-                                image: DecorationImage(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black.withOpacity(0.05),
+                                    // color: Color(0xff0A0A78).withOpacity(0.2),
+                                    spreadRadius: 1,
+                                    offset: Offset(0, 3),
+                                    blurRadius: 15)
+                              ],
+                              /*image: DecorationImage(
                                     image:
                                         AssetImage("assets/images/ic_bg.png"),
-                                    fit: BoxFit.fill)),
+                                    fit: BoxFit.fill)*/
+                            ),
                             child: Material(
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(24),
@@ -209,6 +217,7 @@ class _StateLessonListing extends State<LessonListing> {
                                             ),
                                           ),
                                           Material(
+                                            color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(8),
                                             child: InkWell(
@@ -251,7 +260,7 @@ class _StateLessonListing extends State<LessonListing> {
                         },
                         separatorBuilder: (context, index) {
                           return SizedBox(
-                            height: 16,
+                            height: 20,
                           );
                         },
                       ),

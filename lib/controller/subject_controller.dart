@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/model/model_chapter.dart';
+import 'package:virtual_learning/model/model_question_bank_marks.dart';
 import 'package:virtual_learning/model/model_subject.dart';
+import 'package:virtual_learning/model/model_test_description.dart';
 import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/modules/lesson/topic_listing.dart';
 import 'package:virtual_learning/network/request.dart';
@@ -14,6 +16,8 @@ import 'package:virtual_learning/utils/url.dart';
 class SubjectController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelChapter>().obs;
+  var arrOfTestDescription = List<ModelTestDescription>().obs;
+  var arrOfQuestionBankMarks = List<ModelQuestionBankMarks>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
 
   var isChapterLoading = false.obs;
@@ -68,11 +72,18 @@ class SubjectController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        var list = (responseData['data'] as List)
+        arrOfTopic.assignAll((responseData['data'] as List)
             .map((data) => ModelTopic.fromJson(data))
-            .toList();
+            .toList());
 
-        arrOfTopic.assignAll(list);
+        arrOfTestDescription.assignAll((responseData['test'] as List)
+            .map((data) => ModelTestDescription.fromJson(data))
+            .toList());
+
+        arrOfQuestionBankMarks.assignAll((responseData['question_bank'] as List)
+            .map((data) => ModelQuestionBankMarks.fromJson(data))
+            .toList());
+
         print("Success");
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);

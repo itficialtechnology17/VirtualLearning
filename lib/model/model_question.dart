@@ -1,19 +1,14 @@
-import 'dart:convert';
-
-List<ModelQuestion> modelQuestionFromJson(String str) =>
-    List<ModelQuestion>.from(
-        json.decode(str).map((x) => ModelQuestion.fromJson(x)));
-
-String modelQuestionToJson(List<ModelQuestion> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class ModelQuestion {
   ModelQuestion({
     this.id,
     this.question,
     this.type,
     this.marks,
-    this.testId,
+    this.standardId,
+    this.subjectId,
+    this.chapterId,
+    this.topicId,
+    this.videoId,
     this.status,
     this.createdOn,
     this.givenAnswer,
@@ -24,12 +19,15 @@ class ModelQuestion {
   String question;
   String type;
   String marks;
-  int testId;
+  int standardId;
+  int subjectId;
+  int chapterId;
+  int topicId;
+  String videoId;
   int status;
-  int isSelected = 0;
-  int givenAns = 0;
   DateTime createdOn;
   int givenAnswer;
+
   List<Answer> answers;
 
   factory ModelQuestion.fromJson(Map<String, dynamic> json) => ModelQuestion(
@@ -37,7 +35,11 @@ class ModelQuestion {
         question: json["question"],
         type: json["type"],
         marks: json["marks"],
-        testId: json["test_id"],
+        standardId: json["standard_id"],
+        subjectId: json["subject_id"],
+        chapterId: json["chapter_id"],
+        topicId: json["topic_id"],
+        videoId: json["video_id"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
         givenAnswer: json["given_answer"],
@@ -50,7 +52,11 @@ class ModelQuestion {
         "question": question,
         "type": type,
         "marks": marks,
-        "test_id": testId,
+        "standard_id": standardId,
+        "subject_id": subjectId,
+        "chapter_id": chapterId,
+        "topic_id": topicId,
+        "video_id": videoId,
         "status": status,
         "created_on": createdOn.toIso8601String(),
         "given_answer": givenAnswer,

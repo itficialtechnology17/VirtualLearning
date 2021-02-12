@@ -45,7 +45,8 @@ class TopicTab extends StatelessWidget {
                           splashColor: Colors.white,
                           onTap: () {
                             // _searchController.activeTopicPosition.value = index;
-                            Get.to(PlayVideo());
+                            Get.to(
+                                PlayVideo(_searchController.arrOfTopic[index]));
                           },
                           borderRadius: BorderRadius.circular(24),
                           child: Column(
@@ -121,7 +122,8 @@ class TopicTab extends StatelessWidget {
                                         onTap: () {
                                           // _subj_searchControllerectController
                                           //     .activeTopicPosition.value = index;
-                                          Get.to(PlayVideo());
+                                          Get.to(PlayVideo(_searchController
+                                              .arrOfTopic[index]));
                                         },
                                         child: CircularPercentIndicator(
                                           radius: 30.0,
