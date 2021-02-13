@@ -20,3 +20,4 @@ String urlGetPrice = "api/pricing";
 String urlPaymentDetails = "api/payment-details";
 String urlSubscribe = "api/subscribe";
 String urlChapterTest = "api/get-test";
+String urlSubmitTest = "api/submit-test";

@@ -49,6 +49,7 @@ class ModelWatchHistory {
   int status;
   String name;
   String icon;
+  int isFavorite = 0;
 
   factory ModelWatchHistory.fromJson(Map<String, dynamic> json) =>
       ModelWatchHistory(

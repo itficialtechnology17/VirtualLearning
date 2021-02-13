@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
-import 'package:virtual_learning/page/play_video.dart';
+import 'package:virtual_learning/modules/player/play_video.dart';
 
 class VideoTab extends StatefulWidget {
   @override

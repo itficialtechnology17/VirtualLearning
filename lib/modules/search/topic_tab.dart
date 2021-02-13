@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
-import 'package:virtual_learning/page/play_video.dart';
+import 'package:virtual_learning/modules/player/play_video.dart';
 
 class TopicTab extends StatelessWidget {
   SearchController _searchController = Get.find();

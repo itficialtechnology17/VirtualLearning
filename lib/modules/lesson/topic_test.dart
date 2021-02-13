@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
+import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/widgets/animated_progress_bar.dart';
 
 class TopicTest extends StatefulWidget {
-  List<ModelQuestion> arrOfQuestion;
+  ModelTopic modelTopic;
 
-  TopicTest(this.arrOfQuestion);
+  TopicTest(this.modelTopic);
 
   @override
   State<StatefulWidget> createState() {
@@ -30,12 +33,15 @@ class _StateTopicTest extends State<TopicTest> {
   var currentIndex = 0;
 
   List<ModelQuestion> arrOfQuestion;
+  SubjectController _subjectController = Get.find();
+  TestController _testController = Get.put(TestController());
 
   @override
   void initState() {
     // setAnimatedProgressValue();
     super.initState();
-    arrOfQuestion = widget.arrOfQuestion;
+    arrOfQuestion = widget.modelTopic.content.question;
+    ;
   }
 
   @override
@@ -50,33 +56,60 @@ class _StateTopicTest extends State<TopicTest> {
                       fit: BoxFit.fill))),
           Scaffold(
             backgroundColor: Colors.transparent,
-            body: Column(
-              children: [
-                Row(
-                  children: [
-                    SizedBox(
-                      height: AppBar().preferredSize.height * 3,
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    InkWell(
+            appBar: AppBar(
+              /* leading: InkWell(
+                onTap: () {
+
+                },
+                child: Icon(
+                  Icons.close_rounded,
+                  size: 25,
+                ),
+              ),*/
+              // leading: Container(),
+              automaticallyImplyLeading: false,
+              titleSpacing: 16,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                      Color(0xff14C269),
+                      Color(0xff0A0A78),
+                    ])),
+              ),
+              actions: [
+                Center(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
                       onTap: () {
                         Get.back();
                       },
-                      child: Icon(
-                        Icons.close_rounded,
-                        size: 35,
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        child: Text(
+                          "End",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: AnimatedProgressbar(value: animatedProgressValue),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                  ],
+                  ),
                 ),
+                SizedBox(
+                  width: 16,
+                ),
+              ],
+              title: Text(widget.modelTopic.name.toString().substring(3)),
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(Get.height * 0.03),
+                child: AnimatedProgressbar(value: animatedProgressValue),
+              ),
+            ),
+            body: Column(
+              children: [
                 Expanded(
                   child: PageView.builder(
                     physics: NeverScrollableScrollPhysics(),
@@ -120,8 +153,8 @@ class _StateTopicTest extends State<TopicTest> {
                                         borderRadius: BorderRadius.circular(4),
                                         child: InkWell(
                                           onTap: () {
-                                            // _bottomSheet(context);
-                                            nextPage();
+                                            _bottomSheet(context);
+                                            // nextPage();
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(16),
@@ -137,7 +170,7 @@ class _StateTopicTest extends State<TopicTest> {
                                                     margin: EdgeInsets.only(
                                                         left: 16),
                                                     child: Text(
-                                                      opt.answer.toUpperCase(),
+                                                      opt.answer,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .body2,
@@ -169,7 +202,7 @@ class _StateTopicTest extends State<TopicTest> {
     );
   }
 
-  /*_bottomSheet(BuildContext context) {
+  _bottomSheet(BuildContext context) {
     var isTrue = true;
 
     showModalBottomSheet(
@@ -209,10 +242,12 @@ class _StateTopicTest extends State<TopicTest> {
         );
       },
     );
-  }*/
+  }
 
   void nextPage() async {
     if (currentIndex == arrOfQuestion.length - 1) {
+      _testController.submitTest(
+          widget.modelTopic.id.toString(), arrOfQuestion);
       Get.back();
     } else {
       setAnimatedProgressValue();

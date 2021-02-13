@@ -57,7 +57,7 @@ class _StatePlayVideo extends State<PlayVideo> {
         loop: false,
         isLive: false,
         hideControls: false,
-        forceHD: false,
+        forceHD: true,
         enableCaption: true,
       ),
     )..addListener(listener);
@@ -233,8 +233,8 @@ class _StatePlayVideo extends State<PlayVideo> {
                               child: InkWell(
                                 splashColor: Colors.grey[50],
                                 onTap: () {
-                                  Get.to(TopicTest(
-                                      widget.modelTopic.content.question));
+                                  _controller.pause();
+                                  Get.to(TopicTest(widget.modelTopic));
                                 },
                               ),
                             )

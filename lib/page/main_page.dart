@@ -9,6 +9,7 @@ import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
+import 'package:virtual_learning/modules/player/play_recent_video.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_page.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
@@ -403,10 +404,10 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                         BorderRadius.circular(
                                                             8),
                                                     onTap: () {
-                                                      /* Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PlayVideo()));*/
+                                                      Get.to(PlayRecentVideo(
+                                                          _dashboardController
+                                                                  .arrOfWatchHistory[
+                                                              index]));
                                                     },
                                                     child: Container(
                                                       height:
@@ -554,7 +555,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                       BorderRadius.circular(16),
                                                   image: DecorationImage(
                                                       image: AssetImage(
-                                                          "assets/icons/ic_test_banner.png")),
+                                                          "assets/icons/ic_test_banner.png"),
+                                                      fit: BoxFit.cover),
                                                   boxShadow: [
                                                     BoxShadow(
                                                         color: Colors.black
@@ -632,7 +634,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                       BorderRadius.circular(16),
                                                   image: DecorationImage(
                                                       image: AssetImage(
-                                                          "assets/icons/ic_ask_doubt_banner.png")),
+                                                          "assets/icons/ic_ask_doubt_banner.png"),
+                                                      fit: BoxFit.cover),
                                                   boxShadow: [
                                                     BoxShadow(
                                                         color: Colors.black

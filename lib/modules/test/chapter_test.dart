@@ -69,7 +69,7 @@ class _StateChapterTest extends State<ChapterTest> {
                       Row(
                         children: [
                           SizedBox(
-                            height: AppBar().preferredSize.height * 3,
+                            height: AppBar().preferredSize.height * 2,
                           ),
                           SizedBox(
                             width: 16,
@@ -102,18 +102,18 @@ class _StateChapterTest extends State<ChapterTest> {
                             currentIndex = index;
                           },
                           itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                            return ListView(
+                              shrinkWrap: true,
                               children: [
-                                SizedBox(
-                                  height: Get.height * 0.05,
-                                ),
+                                /*SizedBox(
+                                  height: Get.height * 0.03,
+                                ),*/
                                 Container(
                                   padding: EdgeInsets.all(16),
                                   alignment: Alignment.center,
                                   child: Text(arrOfQuestion[index].question),
                                 ),
-                                Spacer(),
+                                // Spacer(),
                                 Container(
                                   padding: EdgeInsets.all(20),
                                   child: Column(

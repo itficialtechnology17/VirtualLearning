@@ -15,6 +15,7 @@ import 'package:virtual_learning/utils/url.dart';
 class PaymentController extends GetxController {
   LoginController _loginController = Get.find();
   String planId = "";
+  String subjectIds = "";
 
   final Cashfree _cashfree = Cashfree();
   SubscriptionController _subscriptionController = Get.find();
@@ -29,9 +30,10 @@ class PaymentController extends GetxController {
   }
 
   void checkCredentials(
-      String amount, String subscriptionId, String subjectIds, int i) {
+      String amount, String subscriptionId, String _subjectIds, int i) {
     var message = "";
     planId = subscriptionId;
+    subjectIds = _subjectIds;
     index = i;
 
     if (_loginController.modelUser.value.mobileNumber != null &&
@@ -91,7 +93,7 @@ class PaymentController extends GetxController {
       });
     } else {
       Map<String, dynamic> responseJSON =
-          await Get.to(CashfreePayment(amount, "Subscribe", "planId"));
+          await Get.to(CashfreePayment(amount, "Subscribe", planId));
 
       if (responseJSON['txStatus'] == "SUCCESS") {
         sendSuccessPaymentResponse(
@@ -152,6 +154,8 @@ class PaymentController extends GetxController {
       'signature': signature,
       'orderAmount': orderAmount,
       'paymentMode': paymentMode,
+      'plan_id': planId,
+      'subject_ids': subjectIds,
     });
 
     request.post().then((value) {
