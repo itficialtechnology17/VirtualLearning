@@ -7,6 +7,7 @@ import 'package:virtual_learning/modules/lesson/tab/notes_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/q_bank_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/test_description_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/video_tab.dart';
+import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/widgets/shimmer_topic.dart';
 
 class TopicListing extends StatefulWidget {
@@ -50,8 +51,10 @@ class _StateTopicListing extends State<TopicListing>
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                 colors: [
-                  Color(0xff14C269),
-                  Color(0xff0A0A78),
+                  HexColor.fromHex(
+                      _subjectController.selectedSubject.value.color1),
+                  HexColor.fromHex(
+                      _subjectController.selectedSubject.value.color2),
                 ],
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,

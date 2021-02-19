@@ -22,6 +22,7 @@ class ModelTestDescription {
     this.marks,
     this.status,
     this.createdOn,
+    this.isGiven,
   });
 
   int id;
@@ -29,10 +30,11 @@ class ModelTestDescription {
   String standardId;
   String subjectId;
   String chapterId;
-  String topicId;
+  dynamic topicId;
   String marks;
   int status;
   DateTime createdOn;
+  int isGiven;
 
   factory ModelTestDescription.fromJson(Map<String, dynamic> json) =>
       ModelTestDescription(
@@ -45,6 +47,7 @@ class ModelTestDescription {
         marks: json["marks"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
+        isGiven: json["is_given"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -57,5 +60,6 @@ class ModelTestDescription {
         "marks": marks,
         "status": status,
         "created_on": createdOn.toIso8601String(),
+        "is_given": isGiven,
       };
 }

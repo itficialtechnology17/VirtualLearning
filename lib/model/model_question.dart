@@ -2,6 +2,7 @@ class ModelQuestion {
   ModelQuestion({
     this.id,
     this.question,
+    this.solution,
     this.type,
     this.marks,
     this.standardId,
@@ -17,6 +18,7 @@ class ModelQuestion {
 
   int id;
   String question;
+  String solution;
   String type;
   String marks;
   int standardId;
@@ -27,12 +29,14 @@ class ModelQuestion {
   int status;
   DateTime createdOn;
   int givenAnswer;
+  bool isSelected = false;
 
   List<Answer> answers;
 
   factory ModelQuestion.fromJson(Map<String, dynamic> json) => ModelQuestion(
         id: json["id"],
         question: json["question"],
+        solution: json["solution"],
         type: json["type"],
         marks: json["marks"],
         standardId: json["standard_id"],
@@ -50,6 +54,7 @@ class ModelQuestion {
   Map<String, dynamic> toJson() => {
         "id": id,
         "question": question,
+        "solution": solution,
         "type": type,
         "marks": marks,
         "standard_id": standardId,
@@ -78,6 +83,7 @@ class Answer {
   int isRight;
   int questionId;
   DateTime createdOn;
+  bool isSelected = false;
 
   factory Answer.fromJson(Map<String, dynamic> json) => Answer(
         id: json["id"],

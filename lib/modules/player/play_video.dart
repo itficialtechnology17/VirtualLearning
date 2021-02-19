@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/modules/lesson/topic_test.dart';
 import 'package:virtual_learning/modules/player/custom_youtube_player.dart';
@@ -34,6 +35,7 @@ class _StatePlayVideo extends State<PlayVideo> {
   bool _muted = false;
   bool _isPlayerReady = false;
   TextEditingController _seekToController;
+  TestController _testController = Get.find();
 
   void listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
@@ -82,6 +84,10 @@ class _StatePlayVideo extends State<PlayVideo> {
         aspectRatio: 16 / 9,
         onReady: () {
           _isPlayerReady = true;
+          if (_testController.isVideoPlaying.value) {
+            _controller.pause();
+            print("Pause");
+          }
         },
         onEnded: (data) {},
       ),
@@ -130,12 +136,12 @@ class _StatePlayVideo extends State<PlayVideo> {
             children: [
               player,
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               Row(
                 children: [
                   SizedBox(
-                    width: 8,
+                    width: 15,
                   ),
                   Expanded(
                     child: RichText(
@@ -143,12 +149,10 @@ class _StatePlayVideo extends State<PlayVideo> {
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.fade,
                       text: TextSpan(
-                          text: widget.modelTopic.name,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontFamily: "Poppins",
-                              fontSize: 14)),
+                        text: widget.modelTopic.name,
+                        style:
+                            bodyMediumTestStyle.copyWith(color: Colors.black),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -177,7 +181,7 @@ class _StatePlayVideo extends State<PlayVideo> {
                         });
                       },
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(),
                         child: Icon(
                           _subjectController
@@ -193,9 +197,9 @@ class _StatePlayVideo extends State<PlayVideo> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  /*SizedBox(
                     width: 8,
-                  ),
+                  ),*/
                 ],
               )
             ],
@@ -204,12 +208,15 @@ class _StatePlayVideo extends State<PlayVideo> {
               ? Container(
                   height: Get.height * 0.06,
                   decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        HexColor.fromHex(
-                            _subjectController.selectedSubject.value.color1),
-                        HexColor.fromHex(
-                            _subjectController.selectedSubject.value.color2),
-                      ]),
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                            HexColor.fromHex(_subjectController
+                                .selectedSubject.value.color1),
+                            HexColor.fromHex(_subjectController
+                                .selectedSubject.value.color2),
+                          ]),
                       borderRadius: BorderRadius.circular(24)),
                   margin: EdgeInsets.symmetric(
                       horizontal: Get.width * 0.30,
@@ -233,6 +240,7 @@ class _StatePlayVideo extends State<PlayVideo> {
                               child: InkWell(
                                 splashColor: Colors.grey[50],
                                 onTap: () {
+                                  _testController.isVideoPlaying.value = true;
                                   _controller.pause();
                                   Get.to(TopicTest(widget.modelTopic));
                                 },

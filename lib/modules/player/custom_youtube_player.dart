@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:virtual_learning/modules/player/custom_playback_speed_button.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 /// A widget to play or stream YouTube videos using the official [YouTube IFrame Player API](https://developers.google.com/youtube/iframe_api_reference).
@@ -366,7 +367,7 @@ class _CustomYoutubePlayerState extends State<CustomYoutubePlayer> {
                                   colors: widget.progressColors,
                                 ),
                                 RemainingDuration(),
-                                // const PlaybackSpeedButton(),
+                                const CustomPlaybackSpeedButton(),
                                 FullScreenButton(),
                               ],
                         ),

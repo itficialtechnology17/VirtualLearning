@@ -7,12 +7,14 @@ import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
+import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
 import 'package:virtual_learning/modules/player/play_recent_video.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
-import 'package:virtual_learning/modules/test/test_page.dart';
+import 'package:virtual_learning/modules/test/test_guide.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
+import 'package:virtual_learning/page/youtube_iframe.dart';
 import 'package:virtual_learning/utils/SABT.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
@@ -40,6 +42,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   LoginController _loginController = Get.find();
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  TestController _testController = Get.put(TestController());
 
   @override
   void initState() {
@@ -463,11 +467,11 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                                           color: Colors
                                                                               .black,
                                                                           fontWeight: FontWeight
-                                                                              .w500,
+                                                                              .w600,
                                                                           fontFamily:
                                                                               "Poppins",
                                                                           fontSize:
-                                                                              14)),
+                                                                              15)),
                                                                   maxLines: 1,
                                                                 ),
                                                                 Row(
@@ -610,8 +614,21 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                         BorderRadius.circular(
                                                             16),
                                                     onTap: () {
-                                                      Get.to(TestPage(
-                                                          "Chapter Name"));
+                                                      if (_dashboardController
+                                                              .lastGivenTestId
+                                                              .value !=
+                                                          0) {
+                                                        Get.to(TestGuide.testId(
+                                                            _dashboardController
+                                                                .lastGivenTestId
+                                                                .value
+                                                                .toString()));
+                                                      } else {
+                                                        showSnackBar(
+                                                            "Message",
+                                                            "You have not given any test yet",
+                                                            Colors.yellow);
+                                                      }
                                                     },
                                                   ),
                                                 ),
@@ -701,6 +718,19 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                       ],
                                     ),
                                   ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Get.to(YoutubeIframe());
+                                    },
+                                    child: Container(
+                                      width: 300,
+                                      height: 100,
+                                      color: Colors.transparent,
+                                    ),
+                                  )
                                 ],
                               ),
                               padding: EdgeInsets.only(left: 16, right: 16),

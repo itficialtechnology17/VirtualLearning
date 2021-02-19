@@ -61,3 +61,45 @@ extension HexColor on Color {
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
 }
+
+/*TextStyle titleTextStyle = TextStyle(
+    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    fontFamily: "Poppins",
+    fontSize: 15);*/
+
+BoxShadow boxShadow = BoxShadow(
+    color: Colors.black.withOpacity(0.05),
+    spreadRadius: 1,
+    offset: Offset(0, 3),
+    blurRadius: 15);
+
+TextStyle titleTextStyle = TextStyle(
+    fontWeight: FontWeight.w600,
+    fontSize: Get.width * 0.06,
+    fontFamily: "Poppins");
+
+TextStyle titleTextMediumStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: Get.width * 0.04,
+    fontFamily: "Poppins");
+
+TextStyle bodyLargeTestStyle = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: Get.width * 0.05,
+    fontFamily: "Poppins");
+
+TextStyle bodyMediumTestStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: Get.width * 0.04,
+    fontFamily: "Poppins");
+
+TextStyle buttonTextStyle = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: Get.width * 0.05,
+    fontFamily: "Poppins");
+
+TextStyle buttonMediumTextStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: Get.width * 0.04,
+    fontFamily: "Poppins");

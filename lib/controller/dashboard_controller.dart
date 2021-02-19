@@ -17,6 +17,7 @@ class DashboardController extends GetxController {
   SubjectController _subjectController = Get.put(SubjectController());
   var arrOfWatchHistory = List<ModelWatchHistory>().obs;
   LoginController _loginController = Get.put(LoginController());
+  var lastGivenTestId = 0.obs;
 
   @override
   void onInit() {
@@ -45,6 +46,8 @@ class DashboardController extends GetxController {
         arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
             .map((data) => ModelWatchHistory.fromJson(data))
             .toList());
+
+        lastGivenTestId.value = responseData['last_test'];
 
         _loginController.modelUser.value =
             ModelUser.fromJson(responseData['student']);

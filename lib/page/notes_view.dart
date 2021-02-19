@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
 
 class NotesView extends StatefulWidget {
@@ -26,26 +29,32 @@ class _StateNotesView extends State<NotesView> {
   bool pdfReady = false;
   PDFViewController _pdfViewController;
 
+  SubjectController _subjectController = Get.find();
+
   @override
   void initState() {
-    requestPersmission();
-    getFileFromUrl(storageUrl + widget.notesUrl).then(
-      (value) => {
-        setState(() {
-          if (value != null) {
-            urlPDFPath = value.path;
-            loaded = true;
-            exists = true;
-          } else {
-            exists = false;
-          }
-        })
-      },
-    );
     super.initState();
+    if (_subjectController.selectedChapter.value.note != null) {
+      requestPermission();
+      getFileFromUrl(
+              storageUrl + _subjectController.selectedChapter.value.note.file)
+          .then(
+        (value) => {
+          setState(() {
+            if (value != null) {
+              urlPDFPath = value.path;
+              loaded = true;
+              exists = true;
+            } else {
+              exists = false;
+            }
+          })
+        },
+      );
+    }
   }
 
-  void requestPersmission() async {
+  void requestPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.storage]);
   }
 
@@ -69,100 +78,74 @@ class _StateNotesView extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    if (loaded) {
-      return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text("Notes"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          _subjectController.selectedChapter.value.name,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
-        body: PDFView(
-          filePath: urlPDFPath,
-          autoSpacing: true,
-          enableSwipe: true,
-          pageSnap: true,
-          swipeHorizontal: false,
-          nightMode: false,
-          onError: (e) {
-            //Show some error message or UI
-          },
-          onRender: (_pages) {
-            setState(() {
-              _totalPages = _pages;
-              pdfReady = true;
-            });
-          },
-          onViewCreated: (PDFViewController vc) {
-            setState(() {
-              _pdfViewController = vc;
-            });
-          },
-          onPageChanged: (int page, int total) {
-            setState(() {
-              _currentPage = page;
-            });
-          },
-          onPageError: (page, e) {},
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+            colors: [
+              /*Color(0xff14C269),
+                  Color(0xff0A0A78),*/
+              HexColor.fromHex(_subjectController.selectedSubject.value.color1),
+              HexColor.fromHex(_subjectController.selectedSubject.value.color2),
+            ],
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+          )),
         ),
-        /*floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            IconButton(
-              icon: Icon(Icons.chevron_left),
-              iconSize: 50,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage > 0) {
-                    _currentPage--;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
-            ),
-            Text(
-              "${_currentPage + 1}/$_totalPages",
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-            IconButton(
-              icon: Icon(Icons.chevron_right),
-              iconSize: 50,
-              color: Colors.black,
-              onPressed: () {
-                setState(() {
-                  if (_currentPage < _totalPages - 1) {
-                    _currentPage++;
-                    _pdfViewController.setPage(_currentPage);
-                  }
-                });
-              },
-            ),
-          ],
-        ),*/
-      );
-    } else {
-      if (exists) {
-        //Replace with your loading UI
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Demo"),
-          ),
-          body: Text(
-            "Loading..",
-            style: TextStyle(fontSize: 20),
-          ),
-        );
-      } else {
-        //Replace Error UI
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Demo"),
-          ),
-          body: Text(
-            "PDF Not Available",
-            style: TextStyle(fontSize: 20),
-          ),
-        );
-      }
-    }
+      ),
+      body: _subjectController.selectedChapter.value.note == null
+          ? Container(
+              child: Center(
+                child: Text("Notes not available."),
+              ),
+              height: Get.height - (AppBar().preferredSize.height),
+            )
+          : !loaded
+              ? Container(
+                  child: Center(
+                    child: SizedBox(
+                      height: Get.width * 0.10,
+                      width: Get.width * 0.10,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  ),
+                  height: Get.height - (AppBar().preferredSize.height),
+                )
+              : PDFView(
+                  filePath: urlPDFPath,
+                  autoSpacing: true,
+                  enableSwipe: true,
+                  pageSnap: true,
+                  swipeHorizontal: false,
+                  nightMode: false,
+                  onError: (e) {
+                    //Show some error message or UI
+                  },
+                  onRender: (_pages) {
+                    setState(() {
+                      _totalPages = _pages;
+                      pdfReady = true;
+                    });
+                  },
+                  onViewCreated: (PDFViewController vc) {
+                    setState(() {
+                      _pdfViewController = vc;
+                    });
+                  },
+                  onPageChanged: (int page, int total) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  onPageError: (page, e) {},
+                ),
+    );
   }
 }

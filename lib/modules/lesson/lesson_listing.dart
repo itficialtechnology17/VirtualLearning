@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/widgets/shimmer_chapter.dart';
 
 class LessonListing extends StatefulWidget {
@@ -49,8 +50,12 @@ class _StateLessonListing extends State<LessonListing> {
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                 colors: [
-                  Color(0xff14C269),
-                  Color(0xff0A0A78),
+                  /*Color(0xff14C269),
+                  Color(0xff0A0A78),*/
+                  HexColor.fromHex(
+                      _subjectController.selectedSubject.value.color1),
+                  HexColor.fromHex(
+                      _subjectController.selectedSubject.value.color2),
                 ],
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
@@ -173,34 +178,20 @@ class _StateLessonListing extends State<LessonListing> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                /*Text(
-                                                  "Lesson " +
-                                                      (index + 1).toString(),
-                                                  style: TextStyle(
-                                                      color: Colors.lightBlue,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 12),
-                                                ),
-                                                SizedBox(
-                                                  height: 4,
-                                                ),*/
                                                 RichText(
                                                   text: TextSpan(
                                                       text: _subjectController
                                                           .arrOfChapter[index]
                                                           .name,
-                                                      style: TextStyle(
-                                                          color: Colors.black,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontFamily: "Poppins",
-                                                          fontSize: 15)),
-                                                  maxLines: 1,
+                                                      style: bodyMediumTestStyle
+                                                          .copyWith(
+                                                              color: Colors
+                                                                  .black)),
+                                                  maxLines: 2,
                                                 ),
-                                                SizedBox(
+                                                /* SizedBox(
                                                   height: 4,
-                                                ),
+                                                ),*/
                                                 Text(
                                                   "Topics: " +
                                                       _subjectController
@@ -215,6 +206,9 @@ class _StateLessonListing extends State<LessonListing> {
                                                 ),
                                               ],
                                             ),
+                                          ),
+                                          SizedBox(
+                                            width: 8,
                                           ),
                                           Material(
                                             color: Colors.white,

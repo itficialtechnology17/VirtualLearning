@@ -34,8 +34,8 @@ class ModelSubject {
   String displayName;
   String icon;
   int status;
-  String color1;
-  String color2;
+  String color1 = "#14C269";
+  String color2 = "#0A0A78";
   bool isSelected = false;
 
   factory ModelSubject.fromJson(Map<String, dynamic> json) => ModelSubject(

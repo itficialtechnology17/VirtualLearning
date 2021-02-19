@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
 import 'package:virtual_learning/model/model_topic.dart';
-import 'package:virtual_learning/widgets/animated_progress_bar.dart';
+import 'package:virtual_learning/modules/lesson/topic_test_report.dart';
+import 'package:virtual_learning/utils/methods.dart';
 
 class TopicTest extends StatefulWidget {
   ModelTopic modelTopic;
@@ -34,14 +40,17 @@ class _StateTopicTest extends State<TopicTest> {
 
   List<ModelQuestion> arrOfQuestion;
   SubjectController _subjectController = Get.find();
-  TestController _testController = Get.put(TestController());
+  TestController _testController = Get.find();
 
   @override
   void initState() {
     // setAnimatedProgressValue();
     super.initState();
     arrOfQuestion = widget.modelTopic.content.question;
-    ;
+    clearSelection();
+    setState(() {
+      arrOfQuestion[0].isSelected = true;
+    });
   }
 
   @override
@@ -49,13 +58,13 @@ class _StateTopicTest extends State<TopicTest> {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          /*Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: AssetImage("assets/images/ic_bg.png"),
-                      fit: BoxFit.fill))),
+                      fit: BoxFit.fill))),*/
           Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.white,
             appBar: AppBar(
               /* leading: InkWell(
                 onTap: () {
@@ -72,12 +81,15 @@ class _StateTopicTest extends State<TopicTest> {
               flexibleSpace: Container(
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
-                        begin: Alignment.bottomLeft,
-                        end: Alignment.topRight,
-                        colors: [
-                      Color(0xff14C269),
-                      Color(0xff0A0A78),
-                    ])),
+                  colors: [
+                    HexColor.fromHex(
+                        _subjectController.selectedSubject.value.color1),
+                    HexColor.fromHex(
+                        _subjectController.selectedSubject.value.color2),
+                  ],
+                  begin: Alignment.bottomLeft,
+                  end: Alignment.topRight,
+                )),
               ),
               actions: [
                 Center(
@@ -102,10 +114,48 @@ class _StateTopicTest extends State<TopicTest> {
                   width: 16,
                 ),
               ],
-              title: Text(widget.modelTopic.name.toString().substring(3)),
+              title: Text(widget.modelTopic.name.toString()),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(Get.height * 0.03),
-                child: AnimatedProgressbar(value: animatedProgressValue),
+                preferredSize: Size.fromHeight(Get.height * 0.04),
+                child: /*AnimatedProgressbar(value: animatedProgressValue)*/ Container(
+                  // color: Colors.white,
+                  margin: EdgeInsets.only(left: 16, bottom: 8),
+                  height: Get.height * 0.03,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ListView.builder(
+                      itemCount: arrOfQuestion.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: Get.height * 0.02,
+                              width: Get.height * 0.02,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: arrOfQuestion[index].isSelected
+                                        ? Colors.white
+                                        : Colors.grey,
+                                  )),
+                            ),
+                            index < arrOfQuestion.length - 1
+                                ? Container(
+                                    width: 10,
+                                    color: arrOfQuestion[index].isSelected
+                                        ? Colors.white
+                                        : Colors.grey,
+                                    height: 1,
+                                  )
+                                : Container()
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ),
             ),
             body: Column(
@@ -118,23 +168,150 @@ class _StateTopicTest extends State<TopicTest> {
                     controller: controller,
                     onPageChanged: (index) {
                       currentIndex = index;
+                      setState(() {
+                        arrOfQuestion[index].isSelected = true;
+                      });
                     },
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      return ListView(
+                        shrinkWrap: true,
                         children: [
-                          SizedBox(
+                          /*SizedBox(
                             height: Get.height * 0.05,
-                          ),
+                          ),*/
                           Container(
                             padding: EdgeInsets.all(16),
                             alignment: Alignment.center,
-                            child: Text(arrOfQuestion[index].question),
+                            child: Html(
+                              data: arrOfQuestion[index].question,
+                            ), /*Text(
+                              arrOfQuestion[index].question,
+                              style: titleTextStyle.copyWith(
+                                  fontSize: Get.width * 0.05,
+                                  fontWeight: FontWeight.w400),
+                            )*/
                           ),
-                          Spacer(),
+                          // Spacer(),
                           Container(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16,
+                            ),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: arrOfQuestion[index].answers.length,
+                              itemBuilder: (context, optionIndex) {
+                                return Container(
+                                  margin: EdgeInsets.only(
+                                      bottom: Get.height * 0.03),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          boxShadow: [
+                                            boxShadow,
+                                          ],
+                                          gradient: arrOfQuestion[index]
+                                                  .answers[optionIndex]
+                                                  .isSelected
+                                              ? LinearGradient(
+                                                  begin: Alignment.bottomLeft,
+                                                  end: Alignment.topRight,
+                                                  colors: [
+                                                      HexColor.fromHex(
+                                                          _subjectController
+                                                              .selectedSubject
+                                                              .value
+                                                              .color2),
+                                                      HexColor.fromHex(
+                                                          _subjectController
+                                                              .selectedSubject
+                                                              .value
+                                                              .color1),
+                                                    ])
+                                              : LinearGradient(
+                                                  begin: Alignment.bottomLeft,
+                                                  end: Alignment.topRight,
+                                                  colors: [
+                                                      Color(0xffFFFFFF),
+                                                      Color(0xffFFFFFF),
+                                                    ])),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              for (int i = 0;
+                                                  i <
+                                                      arrOfQuestion[index]
+                                                          .answers
+                                                          .length;
+                                                  i++) {
+                                                arrOfQuestion[index]
+                                                    .answers[i]
+                                                    .isSelected = false;
+                                              }
+                                              arrOfQuestion[index]
+                                                  .answers[optionIndex]
+                                                  .isSelected = true;
+                                            });
+                                            _bottomSheet(
+                                                context, index, optionIndex);
+                                            // nextPage();
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(16),
+                                            child: Row(
+                                              children: [
+                                                arrOfQuestion[index]
+                                                        .answers[optionIndex]
+                                                        .isSelected
+                                                    ? Icon(
+                                                        Icons.check_box,
+                                                        size: 30,
+                                                        color: Colors.white,
+                                                      )
+                                                    : Icon(
+                                                        Icons.crop_square,
+                                                        size: 30,
+                                                        color: Colors.grey,
+                                                      ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 16),
+                                                    child: Html(
+                                                      data: arrOfQuestion[index]
+                                                          .answers[optionIndex]
+                                                          .answer,
+                                                    ) /*Text(
+                                                      arrOfQuestion[index]
+                                                          .answers[optionIndex]
+                                                          .answer,
+                                                      style: TextStyle(
+                                                          color: arrOfQuestion[
+                                                                      index]
+                                                                  .answers[
+                                                                      optionIndex]
+                                                                  .isSelected
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w500),
+                                                    )*/
+                                                    ,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      )),
+                                );
+                              },
+                            ) /*Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: arrOfQuestion[index].answers.map((opt) {
                                 return Container(
@@ -153,7 +330,7 @@ class _StateTopicTest extends State<TopicTest> {
                                         borderRadius: BorderRadius.circular(4),
                                         child: InkWell(
                                           onTap: () {
-                                            _bottomSheet(context);
+                                            _bottomSheet(context, index);
                                             // nextPage();
                                           },
                                           child: Container(
@@ -184,11 +361,9 @@ class _StateTopicTest extends State<TopicTest> {
                                       )),
                                 );
                               }).toList(),
-                            ),
+                            )*/
+                            ,
                           ),
-                          SizedBox(
-                            height: Get.height * 0.05,
-                          )
                         ],
                       );
                     },
@@ -202,42 +377,103 @@ class _StateTopicTest extends State<TopicTest> {
     );
   }
 
-  _bottomSheet(BuildContext context) {
-    var isTrue = true;
-
+  _bottomSheet(BuildContext context, int index, int optionIndex) {
     showModalBottomSheet(
       context: context,
+      isDismissible: false,
+      enableDrag: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
       builder: (BuildContext context) {
         return Container(
-          height: 250,
+          constraints: BoxConstraints(minHeight: 250, maxHeight: 300),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
           padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text(isTrue ? 'Good Job!' : 'Wrong'),
-              Text(
-                "Solution",
-                style: TextStyle(fontSize: 18, color: Colors.black),
-              ),
-              FlatButton(
-                color: isTrue ? Colors.green : Colors.red,
-                child: Text(
-                  isTrue ? 'Onward!' : 'Try Again',
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Lottie.asset(
+                    arrOfQuestion[index].answers[optionIndex].isRight == 1
+                        ? 'assets/json/ic_right_answer.json'
+                        : 'assets/json/ic_wrong_answer.json',
+                    width: Get.width * 0.20,
+                    height: Get.width * 0.20,
+                    repeat: false),
+                SizedBox(
+                  height: 16,
                 ),
-                onPressed: () {
-                  if (isTrue) {
-                    nextPage();
-                  }
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+                Text(
+                  "Solution",
+                  style: titleTextStyle.copyWith(fontSize: 18),
+                ),
+                Text(
+                  arrOfQuestion[index].solution != null
+                      ? arrOfQuestion[index].solution
+                      : "",
+                  textAlign: TextAlign.center,
+                  style: titleTextStyle.copyWith(fontWeight: FontWeight.w400),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  height: Get.height * 0.06,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomLeft,
+                          end: Alignment.topRight,
+                          colors: [
+                            HexColor.fromHex(_subjectController
+                                .selectedSubject.value.color1),
+                            HexColor.fromHex(_subjectController
+                                .selectedSubject.value.color2),
+                          ]),
+                      borderRadius: BorderRadius.circular(24)),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: Get.width * 0.30,
+                      vertical: Platform.isAndroid ? 0 : 24),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            Center(
+                                child: Text(
+                              "Next".toUpperCase(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600),
+                            )),
+                            Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                splashColor: Colors.grey[50],
+                                onTap: () {
+                                  arrOfQuestion[index].givenAnswer =
+                                      arrOfQuestion[index]
+                                          .answers[optionIndex]
+                                          .id;
+                                  Navigator.pop(context);
+                                  nextPage();
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -246,9 +482,9 @@ class _StateTopicTest extends State<TopicTest> {
 
   void nextPage() async {
     if (currentIndex == arrOfQuestion.length - 1) {
-      _testController.submitTest(
-          widget.modelTopic.id.toString(), arrOfQuestion);
-      Get.back();
+      _testController.submitTopicTest(
+          widget.modelTopic.content.id.toString(), arrOfQuestion);
+      Get.off(TopicTestReport(widget.modelTopic));
     } else {
       setAnimatedProgressValue();
       await controller.nextPage(
@@ -262,5 +498,13 @@ class _StateTopicTest extends State<TopicTest> {
     setState(() {
       animatedProgressValue = (currentIndex + 1) / arrOfQuestion.length;
     });
+  }
+
+  void clearSelection() {
+    for (int i = 0; i < arrOfQuestion.length; i++) {
+      for (int j = 0; j < arrOfQuestion[i].answers.length; j++) {
+        arrOfQuestion[i].answers[j].isSelected = false;
+      }
+    }
   }
 }

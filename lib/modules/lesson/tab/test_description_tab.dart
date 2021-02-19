@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
-import 'package:virtual_learning/modules/test/chapter_test.dart';
+import 'package:virtual_learning/modules/test/test_guide.dart';
 
 class TestDescriptionTab extends StatelessWidget {
   SubjectController _subjectController = Get.find();
@@ -21,8 +21,12 @@ class TestDescriptionTab extends StatelessWidget {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Get.to(ChapterTest(_subjectController
-                                .arrOfTestDescription[index]));
+                            /*Get.to(ChapterTest(_subjectController
+                                .arrOfTestDescription[index]));*/
+                            Get.to(TestGuide(
+                                _subjectController.arrOfTestDescription[index],
+                                _subjectController
+                                    .arrOfTestDescription[index].title));
                           },
                           child: Container(
                             constraints: BoxConstraints(
@@ -39,13 +43,7 @@ class TestDescriptionTab extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
                                         text: _subjectController
-                                                .selectedChapter.value.name
-                                                .substring(3) +
-                                            " " +
-                                            (_subjectController
-                                                    .arrOfTestDescription[index]
-                                                    .title)
-                                                .toString(),
+                                            .arrOfTestDescription[index].title,
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.w400,
@@ -56,13 +54,26 @@ class TestDescriptionTab extends StatelessWidget {
                                 SizedBox(
                                   width: 16,
                                 ),
-                                Text(
-                                  "Start".toUpperCase(),
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color(0xff0A0A78)),
-                                ),
+                                _subjectController.arrOfTestDescription[index]
+                                            .isGiven ==
+                                        0
+                                    ? Text(
+                                        "Start".toUpperCase(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color(0xff0A0A78)),
+                                      )
+                                    : Padding(
+                                        padding: EdgeInsets.all(4),
+                                        child: RotatedBox(
+                                          quarterTurns: -45,
+                                          child: Icon(
+                                            Icons.refresh_sharp,
+                                            color: Colors.orange,
+                                          ),
+                                        ),
+                                      ),
                               ],
                             ),
                           ),
