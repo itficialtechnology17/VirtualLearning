@@ -12,5 +12,11 @@ bool isSubscribe = false;
 String studentId = "";
 String standardId = "";
 
+String contactEmail = "study@virtuale.com";
+String contactNumber1 = "+91-97121 98951";
+String contactNumber2 = "+91-96870 26223";
+String privacyPolicy = "https://sites.google.com/view/virtual-e-learning/home";
+String aboutUs = "https://virtuale.in";
+
 String defaultChapterIcon =
     "https://images.unsplash.com/photo-1586986572014-8261434379cf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80";

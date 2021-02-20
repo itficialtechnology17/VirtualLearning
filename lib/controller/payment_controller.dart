@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
+import 'package:virtual_learning/modules/profile/profile_update.dart';
 import 'package:virtual_learning/modules/subscription/cashfree_payment.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
@@ -57,7 +58,7 @@ class PaymentController extends GetxController {
           message = "Please Enter Valid Mobile Number";
         }
       }
-      // Get.to(AccountPage.value(message));
+      Get.to(ProfileUpdate.value(message));
     }
   }
 

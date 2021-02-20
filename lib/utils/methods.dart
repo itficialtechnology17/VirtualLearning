@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 void showSnackBar(String title, String message, Color color) {
@@ -103,3 +104,11 @@ TextStyle buttonMediumTextStyle = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: Get.width * 0.04,
     fontFamily: "Poppins");
+
+void showToast(String msg, [int position]) {
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_LONG,
+      backgroundColor: Colors.black54,
+      gravity: position == 0 ? ToastGravity.BOTTOM : ToastGravity.CENTER);
+}

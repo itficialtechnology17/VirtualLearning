@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -5,8 +7,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
+import 'package:virtual_learning/model/model_answer.dart';
 import 'package:virtual_learning/model/model_topic.dart';
+import 'package:virtual_learning/modules/test/test_result_details.dart';
+import 'package:virtual_learning/network/request.dart';
+import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/url.dart';
 
 class TopicTestReport extends StatefulWidget {
   final ModelTopic modelTopic;
@@ -23,11 +30,12 @@ class StateTopicTestReport extends State<TopicTestReport> {
   SubjectController _subjectController = Get.find();
 
   TestController _testController = Get.find();
+  bool isGettingTopicTestResult = false;
 
   @override
   void initState() {
     super.initState();
-    _testController.getTopicTestResult(widget.modelTopic.content.id.toString());
+    getTopicTestResult(widget.modelTopic.content.id.toString());
   }
 
   @override
@@ -111,93 +119,83 @@ class StateTopicTestReport extends State<TopicTestReport> {
                     "assets/svg/test_report.svg",
                     width: Get.width * 0.40,
                   ),
-                  Text("" + _testController.percentage.toString() + " % Marks"),
+                  Text(correctAnswer.toString() + "/" + totalQuestion),
                   SizedBox(
                     height: 24,
                   ),
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 16),
                     padding: EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                        color: Colors.grey[50],
-                        borderRadius: BorderRadius.circular(8)),
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     child: Row(
                       children: [
                         Expanded(
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.green,
-                                    ),
-                                    child: Text(
-                                      _testController.correctAnswer.toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    "Right\nAnswer",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
-                                  )
-                                ],
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.green,
+                                ),
+                                child: Text(
+                                  correctAnswer.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
                               ),
-                            ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "Right\nAnswer",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.red,
+                                ),
+                                child: Text(
+                                  wrongAnswer.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Text(
+                                "Wrong\nAnswer",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 16),
+                              )
+                            ],
                           ),
                         ),
                         Expanded(
                           child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {},
-                              child: Column(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.red,
-                                    ),
-                                    child: Text(
-                                      _testController.wrongAnswer.toString(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  Text(
-                                    "Wrong\nAnswer",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 16),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                /*Get.to(TestResultDetails(
+                                    _testController.arrOfSkippedQuestion));*/
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -207,7 +205,7 @@ class StateTopicTestReport extends State<TopicTestReport> {
                                       color: Colors.blue,
                                     ),
                                     child: Text(
-                                      _testController.skippedAnswer.toString(),
+                                      skippedAnswer.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 14,
@@ -231,235 +229,80 @@ class StateTopicTestReport extends State<TopicTestReport> {
                       ],
                     ),
                   ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Material(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(24),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(24),
+                      onTap: () {
+                        Get.to(TestResultDetails(arrOfQuestion));
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24)),
+                        child: Text(
+                          "View Solution".toUpperCase(),
+                          style: buttonTextStyle.copyWith(
+                              color: Colors.white, fontSize: Get.width * 0.04),
+                        ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             )),
     );
   }
-}
 
-/*class StateTopicTestReport extends State<TopicTestReport> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              centerTitle: true,
-              brightness: Brightness.light,
-              expandedHeight: MediaQuery.of(context).size.height * 0.20 - 16,
-              elevation: 0,
-              pinned: true,
-              titleSpacing: 0.0,
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              leading: Container(
-                child: Center(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                            color: Color(0xffD0E6EE),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              bottomRight: Radius.circular(4),
-                            )),
-                        width: double.infinity,
-                        height: AppBar().preferredSize.height -
-                            AppBar().preferredSize.height * 0.30,
-                        child: Icon(Icons.arrow_back, color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              flexibleSpace: Container(
-                height: MediaQuery.of(context).size.height * 0.20 +
-                    MediaQuery.of(context).padding.top +
-                    20,
-                color: Colors.white,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Test Report",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        widget.chapterName,
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: "Poppins"),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ];
-        },
-        body: Container(
-          color: Colors.white,
-          child: Column(
-            children: [
-              SvgPicture.asset(
-                "assets/svg/test_report.svg",
-                width: Get.width * 0.40,
-              ),
-              Text("50 % Marks"),
-              SizedBox(
-                height: 24,
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16),
-                padding: EdgeInsets.symmetric(vertical: 16),
-                decoration: BoxDecoration(
-                    color: Colors.grey[50],
-                    borderRadius: BorderRadius.circular(8)),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.green,
-                                ),
-                                child: Text(
-                                  "15",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Right\nAnswer",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.red,
-                                ),
-                                child: Text(
-                                  "15",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Wrong\nAnswer",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.blue,
-                                ),
-                                child: Text(
-                                  "15",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              Text(
-                                "Skipped\nAnswer",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: Get.height * 0.06,
-        width: Get.width,
-        margin: EdgeInsets.all(16),
-        decoration: BoxDecoration(
-            color: Colors.green, borderRadius: BorderRadius.circular(24)),
-        child: Center(
-          child: Text(
-            "Take Another Test",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
-          ),
-        ),
-      ),
-    );
+  String percentage = "";
+  String totalQuestion = "";
+  int correctAnswer = 0;
+  int wrongAnswer = 0;
+  int skippedAnswer = 0;
+  List<ModelAnswer> arrOfQuestion = List<ModelAnswer>();
+
+  void getTopicTestResult(String contentId) async {
+    setState(() {
+      isGettingTopicTestResult = true;
+    });
+
+    Request request = Request(url: urlTopicTestResult, body: {
+      'type': "API",
+      'test_id': contentId.toString(),
+      'student_id': studentId,
+    });
+
+    request.post().then((value) {
+      setState(() {
+        isGettingTopicTestResult = false;
+      });
+      final responseData = json.decode(value.body);
+
+      if (responseData['status_code'] == 1) {
+        setState(() {
+          percentage = responseData['data']['percentage'].toString();
+          totalQuestion = responseData['data']['total_question'].toString();
+          correctAnswer = responseData['correct_answer'];
+          wrongAnswer = responseData['wrong_answer'];
+          skippedAnswer = responseData['skip_answer'];
+          arrOfQuestion = ((responseData['data']['total_answer'] as List)
+              .map((data) => ModelAnswer.fromJson(data))
+              .toList());
+        });
+        print("Success");
+      } else {
+        showSnackBar("Error", responseData['message'], Colors.red);
+      }
+    }).catchError((onError) {
+      setState(() {
+        isGettingTopicTestResult = false;
+      });
+      print(onError);
+    });
   }
-}*/
+}

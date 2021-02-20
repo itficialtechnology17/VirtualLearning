@@ -53,6 +53,8 @@ dependencies:
   lottie: ^0.7.0+1
   flutter_windowmanager: ^0.0.2
   youtube_player_iframe: ^1.2.0+2
+  app_review: ^2.0.1
+  fluttertoast: ^7.1.1
 
 
 

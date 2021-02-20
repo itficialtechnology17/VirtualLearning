@@ -51,13 +51,13 @@ TextStyle textStyle14Bold = TextStyle(
 
 TextStyle textStyle16 = TextStyle(
     color: Colors.black,
-    fontSize: Get.height * 0.05,
+    fontSize: Get.height * 0.02,
     fontWeight: FontWeight.w400,
     fontFamily: "Poppins");
 
 TextStyle textStyle16Bold = TextStyle(
     color: Colors.black,
-    fontSize: Get.height * 0.05,
+    fontSize: Get.height * 0.03,
     fontWeight: FontWeight.w600,
     fontFamily: "Poppins");
 
