@@ -55,6 +55,7 @@ dependencies:
   youtube_player_iframe: ^1.2.0+2
   app_review: ^2.0.1
   fluttertoast: ^7.1.1
+  webview_flutter: ^0.3.21
 
 
 
