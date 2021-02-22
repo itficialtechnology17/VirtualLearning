@@ -19,6 +19,7 @@ version: 1.0.0+1
 
 #export PATH="/Users/amit/Desktop/ITficialProject/FlutterSdk/flutter/bin:$PATH"
 #flutter build apk --release --target-platform=android-arm64
+#flutter pub run flutter_launcher_icons:main
 
 environment:
   sdk: ">=2.10.0 <3.0.0"
@@ -46,7 +47,7 @@ dependencies:
   youtube_player_flutter: ^7.0.0+7
   flutter_inappwebview: ^4.0.0+4
   flutter_pdfview: ^1.0.1
-  permission_handler: 4.4.0
+#  permission_handler: 4.4.0
   path_provider: ^1.6.27
   seekbar: ^0.0.2
   cashfree: ^0.1.1
@@ -68,7 +69,7 @@ dev_dependencies:
 flutter_icons:
     android: true
     ios: true
-    image_path: "assets/images/ic_virtualE_logo.png"
+    image_path: "assets/images/ic_logo_512.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

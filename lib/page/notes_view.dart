@@ -5,7 +5,6 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
@@ -35,7 +34,7 @@ class _StateNotesView extends State<NotesView> {
   void initState() {
     super.initState();
     if (_subjectController.selectedChapter.value.note != null) {
-      requestPermission();
+      // requestPermission();
       getFileFromUrl(
               storageUrl + _subjectController.selectedChapter.value.note.file)
           .then(
@@ -54,9 +53,9 @@ class _StateNotesView extends State<NotesView> {
     }
   }
 
-  void requestPermission() async {
+/*  void requestPermission() async {
     await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-  }
+  }*/
 
   Future<File> getFileFromUrl(String url, {name}) async {
     var fileName = 'testonline';
