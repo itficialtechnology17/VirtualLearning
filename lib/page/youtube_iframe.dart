@@ -1,11 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:virtual_learning/iframe/custom_youtube_player_iframe.dart';
-import 'package:virtual_learning/iframe/play_pause_button_bar.dart';
+import 'package:virtual_learning/model/model_watch_history.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class YoutubeIframe extends StatefulWidget {
+  final ModelWatchHistory modelWatchHistory;
+  YoutubeIframe(this.modelWatchHistory);
+
   @override
   State<StatefulWidget> createState() {
     return _StateYoutubeIframe();
@@ -19,11 +23,14 @@ class _StateYoutubeIframe extends State<YoutubeIframe> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: '26A-pptLgXs',
-      params: const YoutubePlayerParams(
-        showControls: false,
+      initialVideoId: widget.modelWatchHistory.videoId,
+      params: YoutubePlayerParams(
+        showControls: true,
+        autoPlay: true,
         showFullscreenButton: true,
         desktopMode: false,
+        showVideoAnnotations: false,
+        origin: "",
         privacyEnhanced: true,
         enableCaption: false,
       ),
@@ -39,7 +46,7 @@ class _StateYoutubeIframe extends State<YoutubeIframe> {
       Future.delayed(const Duration(seconds: 1), () {
         _controller.play();
       });
-      Future.delayed(const Duration(seconds: 5), () {
+      Future.delayed(const Duration(seconds: 3), () {
         SystemChrome.setPreferredOrientations(DeviceOrientation.values);
       });
     };
@@ -53,7 +60,41 @@ class _StateYoutubeIframe extends State<YoutubeIframe> {
       controller: _controller,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Youtube Player Demo'),
+          backgroundColor: Colors.black,
+          leading: Container(
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(4),
+                      bottomRight: Radius.circular(4),
+                    )),
+                    width: double.infinity,
+                    height: AppBar().preferredSize.height -
+                        AppBar().preferredSize.height * 0.30,
+                    child: Padding(
+                      padding: EdgeInsets.all(6),
+                      child: Icon(
+                        Icons.arrow_back,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          centerTitle: true,
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {
@@ -95,12 +136,12 @@ class Controls extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _space,
+          // _space,
           // MetaDataSection(),
           // _space,
           // SourceInputSection(),
           // _space,
-          PlayPauseButtonBar(),
+          // PlayPauseButtonBar(),
           // _space,
           // VolumeSlider(),
           // _space,

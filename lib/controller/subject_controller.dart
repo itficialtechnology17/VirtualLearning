@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/model/model_chapter.dart';
-import 'package:virtual_learning/model/model_question_bank_marks.dart';
+import 'package:virtual_learning/model/model_pdf.dart';
+import 'package:virtual_learning/model/model_question_bank.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/model/model_test_description.dart';
 import 'package:virtual_learning/model/model_topic.dart';
@@ -16,8 +17,9 @@ import 'package:virtual_learning/utils/url.dart';
 class SubjectController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelChapter>().obs;
+  var arrOfPdf = List<ModelPdf>().obs;
+  var arrOfQuestionBank = List<ModeQuestionBank>().obs;
   var arrOfTestDescription = List<ModelTestDescription>().obs;
-  var arrOfQuestionBankMarks = List<ModelQuestionBankMarks>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
 
   var isChapterLoading = false.obs;
@@ -60,6 +62,8 @@ class SubjectController extends GetxController {
   void getTopic() async {
     isTopicLoading.value = true;
     arrOfTopic.clear();
+    arrOfPdf.clear();
+    arrOfQuestionBank.clear();
 
     Request request = Request(url: urlGetTopic, body: {
       'type': "API",
@@ -76,13 +80,24 @@ class SubjectController extends GetxController {
             .map((data) => ModelTopic.fromJson(data))
             .toList());
 
-        arrOfTestDescription.assignAll((responseData['test'] as List)
-            .map((data) => ModelTestDescription.fromJson(data))
-            .toList());
+        if (responseData['question_bank'] != null) {
+          arrOfPdf.assignAll((responseData['question_bank'] as List)
+              .map((data) => ModelPdf.fromJson(data))
+              .toList());
+        }
 
-        arrOfQuestionBankMarks.assignAll((responseData['question_bank'] as List)
-            .map((data) => ModelQuestionBankMarks.fromJson(data))
-            .toList());
+        if (responseData['question_bank_mcq'] != null) {
+          arrOfQuestionBank.assignAll(
+              (responseData['question_bank_mcq'] as List)
+                  .map((data) => ModeQuestionBank.fromJson(data))
+                  .toList());
+        }
+
+        if (responseData['test'] != null) {
+          arrOfTestDescription.assignAll((responseData['test'] as List)
+              .map((data) => ModelTestDescription.fromJson(data))
+              .toList());
+        }
 
         print("Success");
       } else {

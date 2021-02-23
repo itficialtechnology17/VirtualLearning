@@ -7,6 +7,7 @@ import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/signup_page.dart';
 import 'package:virtual_learning/page/main_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class CoursePage extends StatefulWidget {
   @override
@@ -64,11 +65,7 @@ class _StateCoursePage extends State<CoursePage> {
                     padding: EdgeInsets.only(top: 32, left: 14),
                     child: Text(
                       'Choose Course',
-                      style: TextStyle(
-                        fontSize: 36,
-                        color: const Color(0xff205072),
-                        fontWeight: FontWeight.w700,
-                      ),
+                      style: textStyle14Bold.copyWith(color: Color(0xff205072)),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -76,13 +73,10 @@ class _StateCoursePage extends State<CoursePage> {
                     padding: EdgeInsets.only(left: 16),
                     child: Text(
                       'Select course you are interested in',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: const Color(0xff3aa59b),
-                        fontWeight: FontWeight.w500,
-                        height: 1.6666666666666667,
-                      ),
-                      textAlign: TextAlign.center,
+                      style: textStyle12.copyWith(
+                          color: Color(0xff3aa59b),
+                          fontSize: Get.height * 0.018),
+                      textAlign: TextAlign.start,
                     ),
                   )
                 ],
@@ -139,18 +133,45 @@ class _StateCoursePage extends State<CoursePage> {
                                           children: [
                                             Column(
                                               children: [
-                                                Text(
-                                                  _loginController
-                                                      .arrOfCourse[index].name,
-                                                  style: TextStyle(
-                                                    fontSize: 50,
-                                                    color: Color(
-                                                        selectedPosition == 1
-                                                            ? 0xff205072
-                                                            : 0xff3AA59B),
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                                  textAlign: TextAlign.center,
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      _loginController
+                                                          .arrOfCourse[index]
+                                                          .name,
+                                                      style: textStyle16Bold.copyWith(
+                                                          color: Color(
+                                                              selectedPosition ==
+                                                                      1
+                                                                  ? 0xff205072
+                                                                  : 0xff3AA59B)),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 2,
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        Text(
+                                                          'th',
+                                                          style: textStyle10Bold.copyWith(
+                                                              color: Color(
+                                                                  selectedPosition ==
+                                                                          1
+                                                                      ? 0xff205072
+                                                                      : 0xff3AA59B)),
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                        ),
+                                                        SizedBox(
+                                                          height: 16,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
                                                 isNumeric(_loginController
                                                         .arrOfCourse[index]
@@ -160,32 +181,16 @@ class _StateCoursePage extends State<CoursePage> {
                                                         _loginController
                                                             .arrOfCourse[index]
                                                             .displayName,
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                          color: Color(
-                                                              selectedPosition ==
-                                                                      1
-                                                                  ? 0xff205072
-                                                                  : 0xff3AA59B),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
+                                                        style: textStyle10.copyWith(
+                                                            color: Color(
+                                                                selectedPosition ==
+                                                                        1
+                                                                    ? 0xff205072
+                                                                    : 0xff3AA59B)),
                                                         textAlign:
                                                             TextAlign.center,
                                                       )
                                               ],
-                                            ),
-                                            Text(
-                                              'th',
-                                              style: TextStyle(
-                                                fontSize: 25,
-                                                color: Color(
-                                                    selectedPosition == 1
-                                                        ? 0xff205072
-                                                        : 0xff3AA59B),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              textAlign: TextAlign.start,
                                             ),
                                           ],
                                         ),

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/modules/menu/analytics_page.dart';
 import 'package:virtual_learning/modules/menu/bookmarks.dart';
@@ -14,11 +13,13 @@ import 'package:virtual_learning/modules/profile/webpage.dart';
 import 'package:virtual_learning/modules/subscription/subscription.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/widgets/gradient_icon.dart';
 
 class CustomDrawer extends StatelessWidget {
   var userProfile = "";
 
+  LoginController _loginController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -42,13 +43,15 @@ class CustomDrawer extends StatelessWidget {
                       Color(0xff14C269),
                       Color(0xff0A0A78),
                     ])),
-                child: Center(
-                  child: Image.asset(
-                    "assets/icons/ic_logo_name.png",
-                    fit: BoxFit.contain,
-                    width: Get.width * 0.20,
-                    height: Get.width * 0.20,
-                  ) /*Image(
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        "assets/icons/ic_logo_name.png",
+                        fit: BoxFit.contain,
+                        width: Get.width * 0.20,
+                        height: Get.width * 0.20,
+                      ) /*Image(
                     image: AssetImage(
                       "assets/images/ic_trans_logo.png",
                     ),
@@ -56,7 +59,23 @@ class CustomDrawer extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.25,
                     fit: BoxFit.contain,
                   )*/
-                  ,
+                      ,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 4),
+                        child: Text(
+                          "Grade: " +
+                              _loginController.modelUser.value.standardName +
+                              " " +
+                              _loginController
+                                  .modelUser.value.standardDisplayName,
+                          style: textStyle10Bold.copyWith(color: Colors.white),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             ),
@@ -77,14 +96,10 @@ class CustomDrawer extends StatelessWidget {
                             icon: Icons.graphic_eq,
                             text: 'Analytics',
                             context: context),
-                        Platform.isAndroid
-                            ? _createDrawerItem(
-                                icon: Icons.local_police_outlined,
-                                text: 'Subscribe Now',
-                                context: context)
-                            : Container(
-                                height: 0,
-                              ),
+                        _createDrawerItem(
+                            icon: Icons.local_police_outlined,
+                            text: 'Subscribe Now',
+                            context: context),
                         _createDrawerItem(
                             icon: Icons.bookmark_border,
                             text: 'Bookmarks',

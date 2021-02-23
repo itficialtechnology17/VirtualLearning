@@ -10,7 +10,6 @@ import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
-import 'package:virtual_learning/modules/player/play_recent_video.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_guide.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
@@ -408,7 +407,11 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                         BorderRadius.circular(
                                                             8),
                                                     onTap: () {
-                                                      Get.to(PlayRecentVideo(
+                                                      /* Get.to(PlayRecentVideo(
+                                                          _dashboardController
+                                                                  .arrOfWatchHistory[
+                                                              index]));*/
+                                                      Get.to(YoutubeIframe(
                                                           _dashboardController
                                                                   .arrOfWatchHistory[
                                                               index]));
@@ -721,7 +724,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  GestureDetector(
+                                  /*GestureDetector(
                                     onTap: () {
                                       Get.to(YoutubeIframe());
                                     },
@@ -730,7 +733,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                       height: 100,
                                       color: Colors.transparent,
                                     ),
-                                  )
+                                  )*/
                                 ],
                               ),
                               padding: EdgeInsets.only(left: 16, right: 16),

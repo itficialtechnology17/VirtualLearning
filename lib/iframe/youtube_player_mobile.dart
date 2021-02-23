@@ -57,6 +57,7 @@ class _MobileYoutubePlayerState extends State<CustomRawYoutubePlayer>
     super.initState();
     _webController = Completer();
     controller = widget.controller;
+
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -149,6 +150,7 @@ class _MobileYoutubePlayerState extends State<CustomRawYoutubePlayer>
                 controller.add(
                   controller.value.copyWith(isReady: true),
                 );
+                controller.hideTopMenu();
               }
             },
           )
@@ -338,3 +340,44 @@ class _MobileYoutubePlayerState extends State<CustomRawYoutubePlayer>
       ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
       : null;
 }
+
+String youtubeIFrameTag(YoutubePlayerController controller) {
+  final params = <String, String>{
+    'autoplay': _boolean(controller.params.autoPlay),
+    'mute': _boolean(controller.params.mute),
+    'controls': _boolean(controller.params.showControls),
+    'playsinline': _boolean(controller.params.playsInline),
+    'enablejsapi': _boolean(controller.params.enableJavaScript),
+    'fs': _boolean(controller.params.showFullscreenButton),
+    'rel': _boolean(!controller.params.strictRelatedVideos),
+    'showinfo': '0',
+    'iv_load_policy': '${controller.params.showVideoAnnotations ? 1 : 3}',
+    'modestbranding': '1',
+    'cc_load_policy': _boolean(controller.params.enableCaption),
+    'cc_lang_pref': controller.params.captionLanguage,
+    'start': '${controller.params.startAt.inSeconds}',
+    'allow': 'accelerometer',
+    if (controller.params.endAt != null)
+      'end': '${controller.params.endAt.inSeconds}',
+    'disablekb': _boolean(!controller.params.enableKeyboard),
+    'color': controller.params.color,
+    'hl': controller.params.interfaceLanguage,
+    'loop': _boolean(controller.params.loop),
+    if (controller.params.playlist.isNotEmpty)
+      'playlist': '${controller.params.playlist.join(',')}'
+  };
+  final youtubeAuthority = controller.params.privacyEnhanced
+      ? 'www.youtube-nocookie.com'
+      : 'www.youtube.com';
+  final sourceUri = Uri.https(
+    youtubeAuthority,
+    'embed/${controller.initialVideoId}',
+    params,
+  );
+  return '<iframe id="player" type="text/html"'
+      ' style="position:absolute; top:0px; left:0px; bottom:0px; right:10px;'
+      ' width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"'
+      ' src="$sourceUri" frameborder="0"  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+}
+
+String _boolean(bool value) => value ? '1' : '0';

@@ -50,6 +50,12 @@ class _StatePlayVideo extends State<PlayVideo> {
   void initState() {
     super.initState();
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft
+    ]);
+
     _controller = YoutubePlayerController(
       initialVideoId: widget.modelTopic.content.videoId,
       flags: const YoutubePlayerFlags(
@@ -260,6 +266,7 @@ class _StatePlayVideo extends State<PlayVideo> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     Duration lastPlayedSecond = _controller.value.position;
     _subjectController.setWatchHistory(
         lastPlayedSecond.inMinutes.toString(),

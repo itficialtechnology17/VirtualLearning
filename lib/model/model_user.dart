@@ -5,26 +5,27 @@ ModelUser modelUserFromJson(String str) => ModelUser.fromJson(json.decode(str));
 String modelUserToJson(ModelUser data) => json.encode(data.toJson());
 
 class ModelUser {
-  ModelUser({
-    this.id,
-    this.firstName,
-    this.lastName,
-    this.gender,
-    this.dob,
-    this.schoolName,
-    this.mobileNumber,
-    this.email,
-    this.motherName,
-    this.fatherName,
-    this.address,
-    this.fatherMobileNumber,
-    this.status,
-    this.subscribed,
-    this.instituteId,
-    this.createdOn,
-    this.otp,
-    this.standardId,
-  });
+  ModelUser(
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.gender,
+      this.dob,
+      this.schoolName,
+      this.mobileNumber,
+      this.email,
+      this.motherName,
+      this.fatherName,
+      this.address,
+      this.fatherMobileNumber,
+      this.status,
+      this.subscribed,
+      this.instituteId,
+      this.createdOn,
+      this.otp,
+      this.standardId,
+      this.standardName,
+      this.standardDisplayName});
 
   int id;
   dynamic firstName;
@@ -44,6 +45,8 @@ class ModelUser {
   DateTime createdOn;
   int otp;
   String standardId;
+  String standardName;
+  String standardDisplayName;
 
   factory ModelUser.fromJson(Map<String, dynamic> json) => ModelUser(
         id: json["id"],
@@ -64,6 +67,8 @@ class ModelUser {
         createdOn: DateTime.parse(json["created_on"]),
         otp: json["otp"],
         standardId: json["standard_id"],
+        standardName: json["standard"],
+        standardDisplayName: json["display_standard"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -85,5 +90,7 @@ class ModelUser {
         "created_on": createdOn.toIso8601String(),
         "otp": otp,
         "standard_id": standardId,
+        "standard": standardName,
+        "display_standard": standardDisplayName,
       };
 }

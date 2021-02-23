@@ -9,21 +9,21 @@ import 'package:lottie/lottie.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
-import 'package:virtual_learning/model/model_topic.dart';
+import 'package:virtual_learning/model/model_question_bank.dart';
 import 'package:virtual_learning/utils/methods.dart';
 
-class TopicTest extends StatefulWidget {
-  ModelTopic modelTopic;
+class QuestionBankTest extends StatefulWidget {
+  final ModeQuestionBank modeQuestionBank;
 
-  TopicTest(this.modelTopic);
+  QuestionBankTest(this.modeQuestionBank);
 
   @override
   State<StatefulWidget> createState() {
-    return _StateTopicTest();
+    return _StateQuestionBankTest();
   }
 }
 
-class _StateTopicTest extends State<TopicTest> {
+class _StateQuestionBankTest extends State<QuestionBankTest> {
   final PageController controller = PageController();
 
   var animatedProgressValue = 0.0;
@@ -37,7 +37,7 @@ class _StateTopicTest extends State<TopicTest> {
   void initState() {
     // setAnimatedProgressValue();
     super.initState();
-    arrOfQuestion = widget.modelTopic.content.question;
+    arrOfQuestion = widget.modeQuestionBank.question;
     clearSelection();
     setState(() {
       arrOfQuestion[0].isSelected = true;
@@ -105,7 +105,8 @@ class _StateTopicTest extends State<TopicTest> {
                     width: 16,
                   ),
                 ],
-                title: Text(widget.modelTopic.name.toString()),
+                title: Text(widget.modeQuestionBank.title.toString() +
+                    " Marks Question"),
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(Get.height * 0.04),
                   child: /*AnimatedProgressbar(value: animatedProgressValue)*/ Container(
@@ -417,8 +418,8 @@ class _StateTopicTest extends State<TopicTest> {
                               EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           child: Text(
                             currentIndex == arrOfQuestion.length - 1
-                                ? 'Submit'.toUpperCase()
-                                : 'Skip'.toUpperCase(),
+                                ? 'Finished'.toUpperCase()
+                                : 'Next'.toUpperCase(),
                             style: new TextStyle(
                                 fontSize: Get.width * 0.04,
                                 fontWeight: FontWeight.w500,
@@ -543,113 +544,9 @@ class _StateTopicTest extends State<TopicTest> {
     );
   }
 
-  /*_bottomSheet(BuildContext context, int index, int optionIndex) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      enableDrag: false,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16.0),
-      ),
-      builder: (BuildContext context) {
-        return Container(
-          constraints: BoxConstraints(minHeight: 250, maxHeight: 300),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16), topRight: Radius.circular(16))),
-          padding: EdgeInsets.all(16),
-          child: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Lottie.asset(
-                    arrOfQuestion[index].answers[optionIndex].isRight == 1
-                        ? 'assets/json/ic_right_answer.json'
-                        : 'assets/json/ic_wrong_answer.json',
-                    width: Get.width * 0.20,
-                    height: Get.width * 0.20,
-                    repeat: false),
-                SizedBox(
-                  height: 16,
-                ),
-                Text(
-                  "Solution",
-                  style: titleTextStyle.copyWith(fontSize: 18),
-                ),
-                Text(
-                  arrOfQuestion[index].solution != null
-                      ? arrOfQuestion[index].solution
-                      : "",
-                  textAlign: TextAlign.center,
-                  style: titleTextStyle.copyWith(fontWeight: FontWeight.w400),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  height: Get.height * 0.06,
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.bottomLeft,
-                          end: Alignment.topRight,
-                          colors: [
-                            HexColor.fromHex(_subjectController
-                                .selectedSubject.value.color1),
-                            HexColor.fromHex(_subjectController
-                                .selectedSubject.value.color2),
-                          ]),
-                      borderRadius: BorderRadius.circular(24)),
-                  margin: EdgeInsets.symmetric(
-                      horizontal: Get.width * 0.30,
-                      vertical: Platform.isAndroid ? 0 : 24),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Stack(
-                          fit: StackFit.expand,
-                          children: [
-                            Center(
-                                child: Text(
-                              "Next".toUpperCase(),
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600),
-                            )),
-                            Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                splashColor: Colors.grey[50],
-                                onTap: () {
-                                  arrOfQuestion[index].givenAnswer =
-                                      arrOfQuestion[index]
-                                          .answers[optionIndex]
-                                          .id;
-                                  Navigator.pop(context);
-                                  nextPage();
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }*/
-
   void nextPage() async {
     if (currentIndex == arrOfQuestion.length - 1) {
-      _testController.submitTopicTest(widget.modelTopic.content.id.toString(),
-          arrOfQuestion, widget.modelTopic);
+      Get.back();
     } else {
       setAnimatedProgressValue();
       await controller.nextPage(

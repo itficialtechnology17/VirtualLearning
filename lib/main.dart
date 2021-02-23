@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/page/splash_page.dart';
 
 //flutter build apk --target-platform=android-arm64
 void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     home: SplashPage(),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
@@ -176,67 +177,11 @@ class _StateTestGuide extends State<TestGuide> {
                   SizedBox(
                     height: 16,
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_sharp,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Text(
-                            "1.0 marks is awarded for correct attempts and 0.0 marks for incorrect attempts.",
-                            style: bodyMediumTestStyle),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_sharp,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Text(
-                            "Tap on option to select the correct answer.",
-                            style: bodyMediumTestStyle),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.book_sharp,
-                        size: 20,
-                        color: Colors.grey,
-                      ),
-                      SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: Text(
-                          "Tap on next button to go for next question.",
-                          style: bodyMediumTestStyle,
-                        ),
-                      )
-                    ],
-                  ),
+                  widget.modelTestDescription.instruction != null
+                      ? Html(
+                          data: widget.modelTestDescription.instruction,
+                        )
+                      : Text("No instruction added.")
                 ],
               ),
             ),
