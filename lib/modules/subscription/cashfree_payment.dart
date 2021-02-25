@@ -49,10 +49,18 @@ class _StateCashfreePayment extends State<CashfreePayment> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          title: Text("Pay Using Cashfree"),
-        ),
+            centerTitle: true,
+            elevation: 0,
+            title: Text("Pay Using Cashfree"),
+            flexibleSpace: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [
+                  Color(0xff14C269),
+                  Color(0xff0A0A78),
+                ])))),
         body: Stack(
           children: <Widget>[
             Container(
@@ -66,7 +74,7 @@ class _StateCashfreePayment extends State<CashfreePayment> {
                   _webController.loadUrl(
                       "https://itficial.app/virtuale/api/generate-url-ios?type=API&amount=" +
                           widget.amount +
-                          "&user_id=" +
+                          "&student_id=" +
                           studentId.toString() +
                           "&payment_source=" +
                           widget.paymentSource +

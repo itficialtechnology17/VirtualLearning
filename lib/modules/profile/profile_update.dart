@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -5,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/model/model_user.dart';
+import 'package:virtual_learning/network/request.dart';
+import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/url.dart';
 
 class ProfileUpdate extends StatefulWidget {
   String message = "";
@@ -205,13 +209,15 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
                   fit: StackFit.expand,
                   children: [
                     Center(
-                        child: Text(
-                      "Save".toUpperCase(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600),
-                    )),
+                        child: isUpdating
+                            ? CircularProgressIndicator()
+                            : Text(
+                                "Save".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600),
+                              )),
                     Material(
                       color: Colors.transparent,
                       child: InkWell(
@@ -228,6 +234,7 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
                                 modelUser.firstName;
                             _loginController.modelUser.value.email =
                                 modelUser.email;
+                            updateUserDetails();
                           }
                         },
                       ),
@@ -238,5 +245,40 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
             ],
           ),
         ));
+  }
+
+  bool isUpdating = false;
+
+  void updateUserDetails() async {
+    setState(() {
+      isUpdating = true;
+    });
+    Request request = Request(url: urlUpdateProfile, body: {
+      'type': "API",
+      'id': studentId.toString(),
+      'first_name': _loginController.modelUser.value.firstName.toString(),
+      'email': _loginController.modelUser.value.email.toString(),
+      'standard_id': standardId.toString(),
+    });
+
+    request.post().then((value) async {
+      setState(() {
+        isUpdating = false;
+      });
+      final responseData = json.decode(value.body);
+
+      if (responseData['status_code'] == 1) {
+        showToast(responseData['message']);
+        Get.back();
+      } else {
+        showSnackBar("Error", responseData['message'], Colors.red);
+      }
+    }).catchError((onError) {
+      setState(() {
+        isUpdating = false;
+      });
+      showSnackBar("Error", "Opps! Internal App Error", Colors.red);
+      print(onError);
+    });
   }
 }

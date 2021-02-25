@@ -27,30 +27,6 @@ class StateSubscription extends State<Subscription> {
   @override
   void initState() {
     super.initState();
-    var modelColor = ModelColor();
-    modelColor.color1 = Color(0xffff5e62);
-    modelColor.color2 = Color(0xffff9966);
-    arrOfColor.add(modelColor);
-
-    var modelColor1 = ModelColor();
-    modelColor1.color1 = Color(0xffE100FF);
-    modelColor1.color2 = Color(0xff7F00FF);
-    arrOfColor.add(modelColor1);
-
-    var modelColor2 = ModelColor();
-    modelColor2.color1 = Color(0xff20e3b2);
-    modelColor2.color2 = Color(0xff0cebeb);
-    arrOfColor.add(modelColor2);
-
-    var modelColor3 = ModelColor();
-    modelColor3.color1 = Color(0xff642B73);
-    modelColor3.color2 = Color(0xffC6426E);
-    arrOfColor.add(modelColor3);
-
-    var modelColor4 = ModelColor();
-    modelColor4.color1 = Color(0xff000000);
-    modelColor4.color2 = Color(0xff0f9b0f);
-    arrOfColor.add(modelColor4);
 
     if (_subscriptionController.arrOfSubscription.isEmpty)
       _subscriptionController.getPlans();
@@ -257,7 +233,14 @@ class StateSubscription extends State<Subscription> {
                                                     ),
                                                   )
                                                 : Center(
-                                                    child: Text("Subscribe"),
+                                                    child: Text(
+                                                        _subscriptionController
+                                                                    .arrOfSubscription[
+                                                                        index]
+                                                                    .subscribed ==
+                                                                1
+                                                            ? "Subscribed"
+                                                            : "Subscribe"),
                                                   ),
                                             decoration: BoxDecoration(
                                                 color: colors[index],

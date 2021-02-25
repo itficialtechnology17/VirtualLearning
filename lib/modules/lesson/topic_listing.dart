@@ -101,7 +101,7 @@ class _StateTopicListing extends State<TopicListing>
             ),
             bottom: TabBar(
               // controller: _tabController,
-              isScrollable: false,
+              isScrollable: true,
               indicatorColor: Colors.white,
               onTap: (index) {},
               tabs: [

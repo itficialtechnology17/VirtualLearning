@@ -25,10 +25,12 @@ class _StateSelectSubject extends State<SelectSubject> {
   void initState() {
     super.initState();
     arrOfSubject = _subjectController.arrOfSubject;
+    clearSubjectSelection();
   }
 
   var isLoading = false;
   String countPrice = "";
+  bool isSelectedAll = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,6 +91,8 @@ class _StateSelectSubject extends State<SelectSubject> {
                                   ),
                                   _subscriptionController.arrOfPrice.isNotEmpty
                                       ? Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               "* Per Subject Price: " +
@@ -115,6 +119,73 @@ class _StateSelectSubject extends State<SelectSubject> {
                                                       fontSize: 14,
                                                       color: Colors.grey),
                                             ),
+                                            Material(
+                                              color: Colors.white,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    isSelectedAll =
+                                                        !isSelectedAll;
+                                                    for (int i = 0;
+                                                        i < arrOfSubject.length;
+                                                        i++) {
+                                                      if (isSelectedAll) {
+                                                        arrOfSubject[i]
+                                                            .isSelected = true;
+                                                      } else {
+                                                        arrOfSubject[i]
+                                                            .isSelected = false;
+                                                      }
+                                                    }
+                                                    calculatePrice();
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 8),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      isSelectedAll
+                                                          ? Icon(
+                                                              Icons.check_box,
+                                                              size: 25,
+                                                              color:
+                                                                  Colors.green,
+                                                            )
+                                                          : Icon(
+                                                              Icons.crop_square,
+                                                              size: 25,
+                                                              color:
+                                                                  Colors.green,
+                                                            ),
+                                                      SizedBox(
+                                                        width: 8,
+                                                      ),
+                                                      RichText(
+                                                        text: TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                              text:
+                                                                  "Select all subject",
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .subtitle1,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             SizedBox(
                                               height: 8,
                                             ),
@@ -133,7 +204,22 @@ class _StateSelectSubject extends State<SelectSubject> {
                                         child: InkWell(
                                           onTap: () {
                                             setState(() {
-                                              setSelection(index);
+                                              // setSelection(index);
+                                              for (int i = 0;
+                                                  i < arrOfSubject.length;
+                                                  i++) {
+                                                if (i == index) {
+                                                  if (arrOfSubject[index]
+                                                      .isSelected) {
+                                                    arrOfSubject[index]
+                                                        .isSelected = false;
+                                                  } else {
+                                                    arrOfSubject[index]
+                                                        .isSelected = true;
+                                                  }
+                                                }
+                                              }
+                                              calculatePrice();
                                             });
                                           },
                                           child: Container(
@@ -269,18 +355,9 @@ class _StateSelectSubject extends State<SelectSubject> {
     );
   }
 
-  void setSelection(int index) {
-    for (int i = 0; i < arrOfSubject.length; i++) {
-      if (i == index) {
-        if (arrOfSubject[index].isSelected) {
-          arrOfSubject[index].isSelected = false;
-        } else {
-          arrOfSubject[index].isSelected = true;
-        }
-      }
-    }
-    calculatePrice();
-  }
+/*  void setSelection(int index) {
+
+  }*/
 
   getSubjectId() {
     String listOfSubjectId = "";
@@ -300,17 +377,33 @@ class _StateSelectSubject extends State<SelectSubject> {
     for (int i = 0; i < arrOfSubject.length; i++) {
       if (arrOfSubject[i].isSelected) {
         price = price +
-            int.parse(_subscriptionController.arrOfPrice[0].subjectPrice);
+            int.parse(_subscriptionController.arrOfPrice[0].subjectPrice
+                .replaceAll(",", ""));
+        print("Price=" + price.toString());
       }
     }
-    if (price > int.parse(_subscriptionController.arrOfPrice[0].coursePrice)) {
+
+    if (price >
+        int.parse(_subscriptionController.arrOfPrice[0].coursePrice
+            .toString()
+            .replaceAll(",", ""))) {
       setState(() {
-        countPrice = _subscriptionController.arrOfPrice[0].coursePrice;
+        countPrice = _subscriptionController.arrOfPrice[0].coursePrice
+            .toString()
+            .replaceAll(",", "");
       });
     } else {
       setState(() {
         countPrice = price.toString();
       });
     }
+  }
+
+  void clearSubjectSelection() {
+    setState(() {
+      for (int i = 0; i < arrOfSubject.length; i++) {
+        arrOfSubject[i].isSelected = false;
+      }
+    });
   }
 }

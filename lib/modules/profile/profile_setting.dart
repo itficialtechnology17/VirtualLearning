@@ -22,6 +22,7 @@ class ProfileSetting extends StatefulWidget {
 class _StateProfileSetting extends State<ProfileSetting> {
   String output = "";
 
+  bool isDarkMode = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +32,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
           SliverAppBar(
             centerTitle: true,
             title: Text(
-              "Profile Setting",
+              "Settings",
               style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
             ),
             expandedHeight: 150,
@@ -170,6 +171,44 @@ class _StateProfileSetting extends State<ProfileSetting> {
                                 trailing: Switch(
                                   value: true,
                                   onChanged: (value) {},
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              child: ListTile(
+                                onTap: () {},
+                                leading: RadiantGradientMask(
+                                  child: Icon(
+                                    Icons.brightness_4_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                title: Padding(
+                                  child: Text(
+                                    "Night Mode",
+                                    style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.blueGrey,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  padding: EdgeInsets.only(bottom: 0),
+                                ),
+                                trailing: Switch(
+                                  value: isDarkMode,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isDarkMode = value;
+                                      if (isDarkMode) {
+                                        Get.changeThemeMode(ThemeMode.dark);
+                                      } else {
+                                        Get.changeThemeMode(ThemeMode.light);
+                                      }
+                                    });
+                                  },
                                 ),
                               ),
                             ),

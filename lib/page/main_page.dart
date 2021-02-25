@@ -10,10 +10,10 @@ import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
+import 'package:virtual_learning/modules/player/play_recent_video.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_guide.dart';
 import 'package:virtual_learning/page/ask_doubt.dart';
-import 'package:virtual_learning/page/youtube_iframe.dart';
 import 'package:virtual_learning/utils/SABT.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
@@ -144,9 +144,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                       .padding
                                                       .top),
                                       Text(
-                                        "Welcome " +
-                                            _loginController
-                                                .modelUser.value.firstName,
+                                        "Welcome",
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
@@ -407,14 +405,14 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                         BorderRadius.circular(
                                                             8),
                                                     onTap: () {
-                                                      /* Get.to(PlayRecentVideo(
-                                                          _dashboardController
-                                                                  .arrOfWatchHistory[
-                                                              index]));*/
-                                                      Get.to(YoutubeIframe(
+                                                      Get.to(PlayRecentVideo(
                                                           _dashboardController
                                                                   .arrOfWatchHistory[
                                                               index]));
+                                                      /* Get.to(YoutubeIframe(
+                                                          _dashboardController
+                                                                  .arrOfWatchHistory[
+                                                              index]));*/
                                                     },
                                                     child: Container(
                                                       height:
@@ -507,6 +505,9 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                                                 ),
                                                               ],
                                                             ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 4,
                                                           ),
                                                           CircularPercentIndicator(
                                                             radius: 30.0,

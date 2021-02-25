@@ -44,11 +44,11 @@ class _StateSplashPage extends State<SplashPage> {
         child: Center(
           child: Image(
             image: AssetImage(
-              "assets/images/ic_virtualE_logo.png",
+              "assets/images/ic_logo_1024.png",
             ),
-            height: MediaQuery.of(context).size.width * 0.50,
-            width: MediaQuery.of(context).size.width * 0.50,
-            fit: BoxFit.contain,
+            // height: MediaQuery.of(context).size.width * 0.50,
+            // width: MediaQuery.of(context).size.width * 0.50,
+            // fit: BoxFit.cover,
           ),
         ),
       ),

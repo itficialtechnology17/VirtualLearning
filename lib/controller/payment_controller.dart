@@ -165,6 +165,7 @@ class PaymentController extends GetxController {
         var responseData = jsonDecode(value.body);
         if (responseData['status_code'] == 1) {
           showSnackBar("Success", responseData['message'], Colors.green);
+          _subscriptionController.arrOfSubscription[index].subscribed = 1;
         } else {
           showSnackBar("Opps!", responseData['message'], Colors.red);
         }

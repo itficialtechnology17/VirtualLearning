@@ -67,10 +67,7 @@ class CustomDrawer extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 4),
                         child: Text(
                           "Grade: " +
-                              _loginController.modelUser.value.standardName +
-                              " " +
-                              _loginController
-                                  .modelUser.value.standardDisplayName,
+                              _loginController.modelUser.value.standardName,
                           style: textStyle10Bold.copyWith(color: Colors.white),
                         ),
                       ),
@@ -90,7 +87,7 @@ class CustomDrawer extends StatelessWidget {
                       children: [
                         _createDrawerItem(
                             icon: Icons.perm_identity,
-                            text: 'Profile Setting',
+                            text: 'Settings',
                             context: context),
                         _createDrawerItem(
                             icon: Icons.graphic_eq,
@@ -142,7 +139,7 @@ class CustomDrawer extends StatelessWidget {
     return InkWell(
       onTap: () {
         Navigator.pop(context);
-        if (text == "Profile Setting") {
+        if (text == "Settings") {
           Get.to(ProfileSetting());
         } else if (text == "Analytics") {
           Get.to(AnalyticsPage());

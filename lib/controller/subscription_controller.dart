@@ -26,6 +26,7 @@ class SubscriptionController extends GetxController {
 
     Request request = Request(url: urlGetSubscription, body: {
       'type': "API",
+      'student_id': studentId.toString(),
     });
     request.post().then((value) {
       isLoadingPlans.value = false;

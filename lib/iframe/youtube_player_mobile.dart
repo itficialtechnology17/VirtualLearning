@@ -93,7 +93,7 @@ class _MobileYoutubePlayerState extends State<CustomRawYoutubePlayer>
       initialData: InAppWebViewInitialData(
         data: player,
         baseUrl: controller.params.privacyEnhanced
-            ? 'https://www.youtube-nocookie.com'
+            ? 'https://www.youtube.com'
             : 'https://www.youtube.com',
         encoding: 'utf-8',
         mimeType: 'text/html',
