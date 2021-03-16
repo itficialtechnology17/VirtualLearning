@@ -239,8 +239,8 @@ class StateSubscription extends State<Subscription> {
                                                                         index]
                                                                     .subscribed ==
                                                                 1
-                                                            ? "Subscribed"
-                                                            : "Subscribe"),
+                                                            ? "Paid"
+                                                            : "Pay Now"),
                                                   ),
                                             decoration: BoxDecoration(
                                                 color: colors[index],

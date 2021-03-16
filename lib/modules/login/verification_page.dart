@@ -1,9 +1,11 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
+import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -33,6 +35,121 @@ class _StateVerificationPage extends State<VerificationPage> {
   }
 
   @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xff0A0A78),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: Get.height * 0.05),
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: EdgeInsets.all(4),
+                child: SvgPicture.asset(
+                  'assets/svg/ic_back.svg',
+                  height: MediaQuery.of(context).size.width * 0.05,
+                  width: MediaQuery.of(context).size.width * 0.05,
+                  color: Colors.white,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            SizedBox(height: Get.height * 0.15),
+            Image.asset(
+              "assets/images/ic_app_logo_name.png",
+              width: Get.width * 0.30,
+            ),
+            SizedBox(height: Get.height * 0.05),
+            Text(
+              "Login",
+              style: textStyle14Bold.copyWith(color: Colors.white),
+            ),
+            SizedBox(height: Get.height * 0.03),
+            Row(
+              children: [
+                Expanded(
+                  child: PinCodeTextField(
+                    appContext: context,
+                    length: 4,
+                    obscureText: false,
+                    animationType: AnimationType.fade,
+                    textStyle: textStyle10Bold.copyWith(color: Colors.white),
+                    keyboardType: TextInputType.number,
+                    pinTheme: PinTheme(
+                        shape: PinCodeFieldShape.underline,
+                        // borderRadius: BorderRadius.circular(5),
+                        // fieldHeight: 50,
+                        // fieldWidth: 40,
+                        selectedFillColor: Colors.transparent,
+                        activeFillColor: Colors.transparent,
+                        inactiveColor: Colors.grey,
+                        activeColor: Colors.green,
+                        selectedColor: Colors.green,
+                        inactiveFillColor: Colors.transparent,
+                        disabledColor: Colors.transparent),
+                    animationDuration: Duration(milliseconds: 300),
+                    backgroundColor: Colors.transparent,
+                    cursorColor: Colors.white,
+                    autoFocus: true,
+                    onSubmitted: (v) {
+                      /* if (v.length == 4) {
+                        isCodeAdded = true;
+                        if (isCodeAdded) {
+                          _loginController.checkOTP(v);
+                        } else {
+                          showToast("Please Enter Valid OTP.", 0);
+                        }
+                      }*/
+                    },
+                    enableActiveFill: true,
+                    // errorAnimationController: errorController,
+                    // controller: textEditingController,
+
+                    onCompleted: (v) {
+                      if (v.length == 4) {
+                        isCodeAdded = true;
+                        if (isCodeAdded) {
+                          _loginController.checkOTP(v);
+                        } else {
+                          showToast("Please Enter Valid OTP.", 0);
+                        }
+                      }
+                    },
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        // currentText = value;
+                      });
+                    },
+                    beforeTextPaste: (text) {
+                      print("Allowing to paste $text");
+                      //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                      //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                      return true;
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: Get.width * 0.20,
+                )
+              ],
+            ),
+            SizedBox(height: Get.height * 0.01),
+            Text(
+              "Verify your number & never stop learning",
+              style: textStyle10.copyWith(color: Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -325,7 +442,7 @@ class _StateVerificationPage extends State<VerificationPage> {
         ],
       ),
     );
-  }
+  }*/
 
   getBoxShadow(int i) {
     if (selectedPosition == i) {

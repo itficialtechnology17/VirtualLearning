@@ -20,6 +20,7 @@ String urlGetPrice = "api/pricing";
 String urlPaymentDetails = "api/payment-details";
 String urlSubscribe = "api/subscribe";
 String urlChapterTest = "api/get-test";
+String urlRegisterDevice = "api/register-device";
 
 String urlSubmitTopicTest = "api/submit-topic-test";
 String urlTopicTestResult = "api/topic-test-result";

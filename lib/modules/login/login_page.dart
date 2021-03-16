@@ -1,9 +1,11 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/verification_page.dart';
+import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,7 +28,7 @@ class _StateLoginPage extends State<LoginPage> {
     });
   }
 
-  @override
+  /*@override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -247,7 +249,7 @@ class _StateLoginPage extends State<LoginPage> {
         ],
       ),
     );
-  }
+  }*/
 
   getBoxShadow(int i) {
     if (selectedPosition == i) {
@@ -256,5 +258,214 @@ class _StateLoginPage extends State<LoginPage> {
       ];
     } else
       return null;
+  }
+
+  var mobileNumber = "";
+
+  bool isValidMobileNumber = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xff0A0A78),
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: KeyboardActions(
+          config: _buildConfig(context),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: Get.height * 0.20),
+              Image.asset(
+                "assets/images/ic_app_logo_name.png",
+                width: Get.width * 0.30,
+              ),
+              SizedBox(height: Get.height * 0.05),
+              Text(
+                "Login",
+                style: textStyle14Bold.copyWith(color: Colors.white),
+              ),
+              SizedBox(height: Get.height * 0.03),
+              Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(color: Colors.white, width: 1))),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.08,
+                          child: TextFormField(
+                            enabled: false,
+                            initialValue: "+91",
+                            style: textStyle10.copyWith(color: Colors.white),
+                            decoration: InputDecoration(
+                                counterText: "",
+                                border: InputBorder.none,
+                                disabledBorder: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                errorBorder: InputBorder.none,
+                                hintText: "+91"),
+                          )),
+                    ),
+                    Container(
+                      width: 1,
+                      height: MediaQuery.of(context).size.height * 0.03,
+                      decoration: BoxDecoration(color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: TextFormField(
+                        // textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.numberWithOptions(
+                            signed: true, decimal: true),
+                        maxLength: 10,
+                        onChanged: (value) {
+                          if (value.length == 10) {
+                            setState(() {
+                              isContactNoAdded = true;
+                              _loginController.enterMobileNumber = value;
+                            });
+                          } else {
+                            setState(() {
+                              isContactNoAdded = false;
+                            });
+                          }
+                        },
+                        style: textStyle10.copyWith(color: Colors.white),
+                        autofocus: true,
+                        onFieldSubmitted: (value) {
+                          if (isContactNoAdded) {
+                            _loginController.getOTP();
+                            Get.to(VerificationPage());
+                          } else {
+                            showToast("Please enter valid mobile number", 0);
+                          }
+                        },
+                        decoration: InputDecoration(
+                            counterText: "",
+                            hintStyle: TextStyle(color: Colors.white),
+                            border: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            hintText: "00000 00000"),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: Get.height * 0.02),
+              Text(
+                "Let's Start with your Mobile Number",
+                style: textStyle10.copyWith(color: Colors.white),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  final FocusNode _nodeText1 = FocusNode();
+  final FocusNode _nodeText2 = FocusNode();
+  final FocusNode _nodeText3 = FocusNode();
+  final FocusNode _nodeText4 = FocusNode();
+  final FocusNode _nodeText5 = FocusNode();
+  final FocusNode _nodeText6 = FocusNode();
+
+  /// Creates the [KeyboardActionsConfig] to hook up the fields
+  /// and their focus nodes to our [FormKeyboardActions].
+  KeyboardActionsConfig _buildConfig(BuildContext context) {
+    return KeyboardActionsConfig(
+      keyboardActionsPlatform: KeyboardActionsPlatform.ALL,
+      keyboardBarColor: Colors.grey[200],
+      nextFocus: true,
+      actions: [
+        KeyboardActionsItem(
+          focusNode: _nodeText1,
+        ),
+        KeyboardActionsItem(focusNode: _nodeText2, toolbarButtons: [
+          (node) {
+            return GestureDetector(
+              onTap: () => node.unfocus(),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(Icons.close),
+              ),
+            );
+          }
+        ]),
+        KeyboardActionsItem(
+          focusNode: _nodeText3,
+          onTapAction: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: Text("Custom Action"),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("OK"),
+                        onPressed: () => Navigator.of(context).pop(),
+                      )
+                    ],
+                  );
+                });
+          },
+        ),
+        KeyboardActionsItem(
+          focusNode: _nodeText5,
+          toolbarButtons: [
+            //button 1
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "CLOSE",
+                    style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              );
+            },
+            //button 2
+            (node) {
+              return GestureDetector(
+                onTap: () => node.unfocus(),
+                child: Container(
+                  color: Colors.black,
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    "DONE",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              );
+            }
+          ],
+        ),
+        KeyboardActionsItem(
+          focusNode: _nodeText6,
+          footerBuilder: (_) => PreferredSize(
+              child: SizedBox(
+                  height: 40,
+                  child: Center(
+                    child: Text('Custom Footer'),
+                  )),
+              preferredSize: Size.fromHeight(40)),
+        ),
+      ],
+    );
   }
 }

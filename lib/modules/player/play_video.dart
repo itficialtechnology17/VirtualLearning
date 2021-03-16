@@ -65,7 +65,7 @@ class _StatePlayVideo extends State<PlayVideo> {
         loop: false,
         isLive: false,
         hideControls: false,
-        forceHD: true,
+        forceHD: false,
         enableCaption: true,
       ),
     )..addListener(listener);

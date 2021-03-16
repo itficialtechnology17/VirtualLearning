@@ -258,6 +258,7 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
       'id': studentId.toString(),
       'first_name': _loginController.modelUser.value.firstName.toString(),
       'email': _loginController.modelUser.value.email.toString(),
+      'is_registered': "0",
       'standard_id': standardId.toString(),
     });
 

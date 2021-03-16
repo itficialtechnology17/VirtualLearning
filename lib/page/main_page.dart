@@ -10,6 +10,7 @@ import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
 import 'package:virtual_learning/modules/menu/custom_drawer.dart';
+import 'package:virtual_learning/modules/player/ExtPlayer.dart';
 import 'package:virtual_learning/modules/player/play_recent_video.dart';
 import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/test/test_guide.dart';
@@ -47,6 +48,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
     _menuScaleAnimation =
@@ -725,16 +727,16 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                   SizedBox(
                                     height: 20,
                                   ),
-                                  /*GestureDetector(
+                                  GestureDetector(
                                     onTap: () {
-                                      Get.to(YoutubeIframe());
+                                      Get.to(ExtPlayer());
                                     },
                                     child: Container(
                                       width: 300,
                                       height: 100,
                                       color: Colors.transparent,
                                     ),
-                                  )*/
+                                  )
                                 ],
                               ),
                               padding: EdgeInsets.only(left: 16, right: 16),

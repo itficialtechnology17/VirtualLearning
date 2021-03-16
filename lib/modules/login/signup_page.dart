@@ -482,7 +482,7 @@ class _StateSignUpPage extends State<SignUpPage> {
                               showSnackBar("Empty", "Please Enter School Name",
                                   Colors.red);
                             } else {
-                              _loginController.updateUserDetails();
+                              _loginController.updateUserDetails("1");
                             }
                           },
                           borderRadius: BorderRadius.circular(16),

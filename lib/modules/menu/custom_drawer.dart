@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -93,10 +95,12 @@ class CustomDrawer extends StatelessWidget {
                             icon: Icons.graphic_eq,
                             text: 'Analytics',
                             context: context),
-                        _createDrawerItem(
-                            icon: Icons.local_police_outlined,
-                            text: 'Subscribe Now',
-                            context: context),
+                        Platform.isAndroid
+                            ? _createDrawerItem(
+                                icon: Icons.local_police_outlined,
+                                text: 'Subscribe Now',
+                                context: context)
+                            : SizedBox(),
                         _createDrawerItem(
                             icon: Icons.bookmark_border,
                             text: 'Bookmarks',

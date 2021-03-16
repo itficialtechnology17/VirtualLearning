@@ -134,6 +134,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.6"
   eventify:
     dependency: transitive
     description:
@@ -141,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
+  ext_video_player:
+    dependency: "direct main"
+    description:
+      name: ext_video_player
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -310,6 +324,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.3"
+  json_annotation:
+    dependency: transitive
+    description:
+      name: json_annotation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.1.1"
+  keyboard_actions:
+    dependency: "direct main"
+    description:
+      name: keyboard_actions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.3.1+1"
   logging:
     dependency: transitive
     description:
@@ -345,6 +373,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.9.7"
+  native_device_orientation:
+    dependency: "direct main"
+    description:
+      name: native_device_orientation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.3"
   open_iconic_flutter:
     dependency: transitive
     description:
@@ -436,6 +471,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.4"
+  pin_code_fields:
+    dependency: "direct main"
+    description:
+      name: pin_code_fields
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.1.0"
   platform:
     dependency: transitive
     description:
@@ -707,6 +749,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  youtube_explode_dart:
+    dependency: "direct main"
+    description:
+      name: youtube_explode_dart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.5"
   youtube_player_flutter:
     dependency: "direct main"
     description:

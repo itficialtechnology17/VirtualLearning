@@ -78,7 +78,7 @@ class LoginController extends GetxController {
     });
   }
 
-  void updateUserDetails() async {
+  void updateUserDetails(isRegister) async {
     isSignUp.value = true;
 
     Request request = Request(url: urlUpdateProfile, body: {
@@ -88,6 +88,7 @@ class LoginController extends GetxController {
       'school_name': modelUser.value.schoolName.toString(),
       'address': modelUser.value.address.toString(),
       'email': modelUser.value.email.toString(),
+      'is_registered': isRegister,
       'standard_id': arrOfCourse[selectedCoursePosition].id.toString(),
     });
 
@@ -144,7 +145,7 @@ class LoginController extends GetxController {
         // Get.offAll(MainPage());
       }
     } else {
-      showSnackBar("Mismatched", "Please enter valid otp", Colors.red);
+      showToast("Please Enter Valid OTP.", 0);
     }
   }
 }

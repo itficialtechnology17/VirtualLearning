@@ -133,7 +133,7 @@ class CustomYoutubePlayer extends StatefulWidget {
     @required this.controller,
     this.width,
     this.aspectRatio = 16 / 9,
-    this.controlsTimeOut = const Duration(seconds: 3),
+    this.controlsTimeOut = const Duration(seconds: 2),
     this.bufferIndicator,
     this.progressIndicatorColor = Colors.red,
     this.progressColors = const ProgressBarColors(),
