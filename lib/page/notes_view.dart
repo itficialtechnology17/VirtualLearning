@@ -78,6 +78,7 @@ class _StateNotesView extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text(
           _subjectController.selectedChapter.value.name,
@@ -119,11 +120,12 @@ class _StateNotesView extends State<NotesView> {
                 )
               : PDFView(
                   filePath: urlPDFPath,
-                  autoSpacing: true,
+                  autoSpacing: false,
                   enableSwipe: true,
                   pageSnap: true,
                   swipeHorizontal: false,
                   nightMode: false,
+                  fitEachPage: true,
                   onError: (e) {
                     //Show some error message or UI
                   },

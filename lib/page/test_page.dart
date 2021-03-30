@@ -79,7 +79,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
             centerTitle: true,
             title: Text(
               "Highlights",
-              style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+              style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
             ),
           ),
           body: Column(
@@ -186,7 +186,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: "Poppins",
+                                          fontFamily: "Nunito",
                                           fontSize: 18)),
                                 ),
                                 SizedBox(
@@ -239,7 +239,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                                   .answer,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontFamily: "Poppins",
+                                                  fontFamily: "Nunito",
                                                   fontSize: 14)),
                                         ),
                                       )
@@ -296,7 +296,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                                   .answer,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontFamily: "Poppins",
+                                                  fontFamily: "Nunito",
                                                   fontSize: 14)),
                                         ),
                                       )
@@ -353,7 +353,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                                   .answer,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontFamily: "Poppins",
+                                                  fontFamily: "Nunito",
                                                   fontSize: 14)),
                                         ),
                                       )
@@ -410,7 +410,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                                   .answer,
                                               style: TextStyle(
                                                   color: Colors.black,
-                                                  fontFamily: "Poppins",
+                                                  fontFamily: "Nunito",
                                                   fontSize: 14)),
                                         ),
                                       )

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/modules/player/play_video.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class VideoTab extends StatefulWidget {
   @override
@@ -98,12 +99,7 @@ class _StateVideoTab extends State<VideoTab> {
                                               text: TextSpan(
                                                   text: _subjectController
                                                       .arrOfTopic[index].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontFamily: "Poppins",
-                                                      fontSize: 12)),
+                                                  style: textStyle10),
                                             ),
                                           )
                                         ],
@@ -229,7 +225,7 @@ class _StateVideoTab extends State<VideoTab> {
                                                                           fontWeight: FontWeight
                                                                               .w600,
                                                                           fontFamily:
-                                                                              "Poppins",
+                                                                              "Nunito",
                                                                           fontSize:
                                                                               16)),
                                                                 ),

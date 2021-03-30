@@ -38,8 +38,13 @@ class _StateVerificationPage extends State<VerificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff0A0A78),
+      resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/ic_splash.png"),
+                fit: BoxFit.cover)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,10 +71,10 @@ class _StateVerificationPage extends State<VerificationPage> {
             ),
             SizedBox(height: Get.height * 0.05),
             Text(
-              "Login",
+              "OTP",
               style: textStyle14Bold.copyWith(color: Colors.white),
             ),
-            SizedBox(height: Get.height * 0.03),
+            // SizedBox(height: Get.height * 0.03),
             Row(
               children: [
                 Expanded(
@@ -78,7 +83,8 @@ class _StateVerificationPage extends State<VerificationPage> {
                     length: 4,
                     obscureText: false,
                     animationType: AnimationType.fade,
-                    textStyle: textStyle10Bold.copyWith(color: Colors.white),
+                    textStyle: textStyle11.copyWith(color: Colors.white),
+
                     keyboardType: TextInputType.number,
                     pinTheme: PinTheme(
                         shape: PinCodeFieldShape.underline,
@@ -90,6 +96,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                         inactiveColor: Colors.grey,
                         activeColor: Colors.green,
                         selectedColor: Colors.green,
+                        borderWidth: 3,
                         inactiveFillColor: Colors.transparent,
                         disabledColor: Colors.transparent),
                     animationDuration: Duration(milliseconds: 300),
@@ -142,7 +149,22 @@ class _StateVerificationPage extends State<VerificationPage> {
             SizedBox(height: Get.height * 0.01),
             Text(
               "Verify your number & never stop learning",
-              style: textStyle10.copyWith(color: Colors.white),
+              style: textStyleSmall.copyWith(color: Colors.white),
+            ),
+            SizedBox(height: Get.height * 0.02),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  _loginController.getOTP();
+                  showToast("OTP Sent Successfully");
+                },
+                child: Text(
+                  "Resend OTP",
+                  style: textStyleSmall.copyWith(
+                      color: Colors.white, fontWeight: FontWeight.w900),
+                ),
+              ),
             )
           ],
         ),
@@ -420,7 +442,7 @@ class _StateVerificationPage extends State<VerificationPage> {
                             messageText: Text(
                               "Please Enter Valid OTP.",
                               style: TextStyle(
-                                  fontFamily: "Poppins",
+                                  fontFamily: "Nunito",
                                   color: Colors.white,
                                   fontSize: 16),
                             ),

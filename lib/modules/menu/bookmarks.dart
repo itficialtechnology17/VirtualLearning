@@ -92,7 +92,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                                   "Bookmarks",
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -100,7 +100,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                                   "List of Bookmarks topics",
                                   style: TextStyle(
                                       color: Colors.grey,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 12),
                                 ),
                                 SizedBox(
@@ -116,7 +116,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                           TabBar(
                             isScrollable: true,
                             labelStyle: TextStyle(
-                                fontFamily: 'Poppins',
+                                fontFamily: 'Nunito',
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: Colors.white),
@@ -173,7 +173,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
         _bookmarkController.arrOfBookmark[widgetNumber].name.toUpperCase(),
         style: TextStyle(
           color: Colors.black,
-          fontFamily: 'Poppins',
+          fontFamily: 'Nunito',
         ),
       ),
     );
@@ -246,7 +246,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontWeight: FontWeight.w600,
-                                                fontFamily: "Poppins",
+                                                fontFamily: "Nunito",
                                                 fontSize: 16)),
                                         maxLines: 1,
                                       ),

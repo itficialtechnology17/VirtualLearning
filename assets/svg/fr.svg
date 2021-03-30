@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="426.09"
+    height="257.989" viewBox="0 0 426.09 257.989">
+    <defs>
+        <style>
+            .a{fill:#fff;}.b{fill:#7fcb4f;}.c{opacity:0.3;}.d{clip-path:url(#a);}.e{clip-path:url(#b);}.f{clip-path:url(#c);}.g{clip-path:url(#d);}
+        </style>
+        <clipPath id="a">
+            <path class="a" d="M0,0H426.09V257.989H0ZM0,0" />
+        </clipPath>
+        <clipPath id="b">
+            <path class="b" d="M246.8,451.2-200.773,209.467,85.068-319.762,532.64-78.025Zm0,0"
+                transform="translate(200.773 319.762)" />
+        </clipPath>
+        <clipPath id="c">
+            <path class="b" d="M532.682-78.107,85.11-319.844-200.727,209.385,246.846,451.122Zm0,0"
+                transform="translate(200.727 319.844)" />
+        </clipPath>
+        <clipPath id="d">
+            <path class="b"
+                d="M289.977-163.021C162.757-33.411,46.489-199.469-63.554-72.458c-155.2,179.086-9.8,483.245,168.457,308.546,96.482-94.507,209.53,37.031,307.834-139.4S377.63-252.279,289.977-163.021Zm0,0"
+                transform="translate(129.303 187.317)" />
+        </clipPath>
+    </defs>
+    <g class="c">
+        <g class="d">
+            <g class="e" transform="translate(-234.376 -373.281)">
+                <g class="f" transform="translate(0.054 -0.096)">
+                    <g class="g" transform="translate(83.378 154.708)">
+                        <path class="b"
+                            d="M133.273-175.3,670.806,115.032,401.627,613.412-135.906,323.084Zm0,0"
+                            transform="translate(128.198 189.328)" />
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -80,7 +80,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
             centerTitle: true,
             title: Text(
               "Highlights",
-              style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+              style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
             ),
             flexibleSpace: Container(
                 decoration: BoxDecoration(
@@ -395,7 +395,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                       .answer,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 14)),
                             ),
                           )
@@ -450,7 +450,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                       .answer,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 14)),
                             ),
                           )
@@ -505,7 +505,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                       .answer,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 14)),
                             ),
                           )
@@ -560,7 +560,7 @@ class _StateTestResultDetails extends State<TestResultDetails> {
                                       .answer,
                                   style: TextStyle(
                                       color: Colors.black,
-                                      fontFamily: "Poppins",
+                                      fontFamily: "Nunito",
                                       fontSize: 14)),
                             ),
                           )

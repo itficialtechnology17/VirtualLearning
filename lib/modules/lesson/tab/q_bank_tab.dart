@@ -13,14 +13,6 @@ class QuestionBankTab extends StatefulWidget {
 }
 
 class _StateQuestionBank extends State<QuestionBankTab> {
-  List<String> questionType = [
-    '1 Marks Question',
-    '2 Marks Question',
-    '3 Marks Question',
-    '4 Marks Question',
-    '10 Marks Question',
-  ];
-
   SubjectController _subjectController = Get.find();
 
   @override
@@ -119,7 +111,7 @@ class _StateQuestionBank extends State<QuestionBankTab> {
                               borderRadius: BorderRadius.circular(16),
                               color: Colors.white,
                             ),
-                            height: AppBar().preferredSize.height,
+                            height: AppBar().preferredSize.height + 50,
                             child: Material(
                               borderRadius: BorderRadius.circular(16),
                               color: Colors.transparent,

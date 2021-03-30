@@ -123,7 +123,7 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
           centerTitle: true,
           title: Text(
             "Profile Update".toUpperCase(),
-            style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+            style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
           ),
         ),
         body: Obx(

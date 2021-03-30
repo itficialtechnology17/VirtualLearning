@@ -8,6 +8,7 @@ import 'package:virtual_learning/modules/lesson/tab/q_bank_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/test_description_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/video_tab.dart';
 import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/widgets/shimmer_topic.dart';
 
 class TopicListing extends StatefulWidget {
@@ -102,6 +103,7 @@ class _StateTopicListing extends State<TopicListing>
             bottom: TabBar(
               // controller: _tabController,
               isScrollable: true,
+              labelStyle: textStyle10,
               indicatorColor: Colors.white,
               onTap: (index) {},
               tabs: [

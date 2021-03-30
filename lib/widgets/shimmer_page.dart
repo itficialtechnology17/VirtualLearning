@@ -19,7 +19,7 @@ class _ShimmerPageState extends State<ShimmerPage> {
         centerTitle: true,
         title: Text(
           "VirtualE",
-          style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+          style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
         ),
       ),
       body: Container(

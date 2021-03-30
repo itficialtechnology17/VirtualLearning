@@ -85,14 +85,14 @@ class _StateQuestionBankByType extends State<QuestionBankByType> {
                       "Q-Banks",
                       style: TextStyle(
                           color: Colors.black,
-                          fontFamily: "Poppins",
+                          fontFamily: "Nunito",
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "Download, Practice and Progress",
                       style:
-                          TextStyle(color: Colors.grey, fontFamily: "Poppins"),
+                          TextStyle(color: Colors.grey, fontFamily: "Nunito"),
                     ),
                     SizedBox(
                       height: 8,
@@ -148,7 +148,7 @@ class _StateQuestionBankByType extends State<QuestionBankByType> {
                                     text: lessions[index],
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: "Poppins",
+                                        fontFamily: "Nunito",
                                         fontWeight: FontWeight.w500)),
                               ),
                             ),
@@ -251,14 +251,14 @@ class _StateTypeOfQuestionBank extends State<QuestionBankByType> {
                             "Type Of Question",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: "Poppins",
+                                fontFamily: "Nunito",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Select Question Type",
                             style: TextStyle(
-                                color: Colors.grey, fontFamily: "Poppins"),
+                                color: Colors.grey, fontFamily: "Nunito"),
                           ),
                           SizedBox(
                             height: 8,
@@ -315,7 +315,7 @@ class _StateTypeOfQuestionBank extends State<QuestionBankByType> {
                                     text: lessions[index],
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: "Poppins",
+                                        fontFamily: "Nunito",
                                         fontWeight: FontWeight.w500)),
                               ),
                             ),

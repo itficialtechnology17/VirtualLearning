@@ -72,14 +72,14 @@ class StateTestReport extends State<TestReport> {
                         "Test Report",
                         style: TextStyle(
                             color: Colors.black,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         widget.chapterName,
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: "Poppins"),
+                        style:
+                            TextStyle(color: Colors.grey, fontFamily: "Nunito"),
                       ),
                       SizedBox(
                         height: 8,

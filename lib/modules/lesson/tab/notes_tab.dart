@@ -105,7 +105,7 @@ class _StateNotesTab extends State<NotesTab> {
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.white,
                     ),
-                    height: AppBar().preferredSize.height,
+                    height: AppBar().preferredSize.height + 50,
                     child: Material(
                       borderRadius: BorderRadius.circular(16),
                       color: Colors.transparent,

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/controller/login_controller.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/modules/menu/analytics_page.dart';
 import 'package:virtual_learning/modules/menu/bookmarks.dart';
@@ -21,7 +20,7 @@ import 'package:virtual_learning/widgets/gradient_icon.dart';
 class CustomDrawer extends StatelessWidget {
   var userProfile = "";
 
-  LoginController _loginController = Get.find();
+  // LoginController _loginController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -30,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              expandedHeight: 120,
+              expandedHeight: Get.height * 0.20,
               elevation: 0,
               pinned: true,
               brightness: Brightness.dark,
@@ -63,17 +62,17 @@ class CustomDrawer extends StatelessWidget {
                   )*/
                       ,
                     ),
-                    Align(
+                    /* Align(
                       alignment: Alignment.bottomCenter,
                       child: Padding(
                         padding: EdgeInsets.only(bottom: 4),
                         child: Text(
                           "Grade: " +
-                              _loginController.modelUser.value.standardName,
+                              _dasloginController.modelUser.value.standardName,
                           style: textStyle10Bold.copyWith(color: Colors.white),
                         ),
                       ),
-                    )
+                    )*/
                   ],
                 ),
               ),
@@ -173,7 +172,10 @@ class CustomDrawer extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(left: 8.0),
-              child: Text(text.toUpperCase()),
+              child: Text(
+                text.toUpperCase(),
+                style: textStyle10,
+              ),
             )
           ],
         ),

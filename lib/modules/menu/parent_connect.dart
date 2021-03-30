@@ -66,14 +66,14 @@ class StateParentConnect extends State<ParentConnect> {
                         "Parent Connect",
                         style: TextStyle(
                             color: Colors.black,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
                       Text(
                         "Track your child's progress",
                         style: TextStyle(
-                            color: Colors.grey, fontFamily: "Poppins"),
+                            color: Colors.grey, fontFamily: "Nunito"),
                       ),
                       SizedBox(
                         height: 8,

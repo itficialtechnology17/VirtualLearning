@@ -10,6 +10,7 @@ import 'package:virtual_learning/modules/profile/profile_update.dart';
 import 'package:virtual_learning/modules/profile/webpage.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/widgets/gradient_icon.dart';
 
 class ProfileSetting extends StatefulWidget {
@@ -33,7 +34,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
             centerTitle: true,
             title: Text(
               "Settings",
-              style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+              style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
             ),
             expandedHeight: 150,
             elevation: 0,
@@ -79,10 +80,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
                           SizedBox(height: 24.0),
                           Text(
                             "Profile Details",
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.grey),
+                            style: textStyle12.copyWith(color: Colors.grey),
                           ),
                           Material(
                             color: Colors.transparent,

@@ -65,7 +65,7 @@ class StateAnalyticsPage extends State<AnalyticsPage> {
                         "Analytics",
                         style: TextStyle(
                             color: Colors.black,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -73,7 +73,7 @@ class StateAnalyticsPage extends State<AnalyticsPage> {
                         "Your progress report",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 12),
                       ),
                       SizedBox(

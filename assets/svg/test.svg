@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="426.09" height="257.989" viewBox="0 0 426.09 257.989">
+    <defs>
+        <clipPath id="clip-path">
+            <path id="Path_466" data-name="Path 466" d="M0,0H426.09V257.989H0ZM0,0" fill="#fff"/>
+        </clipPath>
+        <clipPath id="clip-path-2">
+            <path id="Path_465" data-name="Path 465" d="M246.8,451.2-200.773,209.467,85.068-319.762,532.64-78.025Zm0,0" transform="translate(200.773 319.762)" fill="#7fcb4f"/>
+        </clipPath>
+        <clipPath id="clip-path-3">
+            <path id="Path_464" data-name="Path 464" d="M532.682-78.107,85.11-319.844-200.727,209.385,246.846,451.122Zm0,0" transform="translate(200.727 319.844)" fill="#7fcb4f"/>
+        </clipPath>
+        <clipPath id="clip-path-4">
+            <path id="Path_463" data-name="Path 463" d="M289.977-163.021C162.757-33.411,46.489-199.469-63.554-72.458c-155.2,179.086-9.8,483.245,168.457,308.546,96.482-94.507,209.53,37.031,307.834-139.4S377.63-252.279,289.977-163.021Zm0,0" transform="translate(129.303 187.317)" fill="#7fcb4f"/>
+        </clipPath>
+    </defs>
+    <g id="Group_1080" data-name="Group 1080" opacity="0.3">
+        <g id="Group_628" data-name="Group 628" clip-path="url(#clip-path)">
+            <g id="Group_627" data-name="Group 627" transform="translate(-234.376 -373.281)" clip-path="url(#clip-path-2)">
+                <g id="Group_626" data-name="Group 626" transform="translate(0.054 -0.096)" clip-path="url(#clip-path-3)">
+                    <g id="Group_625" data-name="Group 625" transform="translate(83.378 154.708)" clip-path="url(#clip-path-4)">
+                        <path id="Path_462" data-name="Path 462" d="M133.273-175.3,670.806,115.032,401.627,613.412-135.906,323.084Zm0,0" transform="translate(128.198 189.328)" fill="#7fcb4f"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

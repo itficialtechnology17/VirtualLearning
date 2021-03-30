@@ -89,7 +89,7 @@ class TopicTab extends StatelessWidget {
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontFamily: "Poppins",
+                                                      fontFamily: "Nunito",
                                                       fontSize: 16)),
                                               maxLines: 1,
                                             ),

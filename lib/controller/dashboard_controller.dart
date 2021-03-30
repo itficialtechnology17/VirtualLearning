@@ -16,8 +16,9 @@ class DashboardController extends GetxController {
   var isDashboardLoading = false.obs;
   SubjectController _subjectController = Get.put(SubjectController());
   var arrOfWatchHistory = List<ModelWatchHistory>().obs;
-  LoginController _loginController = Get.put(LoginController());
+  LoginController loginController = Get.put(LoginController());
   var lastGivenTestId = 0.obs;
+  var currentTab = 0.obs;
 
   @override
   void onInit() {
@@ -31,7 +32,8 @@ class DashboardController extends GetxController {
     Request request = Request(url: urlGetDashboard, body: {
       'type': "API",
       'standard_id': standardId,
-      'student_id': studentId,
+      // 'student_id': studentId,
+      'student_id': "9",
     });
     request.post().then((value) {
       isDashboardLoading.value = false;
@@ -43,13 +45,17 @@ class DashboardController extends GetxController {
                 .map((data) => ModelSubject.fromJson(data))
                 .toList());
 
+        // _subjectController.arrOfSubject.assignAll(_subjectController.arrOfSubject);
+        // _subjectController.arrOfSubject.addAll(_subjectController.arrOfSubject);
+        // _subjectController.arrOfSubject.addAll(_subjectController.arrOfSubject);
+
         arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
             .map((data) => ModelWatchHistory.fromJson(data))
             .toList());
 
         lastGivenTestId.value = responseData['last_test'];
 
-        _loginController.modelUser.value =
+        loginController.modelUser.value =
             ModelUser.fromJson(responseData['student']);
 
         print("Success");

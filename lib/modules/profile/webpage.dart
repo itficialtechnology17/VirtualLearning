@@ -54,7 +54,7 @@ class _StateBotBaba extends State<WebPage> {
           centerTitle: true,
           title: Text(
             widget.title.toUpperCase(),
-            style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+            style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
           ),
         ),
         body: InAppWebView(

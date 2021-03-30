@@ -91,14 +91,14 @@ class _StateAskDoubt extends State<AskDoubt> {
                             "Ask a Doubt",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: "Poppins",
+                                fontFamily: "Nunito",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Raised your doubt in the go...",
                             style: TextStyle(
-                                color: Colors.grey, fontFamily: "Poppins"),
+                                color: Colors.grey, fontFamily: "Nunito"),
                           ),
                           SizedBox(
                             height: 8,
@@ -288,7 +288,7 @@ class _StateAskDoubt extends State<AskDoubt> {
                               "Maximum 1000 character only!\nFile uploaded size maximum 2 MB.",
                           style: TextStyle(
                               color: Colors.grey,
-                              fontFamily: "Poppins",
+                              fontFamily: "Nunito",
                               fontWeight: FontWeight.w500,
                               fontSize: 12)),
                     ),

@@ -6,11 +6,11 @@ void showSnackBar(String title, String message, Color color) {
       colorText: Colors.white,
       messageText: Text(
         message,
-        style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+        style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
       ),
       titleText: Text(
         title,
-        style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+        style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
       ),
       backgroundColor: Colors.black,
       leftBarIndicatorColor: color,
@@ -25,11 +25,11 @@ void showSnackBarWithAction(String title, String message, Color color) {
       colorText: Colors.white,
       messageText: Text(
         message,
-        style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+        style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
       ),
       titleText: Text(
         title,
-        style: TextStyle(color: Colors.white, fontFamily: "Poppins"),
+        style: TextStyle(color: Colors.white, fontFamily: "Nunito"),
       ),
       backgroundColor: Colors.black,
       leftBarIndicatorColor: color,

@@ -75,14 +75,14 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                             "Type Of Question",
                             style: TextStyle(
                                 color: Colors.black,
-                                fontFamily: "Poppins",
+                                fontFamily: "Nunito",
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "Select Question Type",
                             style: TextStyle(
-                                color: Colors.grey, fontFamily: "Poppins"),
+                                color: Colors.grey, fontFamily: "Nunito"),
                           ),
                           SizedBox(
                             height: 8,
@@ -145,7 +145,7 @@ class _StateTypeOfQuestionBank extends State<TypeOfQuestionBank> {
                                     text: questionType[index],
                                     style: TextStyle(
                                         color: Colors.black,
-                                        fontFamily: "Poppins",
+                                        fontFamily: "Nunito",
                                         fontWeight: FontWeight.w500)),
                               ),
                             ),

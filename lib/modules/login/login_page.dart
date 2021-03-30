@@ -17,7 +17,9 @@ class LoginPage extends StatefulWidget {
 class _StateLoginPage extends State<LoginPage> {
   var selectedPosition = 0;
   var isContactNoAdded = false;
+  var mobileNumber = "";
 
+  bool isValidMobileNumber = false;
   LoginController _loginController;
 
   @override
@@ -216,7 +218,7 @@ class _StateLoginPage extends State<LoginPage> {
                                         messageText: Text(
                                           "Please Enter Valid Mobile No.",
                                           style: TextStyle(
-                                              fontFamily: "Poppins",
+                                              fontFamily: "Nunito",
                                               color: Colors.white,
                                               fontSize: 16),
                                         ),
@@ -251,23 +253,16 @@ class _StateLoginPage extends State<LoginPage> {
     );
   }*/
 
-  getBoxShadow(int i) {
-    if (selectedPosition == i) {
-      return [
-        BoxShadow(color: Colors.grey, blurRadius: 8, offset: Offset(4.0, 3.0))
-      ];
-    } else
-      return null;
-  }
-
-  var mobileNumber = "";
-
-  bool isValidMobileNumber = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff0A0A78),
+      resizeToAvoidBottomInset: false,
       body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/images/ic_splash.png"),
+                fit: BoxFit.cover)),
         padding: EdgeInsets.all(20),
         child: KeyboardActions(
           config: _buildConfig(context),
@@ -286,23 +281,27 @@ class _StateLoginPage extends State<LoginPage> {
               ),
               SizedBox(height: Get.height * 0.03),
               Container(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: MediaQuery.of(context).size.height * 0.06,
                 decoration: BoxDecoration(
                     border: Border(
-                        bottom: BorderSide(color: Colors.white, width: 1))),
+                        bottom: BorderSide(color: Colors.white, width: 2))),
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 8, right: 8),
+                      padding: EdgeInsets.only(left: margin4, right: margin4),
                       child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.08,
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          width: MediaQuery.of(context).size.width * 0.13,
                           child: TextFormField(
                             enabled: false,
                             initialValue: "+91",
-                            style: textStyle10.copyWith(color: Colors.white),
+                            style: textStyle11
+                                .copyWith(color: Colors.white)
+                                .copyWith(letterSpacing: 4.0),
                             decoration: InputDecoration(
                                 counterText: "",
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
                                 border: InputBorder.none,
                                 disabledBorder: InputBorder.none,
                                 enabledBorder: InputBorder.none,
@@ -312,21 +311,22 @@ class _StateLoginPage extends State<LoginPage> {
                           )),
                     ),
                     Container(
-                      width: 1,
+                      width: 2,
                       height: MediaQuery.of(context).size.height * 0.03,
                       decoration: BoxDecoration(color: Colors.white),
                     ),
                     SizedBox(
-                      width: 16,
+                      width: margin4,
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.05,
+                      height: MediaQuery.of(context).size.height * 0.06,
                       width: MediaQuery.of(context).size.width * 0.60,
                       child: TextFormField(
                         // textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.numberWithOptions(
                             signed: true, decimal: true),
                         maxLength: 10,
+
                         onChanged: (value) {
                           if (value.length == 10) {
                             setState(() {
@@ -339,7 +339,9 @@ class _StateLoginPage extends State<LoginPage> {
                             });
                           }
                         },
-                        style: textStyle10.copyWith(color: Colors.white),
+                        style: textStyle11
+                            .copyWith(color: Colors.white)
+                            .copyWith(letterSpacing: 4.0),
                         autofocus: true,
                         onFieldSubmitted: (value) {
                           if (isContactNoAdded) {
@@ -349,10 +351,14 @@ class _StateLoginPage extends State<LoginPage> {
                             showToast("Please enter valid mobile number", 0);
                           }
                         },
+
                         decoration: InputDecoration(
                             counterText: "",
-                            hintStyle: TextStyle(color: Colors.white),
+                            hintStyle: TextStyle(color: Colors.white60)
+                                .copyWith(letterSpacing: 4.0),
                             border: InputBorder.none,
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 0),
                             disabledBorder: InputBorder.none,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -363,10 +369,10 @@ class _StateLoginPage extends State<LoginPage> {
                   ],
                 ),
               ),
-              SizedBox(height: Get.height * 0.02),
+              SizedBox(height: Get.height * 0.01),
               Text(
                 "Let's Start with your Mobile Number",
-                style: textStyle10.copyWith(color: Colors.white),
+                style: textStyleSmall.copyWith(color: Colors.white),
               )
             ],
           ),
@@ -467,5 +473,14 @@ class _StateLoginPage extends State<LoginPage> {
         ),
       ],
     );
+  }
+
+  getBoxShadow(int i) {
+    if (selectedPosition == i) {
+      return [
+        BoxShadow(color: Colors.grey, blurRadius: 8, offset: Offset(4.0, 3.0))
+      ];
+    } else
+      return null;
   }
 }

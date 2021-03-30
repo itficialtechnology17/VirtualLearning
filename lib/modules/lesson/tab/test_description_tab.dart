@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/modules/test/test_guide.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class TestDescriptionTab extends StatelessWidget {
   SubjectController _subjectController = Get.find();
@@ -30,7 +31,7 @@ class TestDescriptionTab extends StatelessWidget {
                           },
                           child: Container(
                             constraints: BoxConstraints(
-                              minHeight: AppBar().preferredSize.height,
+                              minHeight: AppBar().preferredSize.height + 50,
                             ),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
@@ -44,11 +45,7 @@ class TestDescriptionTab extends StatelessWidget {
                                     text: TextSpan(
                                         text: _subjectController
                                             .arrOfTestDescription[index].title,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black,
-                                            fontFamily: "Poppins")),
+                                        style: textStyle10),
                                   ),
                                 ),
                                 SizedBox(

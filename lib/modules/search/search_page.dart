@@ -114,7 +114,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                           delegate: _SliverAppBarDelegate(
                             TabBar(
                               labelStyle: TextStyle(
-                                  fontFamily: 'Poppins',
+                                  fontFamily: 'Nunito',
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
                                   color: Colors.white),
@@ -151,7 +151,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
         title.toUpperCase(),
         style: TextStyle(
           color: Colors.black,
-          fontFamily: 'Poppins',
+          fontFamily: 'Nunito',
         ),
       ),
     );

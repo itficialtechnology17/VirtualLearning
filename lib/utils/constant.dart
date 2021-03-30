@@ -2,6 +2,9 @@ final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
 final String KEY_IS_REGISTER = "KEY_IS_REGISTER";
 final String KEY_IS_USER_ID = "KEY_IS_USER_ID";
 final String KEY_STANDARD_ID = "KEY_STANDARD_ID";
+final String ASSETS_BG_PATH = "assets/bg/";
+final String ASSETS_ICONS_PATH = "assets/icons/";
+final String ASSETS_IMAGE_PATH = "assets/images/";
 
 String paymentStage = 'TEST';
 // String paymentStage = 'PROD';

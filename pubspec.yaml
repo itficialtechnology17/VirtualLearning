@@ -74,7 +74,7 @@ dev_dependencies:
 flutter_icons:
     android: true
     ios: true
-    image_path: "assets/images/ic_logo_1024.png"
+    image_path: "assets/icons/ic_1024.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -88,6 +88,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+     - assets/bg/
      - assets/svg/ic_logo_with_tag.svg
      - assets/svg/ic_s.svg
      - assets/svg/ic_slide_01.svg
@@ -97,6 +98,7 @@ flutter:
      - assets/svg/ic_bg_next.svg
      - assets/svg/ic_bg_button.svg
      - assets/svg/
+     - assets/svg/ic_home_shape.svg
      - assets/images/ic_logo_with_tag.png
      - assets/images/ic_virtualE_logo.png
      - assets/images/ic_test_start.png
@@ -115,25 +117,23 @@ flutter:
      - assets/json/
 
   fonts:
-    - family: Poppins
+    - family: Nunito
       fonts:
-        - asset: assets/fonts/Poppins-Thin.ttf
-          weight: 100
-        - asset: assets/fonts/Poppins-ExtraLight.ttf
+        - asset: assets/fonts/Nunito-ExtraLight.ttf
           weight: 200
-        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Nunito-Light.ttf
           weight: 300
-        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Nunito-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Nunito-Regular.ttf
           weight: 500
-        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Nunito-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Nunito-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
           weight: 800
-        - asset: assets/fonts/Poppins-Black.ttf
+        - asset: assets/fonts/Nunito-Black.ttf
           weight: 900
 
   #   - images/a_dot_ham.jpeg

@@ -44,7 +44,7 @@ class NonSearchView extends StatelessWidget {
                           text: TextSpan(
                               text: trending[index],
                               style: TextStyle(
-                                  color: Colors.black, fontFamily: "Poppins")),
+                                  color: Colors.black, fontFamily: "Nunito")),
                         ),
                       ),
                       SizedBox(

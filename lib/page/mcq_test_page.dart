@@ -258,7 +258,7 @@ class _StateMCQTes extends State<MCQTest> {
                                               style: TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.w400,
-                                                  fontFamily: "Poppins",
+                                                  fontFamily: "Nunito",
                                                   fontSize: 16)),
                                         ),
                                         SizedBox(
@@ -353,7 +353,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                               color:
                                                                   Colors.black,
                                                               fontFamily:
-                                                                  "Poppins",
+                                                                  "Nunito",
                                                               fontSize: 14)),
                                                     ),
                                                   )
@@ -454,7 +454,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                               color:
                                                                   Colors.black,
                                                               fontFamily:
-                                                                  "Poppins",
+                                                                  "Nunito",
                                                               fontSize: 14)),
                                                     ),
                                                   )
@@ -555,7 +555,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                               color:
                                                                   Colors.black,
                                                               fontFamily:
-                                                                  "Poppins",
+                                                                  "Nunito",
                                                               fontSize: 14)),
                                                     ),
                                                   )
@@ -656,7 +656,7 @@ class _StateMCQTes extends State<MCQTest> {
                                                               color:
                                                                   Colors.black,
                                                               fontFamily:
-                                                                  "Poppins",
+                                                                  "Nunito",
                                                               fontSize: 14)),
                                                     ),
                                                   )

@@ -24,6 +24,7 @@ String urlRegisterDevice = "api/register-device";
 
 String urlSubmitTopicTest = "api/submit-topic-test";
 String urlTopicTestResult = "api/topic-test-result";
+String urlContactHours = "api/contact-hours";
 
 String urlSubmitChapterTest = "api/submit-chapter-test";
 String urlChapterTestResult = "api/chapter-test-result";

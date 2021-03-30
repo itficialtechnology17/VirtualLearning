@@ -85,7 +85,7 @@ class ChapterTab extends StatelessWidget {
                                                       color: Colors.black,
                                                       fontWeight:
                                                           FontWeight.w600,
-                                                      fontFamily: "Poppins",
+                                                      fontFamily: "Nunito",
                                                       fontSize: 15)),
                                               maxLines: 1,
                                             ),

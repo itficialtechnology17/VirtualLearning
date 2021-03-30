@@ -16,16 +16,22 @@ class ExtPlayer extends StatefulWidget {
 
 class _YoutubeVideoState extends State<ExtPlayer> {
   VideoPlayerController _controller;
-  bool controllerVisible = false;
+  bool controllerVisible = true;
   bool isMute = false;
   double volume = 0;
 
   @override
   void initState() {
     super.initState();
+
+    // getUrl();
     _controller = VideoPlayerController.network(
-        'https://www.youtube.com/watch?v=DqJ_KjFzL9I',
-        youtubeVideoQuality: VideoQuality.high720);
+      'https://www.youtube.com/watch?v=KBIq11mNB0I',
+      // 'https://www.youtube.com/watch?v=TROCWpIWP4E',
+      // 'https://itficial.app/virtuale/test_video.mp4',
+      // 'https://www.youtube.com/download_my_video?v=Ld09km3rnUQ&t=QUFFLUhqa0JaZUVYdHlqcE4wRm53NlVHNXpKU0ttSXV6d3xBQ3Jtc0tuTk1BUVdyeTk1T2FtZ1hrME8zdmJtdE1SeTFheXQtdFBjV3FPREhrVTFFbzA3c1RuYlpCa19aMlZkR3JyMnYtdGNYbi1welRxdjFDdkpXdXJMVXRsSm1Scmo5S1BUdTVKbFRFTVdUem1McnFEam5JOA%3D%3D',
+      // 'https://www.youtube.com/watch?v=TROCWpIWP4E',
+    );
 
     _controller.addListener(() {
       setState(() {});
@@ -34,6 +40,9 @@ class _YoutubeVideoState extends State<ExtPlayer> {
 
     _controller.initialize();
     _controller.play();
+
+    var _duration = new Duration(seconds: 4);
+    Timer(_duration, hideController);
   }
 
   @override
@@ -72,6 +81,7 @@ class _YoutubeVideoState extends State<ExtPlayer> {
               ? Center(
                   child: RotatedBox(
                     child: Container(
+                      // color: Colors.black,
                       child: AspectRatio(
                         // aspectRatio: _controller.value.aspectRatio,
                         aspectRatio: 16 / 9,
@@ -706,6 +716,14 @@ class _YoutubeVideoState extends State<ExtPlayer> {
         );
       },
     );
+  }
+
+  Future<void> getUrl() async {
+    var yt = YoutubeExplode();
+    var streamManifest =
+        await yt.videos.streamsClient.getManifest("KBIq11mNB0I");
+    var videoUrl = streamManifest.muxed.first.url.toString();
+    print("Youtube Video :" + videoUrl);
   }
 }
 

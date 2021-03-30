@@ -6,14 +6,13 @@ import 'package:virtual_learning/page/splash_page.dart';
 //flutter build apk --target-platform=android-arm64
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     home: SplashPage(),
     // home: MenuDashboardPage(),
     theme: ThemeData(
       primarySwatch: Colors.green,
-      fontFamily: "Poppins",
+      fontFamily: "Nunito",
       textTheme: TextTheme(
         body1: TextStyle(fontSize: 18),
         body2: TextStyle(fontSize: 16),

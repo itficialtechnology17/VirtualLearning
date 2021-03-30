@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="759.729" height="460" viewBox="0 0 759.729 460">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_466" data-name="Path 466" d="M0,0H759.729V460H0ZM0,0" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <path id="Path_465" data-name="Path 465" d="M597.258,1054.889-200.773,623.867,308.888-319.762,1106.919,111.26Zm0,0" transform="translate(200.773 319.762)" fill="#7fcb4f"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <path id="Path_464" data-name="Path 464" d="M1106.959,111.178,308.928-319.844-200.727,623.785l798.033,431.022Zm0,0" transform="translate(200.727 319.844)" fill="#7fcb4f"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <path id="Path_463" data-name="Path 463" d="M618.282-144C391.446,87.1,184.139-208.985-12.071,17.479-288.79,336.794-29.543,879.117,288.292,567.624c172.029-168.508,373.6,66.028,548.875-248.546S774.57-303.146,618.282-144Zm0,0" transform="translate(129.303 187.317)" fill="#7fcb4f"/>
+    </clipPath>
+  </defs>
+  <g id="ic_home_shape" opacity="0.3">
+    <g id="Group_628" data-name="Group 628" clip-path="url(#clip-path)">
+      <g id="Group_627" data-name="Group 627" transform="translate(-417.899 -665.568)" clip-path="url(#clip-path-2)">
+        <g id="Group_626" data-name="Group 626" transform="translate(0.096 -0.171)" clip-path="url(#clip-path-3)">
+          <g id="Group_625" data-name="Group 625" transform="translate(148.665 275.849)" clip-path="url(#clip-path-4)">
+            <path id="Path_462" data-name="Path 462" d="M344.046-175.3l958.435,517.663L822.528,1230.989-135.906,713.327Zm0,0" transform="translate(122.162 200.315)" fill="#7fcb4f"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

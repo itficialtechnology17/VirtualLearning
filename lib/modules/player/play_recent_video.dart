@@ -529,7 +529,7 @@ class _StatePlayRecentVideo extends State<PlayRecentVideo> {
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "Poppins",
+                                  fontFamily: "Nunito",
                                   fontSize: 14)),
                         ),
                       ),

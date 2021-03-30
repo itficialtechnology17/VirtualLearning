@@ -12,25 +12,25 @@ String modelWatchHistoryToJson(List<ModelWatchHistory> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ModelWatchHistory {
-  ModelWatchHistory({
-    this.id,
-    this.userId,
-    this.topicId,
-    this.contentId,
-    this.minutes,
-    this.createdOn,
-    this.file,
-    this.videoId,
-    this.title,
-    this.type,
-    this.standardId,
-    this.subjectId,
-    this.chapterId,
-    this.vendorId,
-    this.status,
-    this.name,
-    this.icon,
-  });
+  ModelWatchHistory(
+      {this.id,
+      this.userId,
+      this.topicId,
+      this.contentId,
+      this.minutes,
+      this.createdOn,
+      this.file,
+      this.videoId,
+      this.title,
+      this.type,
+      this.standardId,
+      this.subjectId,
+      this.chapterId,
+      this.vendorId,
+      this.status,
+      this.name,
+      this.icon,
+      this.standardIcon});
 
   int id;
   int userId;
@@ -49,6 +49,7 @@ class ModelWatchHistory {
   int status;
   String name;
   String icon;
+  String standardIcon;
   int isFavorite = 0;
 
   factory ModelWatchHistory.fromJson(Map<String, dynamic> json) =>
@@ -70,6 +71,7 @@ class ModelWatchHistory {
         status: json["status"],
         name: json["name"],
         icon: json["icon"],
+        standardIcon: json["standard_icon"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,5 +92,6 @@ class ModelWatchHistory {
         "status": status,
         "name": name,
         "icon": icon,
+        "standard_icon": standardIcon,
       };
 }

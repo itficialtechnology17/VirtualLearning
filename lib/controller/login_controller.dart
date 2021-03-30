@@ -6,7 +6,7 @@ import 'package:virtual_learning/model/model_course.dart';
 import 'package:virtual_learning/model/model_user.dart';
 import 'package:virtual_learning/modules/login/course_page.dart';
 import 'package:virtual_learning/network/request.dart';
-import 'package:virtual_learning/page/main_page.dart';
+import 'package:virtual_learning/page/new_main_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
@@ -18,14 +18,18 @@ class LoginController extends GetxController {
   var isSignUp = false.obs;
   var modelUser = ModelUser().obs;
   var arrOfCourse = List<ModelCourse>().obs;
+  var arrOfContactHours = List<String>().obs;
 
   var selectedCoursePosition = -1.obs;
+  var selectedContactTimePosition = -1.obs;
   var enterMobileNumber = "0";
+  var selectedTimeToContact = "";
   var receivedOTP = "";
 
   @override
   void onInit() {
     getCourse();
+    getContactHours();
     super.onInit();
   }
 
@@ -78,6 +82,23 @@ class LoginController extends GetxController {
     });
   }
 
+  void getContactHours() async {
+    Request request = Request(url: urlContactHours, body: {
+      'type': "API",
+    });
+    request.post().then((value) {
+      final responseData = json.decode(value.body);
+
+      if (responseData['status_code'] == 1) {
+        arrOfContactHours.assignAll(List.from(responseData['contact']));
+
+        print("Success");
+      } else {}
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
   void updateUserDetails(isRegister) async {
     isSignUp.value = true;
 
@@ -85,9 +106,11 @@ class LoginController extends GetxController {
       'type': "API",
       'id': studentId.toString(),
       'first_name': modelUser.value.firstName.toString(),
-      'school_name': modelUser.value.schoolName.toString(),
-      'address': modelUser.value.address.toString(),
+      // 'last_name': modelUser.value.lastName.toString(),
+      // 'school_name': modelUser.value.schoolName.toString(),
+      // 'address': modelUser.value.address.toString(),
       'email': modelUser.value.email.toString(),
+      'contact_time': selectedTimeToContact.toString(),
       'is_registered': isRegister,
       'standard_id': arrOfCourse[selectedCoursePosition].id.toString(),
     });
@@ -141,8 +164,7 @@ class LoginController extends GetxController {
         await addStringToSF(KEY_IS_USER_ID, studentId);
         standardId = modelUser.value.standardId.toString();
         await addStringToSF(KEY_STANDARD_ID, standardId);
-        Get.off(CoursePage());
-        // Get.offAll(MainPage());
+        Get.offAll(MainPage());
       }
     } else {
       showToast("Please Enter Valid OTP.", 0);

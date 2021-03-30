@@ -65,7 +65,7 @@ class StateNotificationPage extends State<NotificationPage> {
                         "Notification",
                         style: TextStyle(
                             color: Colors.black,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
@@ -73,7 +73,7 @@ class StateNotificationPage extends State<NotificationPage> {
                         "Here you will get all updates",
                         style: TextStyle(
                             color: Colors.grey,
-                            fontFamily: "Poppins",
+                            fontFamily: "Nunito",
                             fontSize: 12),
                       ),
                       SizedBox(
