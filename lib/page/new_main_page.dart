@@ -117,7 +117,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                           MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          ASSETS_ICONS_PATH + "/ic_home.png",
+                                          ASSETS_ICONS_PATH + "ic_home.png",
                                           width: iconBottomHeightWidth,
                                           height: iconBottomHeightWidth,
                                           color: _dashboardController
@@ -159,8 +159,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                           MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                            ASSETS_ICONS_PATH +
-                                                "/ic_puzzle.png",
+                                            ASSETS_ICONS_PATH + "ic_puzzle.png",
                                             width: iconBottomHeightWidth,
                                             height: iconBottomHeightWidth,
                                             color: _dashboardController
@@ -206,8 +205,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                           MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          ASSETS_ICONS_PATH +
-                                              "/ic_bookmark.png",
+                                          ASSETS_ICONS_PATH + "ic_bookmark.png",
                                           width: iconBottomHeightWidth,
                                           height: iconBottomHeightWidth,
                                           color: _dashboardController
@@ -249,7 +247,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                                           MainAxisAlignment.center,
                                       children: [
                                         Image.asset(
-                                          ASSETS_ICONS_PATH + "/ic_more.png",
+                                          ASSETS_ICONS_PATH + "ic_more.png",
                                           width: iconBottomHeightWidth,
                                           height: iconBottomHeightWidth,
                                           color: _dashboardController
@@ -289,7 +287,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                             color: Color(0xffF9CC12), shape: BoxShape.circle),
                         child: Center(
                           child: Image.asset(
-                            ASSETS_ICONS_PATH + "/ic_lightbulb.png",
+                            ASSETS_ICONS_PATH + "ic_lightbulb.png",
                             width: iconBottomHeightWidth + 5,
                             height: iconBottomHeightWidth + 5,
                           ),
