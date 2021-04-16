@@ -30,6 +30,7 @@ class ModelQuestion {
   DateTime createdOn;
   int givenAnswer;
   bool isSelected = false;
+  bool isSolutionVisible = false;
 
   List<Answer> answers;
 

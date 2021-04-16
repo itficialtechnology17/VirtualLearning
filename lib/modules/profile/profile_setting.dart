@@ -24,6 +24,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
   String output = "";
 
   bool isDarkMode = false;
+  bool isNotificationOn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,7 +153,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
                                 onTap: () {},
                                 leading: RadiantGradientMask(
                                   child: Icon(
-                                    Icons.notifications_none,
+                                    Icons.notifications_none_rounded,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -167,8 +168,17 @@ class _StateProfileSetting extends State<ProfileSetting> {
                                   padding: EdgeInsets.only(bottom: 0),
                                 ),
                                 trailing: Switch(
-                                  value: true,
-                                  onChanged: (value) {},
+                                  value: isNotificationOn,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isNotificationOn = value;
+                                      if (isNotificationOn) {
+                                        Get.changeThemeMode(ThemeMode.dark);
+                                      } else {
+                                        Get.changeThemeMode(ThemeMode.light);
+                                      }
+                                    });
+                                  },
                                 ),
                               ),
                             ),
@@ -319,7 +329,7 @@ class _StateProfileSetting extends State<ProfileSetting> {
                                       MaterialPageRoute(
                                           builder: (context) =>
                                               WebPage.titleUrl(
-                                                  "About Us", aboutUs)));
+                                                  "About Us", privacyPolicy)));
                                 },
                                 leading: RadiantGradientMask(
                                   child: Icon(

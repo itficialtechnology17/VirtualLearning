@@ -23,6 +23,8 @@ class ModelTopic {
     this.chapterId,
     this.status,
     this.createdOn,
+    this.color,
+    this.image,
     this.content,
     this.isFavorite,
   });
@@ -36,8 +38,10 @@ class ModelTopic {
   String chapterId;
   int status;
   DateTime createdOn;
+  String color;
+  String image;
   Content content;
-  int isFavorite;
+  int isFavorite = 0;
 
   factory ModelTopic.fromJson(Map<String, dynamic> json) => ModelTopic(
         id: json["id"],
@@ -49,6 +53,8 @@ class ModelTopic {
         chapterId: json["chapter_id"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
+        color: json["color"],
+        image: json["image"],
         content:
             json["content"] == null ? null : Content.fromJson(json["content"]),
         isFavorite: json["is_favorite"],
@@ -64,6 +70,8 @@ class ModelTopic {
         "chapter_id": chapterId,
         "status": status,
         "created_on": createdOn.toIso8601String(),
+        "color": color,
+        "image": image,
         "content": content == null ? null : content.toJson(),
         "is_favorite": isFavorite,
       };

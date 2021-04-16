@@ -18,6 +18,7 @@ class SearchController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelChapter>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
+  // var arrOfTopic = List<Topic>().obs;
 
   void getSearch(String searchText) async {
     isLoading.value = true;

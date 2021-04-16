@@ -12,25 +12,28 @@ String modelWatchHistoryToJson(List<ModelWatchHistory> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ModelWatchHistory {
-  ModelWatchHistory(
-      {this.id,
-      this.userId,
-      this.topicId,
-      this.contentId,
-      this.minutes,
-      this.createdOn,
-      this.file,
-      this.videoId,
-      this.title,
-      this.type,
-      this.standardId,
-      this.subjectId,
-      this.chapterId,
-      this.vendorId,
-      this.status,
-      this.name,
-      this.icon,
-      this.standardIcon});
+  ModelWatchHistory({
+    this.id,
+    this.userId,
+    this.topicId,
+    this.contentId,
+    this.minutes,
+    this.createdOn,
+    this.file,
+    this.videoId,
+    this.title,
+    this.type,
+    this.standardId,
+    this.subjectId,
+    this.chapterId,
+    this.vendorId,
+    this.status,
+    this.name,
+    this.icon,
+    this.standardIcon,
+    this.color,
+    this.image,
+  });
 
   int id;
   int userId;
@@ -49,6 +52,8 @@ class ModelWatchHistory {
   int status;
   String name;
   String icon;
+  String color;
+  String image;
   String standardIcon;
   int isFavorite = 0;
 
@@ -72,6 +77,8 @@ class ModelWatchHistory {
         name: json["name"],
         icon: json["icon"],
         standardIcon: json["standard_icon"],
+        color: json["color"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,5 +100,7 @@ class ModelWatchHistory {
         "name": name,
         "icon": icon,
         "standard_icon": standardIcon,
+        "color": color,
+        "image": image,
       };
 }

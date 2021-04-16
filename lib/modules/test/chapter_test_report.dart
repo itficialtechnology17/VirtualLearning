@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_answer.dart';
@@ -12,6 +12,7 @@ import 'package:virtual_learning/modules/test/test_result_details.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/utils/url.dart';
 
 class ChapterTestReport extends StatefulWidget {
@@ -39,6 +40,255 @@ class StateChapterTestReport extends State<ChapterTestReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Color(0xffF9F9FB),
+        body: Stack(children: [
+          /* Image.asset(
+                ASSETS_BG_PATH + 'ic_home_top_bg.png',
+                height: Get.height * 0.20,
+                width: Get.width * 0.60,
+                fit: BoxFit.fill,
+              ),*/
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.top,
+                  ),
+                  Expanded(
+                    child: Container(
+                      // color: Colors.lightGreenAccent,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Material(
+                              color: Colors.transparent,
+                              type: MaterialType.circle,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(margin8),
+                                  child: Image.asset(
+                                    ASSETS_ICONS_PATH + 'ic_back.png',
+                                    height: iconHeightWidth,
+                                    width: iconHeightWidth,
+                                    fit: BoxFit.fitWidth,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Test Result",
+                              style: textStyle11Bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            body: ListView(
+              children: [
+                SizedBox(
+                  height: margin24 + margin16,
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: "Score and",
+                        style: textStyle12Bold.copyWith(color: Colors.black)),
+                    TextSpan(
+                        text: " Solutions",
+                        style:
+                            textStyle12Bold.copyWith(color: Color(0xff7FCB4F))),
+                  ]),
+                ),
+                Center(
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: margin24 + margin24, vertical: margin16),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: margin24 + margin16, vertical: margin24),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey[300],
+                            offset: Offset(0, 0),
+                            blurRadius: 10.0,
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(4)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "YOUR SCORE",
+                          style: textStyle12Bold,
+                        ),
+                        SizedBox(
+                          height: margin12,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              correctAnswer.toString(),
+                              style: textStyle14Bold.copyWith(
+                                  color: Color(0xffF9CC12),
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              " / ",
+                              style: textStyle14Bold.copyWith(
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              totalQuestion,
+                              style: textStyle14Bold.copyWith(
+                                  fontWeight: FontWeight.w900),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: margin24),
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[300],
+                          offset: Offset(0, 0),
+                          blurRadius: 10.0,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              correctAnswer.toString(),
+                              style: textStyle14Bold.copyWith(
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              "Correct",
+                              textAlign: TextAlign.center,
+                              style: textStyle10Bold,
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 2,
+                        color: Color(0xffE9E9E9),
+                        height: Get.height * 0.05,
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              wrongAnswer.toString(),
+                              style: textStyle14Bold.copyWith(
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              "Wrong",
+                              textAlign: TextAlign.center,
+                              style: textStyle10Bold,
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        width: 2,
+                        color: Color(0xffE9E9E9),
+                        height: Get.height * 0.05,
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              skippedAnswer.toString(),
+                              style: textStyle14Bold.copyWith(
+                                  fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              "Skipped",
+                              textAlign: TextAlign.center,
+                              style: textStyle10Bold,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey[100],
+                        offset: Offset(0, 0),
+                        blurRadius: 10.0,
+                      ),
+                    ],
+                  ),
+                  margin: EdgeInsets.symmetric(
+                      horizontal: margin24 + margin24, vertical: margin16),
+                  child: Material(
+                    color: Color(0xff7FCB4F),
+                    borderRadius: BorderRadius.circular(margin24),
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(margin24),
+                      onTap: () {
+                        Get.to(TestResultDetails(arrOfQuestion));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: margin24, vertical: margin8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(margin24)),
+                        child: Center(
+                          child: Text(
+                            "View Solution".toUpperCase(),
+                            style:
+                                textStyle10Bold.copyWith(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ]));
+  }
+
+  /*@override
+  Widget build(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -57,8 +307,8 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                     )
                   : LinearGradient(
                       colors: [
-                        /*Color(0xff14C269),
-                  Color(0xff0A0A78),*/
+                        */ /*Color(0xff14C269),
+                  Color(0xff0A0A78),*/ /*
                         HexColor.fromHex(
                             _subjectController.selectedSubject.value.color1),
                         HexColor.fromHex(
@@ -257,7 +507,7 @@ class StateChapterTestReport extends State<ChapterTestReport> {
               ),
             ),
     );
-  }
+  }*/
 
   String percentage = "";
   String totalQuestion = "";

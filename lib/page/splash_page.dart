@@ -25,7 +25,7 @@ class _StateSplashPage extends State<SplashPage> {
     super.initState();
 
     disableCapture();
-    var _duration = new Duration(seconds: 4);
+    var _duration = new Duration(seconds: 3);
     Timer(_duration, loadPrefs);
   }
 
@@ -52,6 +52,8 @@ class _StateSplashPage extends State<SplashPage> {
     return Scaffold(
       // backgroundColor: Color(0xff0A0A78),
       body: Container(
+        width: Get.width,
+        height: Get.height,
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/ic_splash.png"),
@@ -75,20 +77,6 @@ class _StateSplashPage extends State<SplashPage> {
               style: textStyle14Bold.copyWith(color: Colors.white),
             ),
             SizedBox(height: Get.height * 0.03),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  Center(
-                    child: Image.asset(
-                      "assets/images/ic_splash_illustration.png",
-                      width: Get.width * 0.80,
-                    ),
-                  ),
-                ],
-              ),
-            )
           ],
         ),
       ),

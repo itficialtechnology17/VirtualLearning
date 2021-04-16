@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
-import 'package:virtual_learning/modules/lesson/lesson_listing.dart';
-import 'package:virtual_learning/modules/player/play_recent_video.dart';
+import 'package:virtual_learning/modules/search/search_page.dart';
+import 'package:virtual_learning/modules/subject/chapter.dart';
+import 'package:virtual_learning/modules/subject/custom_recent_video_player.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -22,15 +26,22 @@ class _StateHome extends State<HomeTab> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Color(0xffF9F9FB),
+        statusBarColor: Color(0xffF9F9FB)));
+
     return Scaffold(
+      backgroundColor: Color(0xffF9F9FB),
       body: Obx(() => Stack(
             children: [
-              Image.asset(
+              /* Image.asset(
                 ASSETS_BG_PATH + 'ic_home_top_bg.png',
                 height: Get.height * 0.20,
                 width: Get.width * 0.60,
                 fit: BoxFit.fill,
-              ),
+              ),*/
               Scaffold(
                 backgroundColor: Colors.transparent,
                 appBar: PreferredSize(
@@ -45,6 +56,9 @@ class _StateHome extends State<HomeTab> {
                           // color: Colors.lightGreenAccent,
                           child: Row(
                             children: [
+                              SizedBox(
+                                width: margin4,
+                              ),
                               Padding(
                                 padding: EdgeInsets.all(margin8),
                                 child: Material(
@@ -60,15 +74,19 @@ class _StateHome extends State<HomeTab> {
                                 ),
                               ),
                               Text(
-                                "VirtualE",
+                                "Virtual E",
                                 style: textStyle11Bold,
+                                textScaleFactor: 1.0,
                               ),
                               Spacer(),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(SearchPage());
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(margin8),
                                     child: Image.asset(
                                       ASSETS_ICONS_PATH + 'ic_search.png',
                                       height: iconHeightWidth,
@@ -77,7 +95,10 @@ class _StateHome extends State<HomeTab> {
                                     ),
                                   ),
                                 ),
-                              )
+                              ),
+                              SizedBox(
+                                width: margin4,
+                              ),
                             ],
                           ),
                         ),
@@ -86,18 +107,18 @@ class _StateHome extends State<HomeTab> {
                   ),
                 ),
                 body: Container(
-                  padding: EdgeInsets.all(margin16),
+                  padding: EdgeInsets.symmetric(horizontal: margin16),
                   child: ListView(
                     children: [
                       RichText(
                         text: TextSpan(children: [
                           TextSpan(
-                              text: "Learn With",
-                              style: textStyle12Bold.copyWith(
+                              text: "Choose",
+                              style: textStyle10Bold.copyWith(
                                   color: Colors.black)),
                           TextSpan(
-                              text: " Video Classes",
-                              style: textStyle12Bold.copyWith(
+                              text: " Subject",
+                              style: textStyle10Bold.copyWith(
                                   color: Color(0xff7FCB4F))),
                         ]),
                       ),
@@ -108,6 +129,7 @@ class _StateHome extends State<HomeTab> {
                         crossAxisCount: 3,
                         // mainAxisSpacing: margin16,
                         shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         childAspectRatio: 5 / 6,
                         children: List<Widget>.generate(
                             _subjectController.arrOfSubject.length, (index) {
@@ -118,10 +140,14 @@ class _StateHome extends State<HomeTab> {
                                       onTap: () {
                                         setState(() {
                                           _subjectController
+                                              .selectedSubjectPosition = index;
+                                          _subjectController
                                                   .selectedSubject.value =
                                               _subjectController
                                                   .arrOfSubject[index];
-                                          Get.to(LessonListing());
+                                          // Get.to(LessonListing());
+
+                                          Get.to(() => Chapter());
                                         });
                                       },
                                       child: Center(
@@ -140,11 +166,19 @@ class _StateHome extends State<HomeTab> {
                                             SizedBox(
                                               height: 16,
                                             ),
-                                            Text(
-                                              _subjectController
-                                                  .arrOfSubject[index].name,
+                                            RichText(
+                                              textScaleFactor: 1.0,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.center,
-                                              style: textStyle10,
+                                              text: TextSpan(
+                                                  style: textStyle10.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                  text: getTwoWordsName(
+                                                      _subjectController
+                                                          .arrOfSubject[index]
+                                                          .name)),
                                             )
                                           ],
                                         ),
@@ -168,6 +202,7 @@ class _StateHome extends State<HomeTab> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 RichText(
+                                  textScaleFactor: 1.0,
                                   text: TextSpan(children: [
                                     TextSpan(
                                         text: "Where you",
@@ -199,13 +234,9 @@ class _StateHome extends State<HomeTab> {
                                         splashColor: Colors.grey,
                                         borderRadius: BorderRadius.circular(8),
                                         onTap: () {
-                                          Get.to(PlayRecentVideo(
+                                          Get.to(() => CustomRecentVideoPlayer(
                                               _dashboardController
                                                   .arrOfWatchHistory[index]));
-                                          /* Get.to(YoutubeIframe(
-                                                          _dashboardController
-                                                                  .arrOfWatchHistory[
-                                                              index]));*/
                                         },
                                         child: Container(
                                           height: MediaQuery.of(context)
@@ -243,6 +274,7 @@ class _StateHome extends State<HomeTab> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     RichText(
+                                                      textScaleFactor: 1.0,
                                                       text: TextSpan(
                                                           text: _dashboardController
                                                               .arrOfWatchHistory[
@@ -255,6 +287,7 @@ class _StateHome extends State<HomeTab> {
                                                       children: [
                                                         Text(
                                                           "Continue Learning",
+                                                          textScaleFactor: 1.0,
                                                           style: TextStyle(
                                                               color:
                                                                   Colors.grey,
@@ -287,7 +320,7 @@ class _StateHome extends State<HomeTab> {
                                                     'ic_play.png',
                                                 height: iconHeightWidth,
                                                 width: iconHeightWidth,
-                                                fit: BoxFit.fitWidth,
+                                                fit: BoxFit.fill,
                                               ),
                                               SizedBox(
                                                 width: margin16,
@@ -310,119 +343,88 @@ class _StateHome extends State<HomeTab> {
                       SizedBox(
                         height: margin10,
                       ),
-                      Container(
-                        width: Get.width,
-                        height: 2,
-                        color: Color(0xffE9E9E9),
+                      _dashboardController.arrOfWatchHistory.isNotEmpty
+                          ? Container(
+                              width: Get.width,
+                              height: 2,
+                              color: Color(0xffE9E9E9),
+                            )
+                          : SizedBox.shrink(),
+                      SizedBox(
+                        height:
+                            _dashboardController.arrOfWatchHistory.isNotEmpty
+                                ? margin10
+                                : 0,
+                      ),
+                      Material(
+                        color: Color(0xff17212A),
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {
+                            shareApp();
+                          },
+                          child: Container(
+                            height: Get.height * 0.10,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: margin16,
+                                ),
+                                Image.asset(
+                                  ASSETS_IMAGE_PATH + 'ic_share.png',
+                                  height: iconLargeHeightWidth,
+                                  width: iconLargeHeightWidth,
+                                  fit: BoxFit.cover,
+                                ),
+                                SizedBox(
+                                  width: margin16,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      RichText(
+                                        textScaleFactor: 1.0,
+                                        text: TextSpan(children: [
+                                          TextSpan(
+                                              text: "Share With",
+                                              style: textStyle10Bold.copyWith(
+                                                  color: Colors.white)),
+                                          TextSpan(
+                                              text: " Friends",
+                                              style: textStyle10Bold.copyWith(
+                                                  color: Color(0xff7FCB4F))),
+                                        ]),
+                                      ),
+                                      SizedBox(
+                                        height: margin4,
+                                      ),
+                                      Text(
+                                        "Lorem Ipsum Dolor sit Amet sed do consectetur adipiscing elit",
+                                        textScaleFactor: 1.0,
+                                        style: textStyle9.copyWith(
+                                            color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: margin16,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: margin10,
                       ),
-                      Container(
-                        height: Get.height * 0.10,
-                        decoration: BoxDecoration(
-                            color: Color(0xff17212A),
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: margin16,
-                            ),
-                            Image.asset(
-                              ASSETS_IMAGE_PATH + 'ic_share.png',
-                              height: iconLargeHeightWidth,
-                              width: iconLargeHeightWidth,
-                              fit: BoxFit.cover,
-                            ),
-                            SizedBox(
-                              width: margin16,
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                          text: "Share With",
-                                          style: textStyle10Bold.copyWith(
-                                              color: Colors.white)),
-                                      TextSpan(
-                                          text: " Friends",
-                                          style: textStyle10Bold.copyWith(
-                                              color: Color(0xff7FCB4F))),
-                                    ]),
-                                  ),
-                                  SizedBox(
-                                    height: margin4,
-                                  ),
-                                  Text(
-                                    "Lorem Ipsum Dolor sit Amet sed do consectetur adipiscing elit",
-                                    style: textStyle9.copyWith(
-                                        color: Colors.white),
-                                  )
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: margin16,
-                            ),
-                          ],
-                        ),
-                      )
-                      /*GridView.count(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      // scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      // physics: NeverScrollableScrollPhysics(),
-                      childAspectRatio: 8 / 10,
-                      children: List.generate(
-                          _subjectController.arrOfSubject.length, (index) {
-                        return Container(
-                            child: Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        _subjectController
-                                                .selectedSubject.value =
-                                            _subjectController
-                                                .arrOfSubject[index];
-                                        Get.to(LessonListing());
-                                      });
-                                    },
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Image.network(
-                                            storageUrl +
-                                                _subjectController
-                                                    .arrOfSubject[index].icon,
-                                            height: Get.height * 0.09,
-                                            width: Get.height * 0.09,
-                                            fit: BoxFit.cover,
-                                          ),
-                                          SizedBox(
-                                            height: 16,
-                                          ),
-                                          Text(
-                                            _subjectController
-                                                .arrOfSubject[index].name,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14),
-                                          )
-                                        ],
-                                      ),
-                                    ))));
-                      })),*/
                     ],
                   ),
                 ),
@@ -430,5 +432,13 @@ class _StateHome extends State<HomeTab> {
             ],
           )),
     );
+  }
+
+  Future<void> shareApp() async {
+    await FlutterShare.share(
+        title: 'VirtuaE',
+        text: '*VirtuaE* Share app & start learning',
+        linkUrl:
+            'https://play.google.com/store/apps/details?id=com.virtual.virtual_learning');
   }
 }

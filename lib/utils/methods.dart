@@ -46,6 +46,25 @@ bool checkEmailId(email) {
       .hasMatch(email);
 }
 
+String getTwoWordsName(name) {
+  List<String> names = name.split(" ");
+  String text = "";
+  int numWords = 0;
+
+  if (numWords < names.length) {
+    numWords = names.length;
+  }
+
+  if (numWords == 1) {
+    return name.toString() + "\n ".toUpperCase();
+  } else if (numWords >= 2) {
+    for (var i = 0; i < numWords; i++) {
+      text += '${names[i]}' + "\n";
+    }
+    return text;
+  }
+}
+
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {

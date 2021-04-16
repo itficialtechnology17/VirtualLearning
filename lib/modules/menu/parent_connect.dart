@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/methods.dart';
 
 class ParentConnect extends StatefulWidget {
   @override
@@ -31,22 +33,20 @@ class StateParentConnect extends State<ParentConnect> {
                 child: Center(
                   child: Material(
                     color: Colors.transparent,
+                    type: MaterialType.circle,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Get.back();
                       },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 8),
-                        decoration: BoxDecoration(
-                            color: Color(0xffD0E6EE),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(4),
-                              bottomRight: Radius.circular(4),
-                            )),
-                        width: double.infinity,
-                        height: AppBar().preferredSize.height -
-                            AppBar().preferredSize.height * 0.30,
-                        child: Icon(Icons.arrow_back, color: Colors.black),
+                      child: Padding(
+                        padding: EdgeInsets.all(margin8),
+                        child: Image.asset(
+                          ASSETS_ICONS_PATH + 'ic_back.png',
+                          height: iconHeightWidth,
+                          width: iconHeightWidth,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
                     ),
                   ),
@@ -72,8 +72,8 @@ class StateParentConnect extends State<ParentConnect> {
                       ),
                       Text(
                         "Track your child's progress",
-                        style: TextStyle(
-                            color: Colors.grey, fontFamily: "Nunito"),
+                        style:
+                            TextStyle(color: Colors.grey, fontFamily: "Nunito"),
                       ),
                       SizedBox(
                         height: 8,
@@ -213,7 +213,8 @@ class StateParentConnect extends State<ParentConnect> {
       ),
       bottomNavigationBar: Container(
         height: Get.height * 0.06,
-        margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        margin:
+            EdgeInsets.symmetric(vertical: margin24 + margin24, horizontal: 16),
         child: InkWell(
           onTap: () {},
           child: Container(

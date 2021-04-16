@@ -1,15 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/page/notes_view.dart';
 import 'package:virtual_learning/utils/methods.dart';
-import 'package:virtual_learning/utils/url.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class NotesTab extends StatefulWidget {
   @override
@@ -19,62 +14,85 @@ class NotesTab extends StatefulWidget {
 }
 
 class _StateNotesTab extends State<NotesTab> {
-  bool loaded = false;
-  String urlPDFPath = "";
-  bool exists = true;
-  int _totalPages = 0;
-  int _currentPage = 0;
-  bool pdfReady = false;
-  PDFViewController _pdfViewController;
-
   SubjectController _subjectController = Get.find();
 
   @override
-  void initState() {
-    super.initState();
-    if (_subjectController.selectedChapter.value.note != null) {
-      // requestPermission();
-      getFileFromUrl(
-              storageUrl + _subjectController.selectedChapter.value.note.file)
-          .then(
-        (value) => {
-          setState(() {
-            if (value != null) {
-              urlPDFPath = value.path;
-              loaded = true;
-              exists = true;
-            } else {
-              exists = false;
-            }
-          })
-        },
-      );
-    }
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xffF9F9FB),
+      body: Obx(() => Container(
+            margin: EdgeInsets.only(right: margin16),
+            child: _subjectController.selectedChapter.value.note != null
+                ? ListView.separated(
+                    // itemCount: _subjectController.arrOfTestDescription.length,
+                    itemCount: 1,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Material(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {
+                            Get.to(NotesView());
+                          },
+                          child: Container(
+                            constraints: BoxConstraints(
+                              minHeight: AppBar().preferredSize.height,
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: RichText(
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        text: _subjectController
+                                            .selectedChapter.value.note.title,
+                                        style: textStyle10.copyWith(
+                                            color: Color(0xff7FCB4F))),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text(
+                                  "View".toUpperCase(),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xff0A0A78)),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        height: 10,
+                        child: Container(
+                          color: Colors.transparent,
+                        ),
+                      );
+                    },
+                  )
+                : Container(
+                    child: Center(
+                      child: Text("Notes not available."),
+                    ),
+                    height: Get.height - (AppBar().preferredSize.height),
+                  ),
+          )),
+    );
   }
 
-/*  void requestPermission() async {
-    await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-  }*/
-
-  Future<File> getFileFromUrl(String url, {name}) async {
-    var fileName = 'testonline';
-    if (name != null) {
-      fileName = name;
-    }
-    try {
-      var data = await http.get(url);
-      var bytes = data.bodyBytes;
-      var dir = await getApplicationDocumentsDirectory();
-      File file = File("${dir.path}/" + fileName + ".pdf");
-      print(dir.path);
-      File urlFile = await file.writeAsBytes(bytes);
-      return urlFile;
-    } catch (e) {
-      throw Exception("Error opening url file");
-    }
-  }
-
-  @override
+  /* @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
@@ -157,5 +175,5 @@ class _StateNotesTab extends State<NotesTab> {
                       ),
                     ),
                   ));
-  }
+  }*/
 }

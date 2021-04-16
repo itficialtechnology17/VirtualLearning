@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -9,10 +10,12 @@ import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
+import 'package:virtual_learning/modules/subscription/subscription.dart';
+import 'package:virtual_learning/shimmer/shimmer_main_page.dart';
+import 'package:virtual_learning/tab/bookmark_tab.dart';
 import 'package:virtual_learning/tab/home_tab.dart';
 import 'package:virtual_learning/tab/more_tab.dart';
 import 'package:virtual_learning/tab/practice_tab.dart';
-import 'package:virtual_learning/tab/subscription_tab.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -45,9 +48,8 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   final List<Widget> listOfTab = [
     HomeTab(),
     PracticeTab(),
-    SubscriptionTab(),
+    BookmarkTab(),
     MoreTab(),
-    SubscriptionTab()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -66,374 +68,315 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   var currentTab = 0;
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      systemNavigationBarColor: Colors.white,
-      statusBarBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.dark,
-    ));
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //   statusBarColor: Colors.transparent,
+    //   statusBarIconBrightness: Brightness.dark,
+    //   systemNavigationBarColor: Colors.transparent,
+    //   systemNavigationBarIconBrightness: Brightness.dark,
+    //   statusBarBrightness: Brightness.dark,
+    // ));
 
     return Scaffold(
         backgroundColor: Color(0xffF9F9FB),
-        body: Obx(() => PageStorage(
-              bucket: bucket,
-              child: listOfTab[_dashboardController.currentTab.value],
-            )),
-        bottomNavigationBar: Obx(() => Container(
-              height: Get.height * 0.16,
-              color: Colors.transparent,
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: margin8,
-                  right: margin8,
-                  bottom: kBottomNavigationBarHeight - 16,
-                ),
-                child: Stack(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8)),
-                      margin: EdgeInsets.only(top: margin12),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Material(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(margin4),
-                                    bottomLeft: Radius.circular(margin4)),
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _dashboardController.currentTab.value = 0;
-                                    });
-                                  },
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          ASSETS_ICONS_PATH + "ic_home.png",
-                                          width: iconBottomHeightWidth,
-                                          height: iconBottomHeightWidth,
-                                          color: _dashboardController
-                                                      .currentTab.value ==
-                                                  0
-                                              ? Color(0xffF9CC12)
-                                              : Colors.black,
-                                        ),
-                                        SizedBox(
-                                          height: margin2,
-                                        ),
-                                        Text(
-                                          "Home",
-                                          style: textStyle10.copyWith(
-                                              color: _dashboardController
-                                                          .currentTab.value ==
-                                                      0
-                                                  ? Color(0xffF9CC12)
-                                                  : Colors.black),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Material(
-                                color: Colors.white,
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _dashboardController.currentTab.value = 1;
-                                    });
-                                  },
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                            ASSETS_ICONS_PATH + "ic_puzzle.png",
+        body: Obx(() => _dashboardController.isDashboardLoading.value
+            ? ShimmerMainPage()
+            : PageStorage(
+                bucket: bucket,
+                child: listOfTab[_dashboardController.currentTab.value],
+              )),
+        bottomNavigationBar: Obx(() => _dashboardController
+                .isDashboardLoading.value
+            ? SizedBox.shrink()
+            : Container(
+                height: Get.height * 0.16,
+                color: Colors.transparent,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: margin8,
+                    right: margin8,
+                    bottom: Platform.isAndroid
+                        ? kBottomNavigationBarHeight - 16
+                        : 8,
+                  ),
+                  child: Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                        margin: EdgeInsets.only(top: margin12),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Material(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(margin4),
+                                      bottomLeft: Radius.circular(margin4)),
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _dashboardController.currentTab.value =
+                                            0;
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ASSETS_ICONS_PATH + "ic_home.png",
                                             width: iconBottomHeightWidth,
                                             height: iconBottomHeightWidth,
                                             color: _dashboardController
                                                         .currentTab.value ==
-                                                    1
-                                                ? Color(0xffF9CC12)
-                                                : Colors.black),
-                                        SizedBox(
-                                          height: margin2,
-                                        ),
-                                        Text(
-                                          "Practice",
-                                          style: textStyle10.copyWith(
+                                                    0
+                                                ? Color(0xff7FCB4F)
+                                                : Colors.black,
+                                          ),
+                                          SizedBox(
+                                            height: margin2,
+                                          ),
+                                          Text(
+                                            "Home",
+                                            textScaleFactor: 0.8,
+                                            style: textStyle10.copyWith(
+                                                color: _dashboardController
+                                                            .currentTab.value ==
+                                                        0
+                                                    ? Color(0xff7FCB4F)
+                                                    : Colors.black),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Material(
+                                  color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _dashboardController.currentTab.value =
+                                            1;
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                              ASSETS_ICONS_PATH +
+                                                  "ic_puzzle.png",
+                                              width: iconBottomHeightWidth,
+                                              height: iconBottomHeightWidth,
                                               color: _dashboardController
                                                           .currentTab.value ==
                                                       1
-                                                  ? Color(0xffF9CC12)
+                                                  ? Color(0xff7FCB4F)
                                                   : Colors.black),
-                                        )
-                                      ],
+                                          SizedBox(
+                                            height: margin2,
+                                          ),
+                                          Text(
+                                            "Practice",
+                                            textScaleFactor: 0.8,
+                                            style: textStyle10.copyWith(
+                                                color: _dashboardController
+                                                            .currentTab.value ==
+                                                        1
+                                                    ? Color(0xff7FCB4F)
+                                                    : Colors.black),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                color: Colors.white,
+                              Expanded(
+                                child: Container(
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: Material(
-                                color: Colors.white,
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _dashboardController.currentTab.value = 2;
-                                    });
-                                  },
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          ASSETS_ICONS_PATH + "ic_bookmark.png",
-                                          width: iconBottomHeightWidth,
-                                          height: iconBottomHeightWidth,
-                                          color: _dashboardController
-                                                      .currentTab.value ==
-                                                  2
-                                              ? Color(0xffF9CC12)
-                                              : Colors.black,
-                                        ),
-                                        SizedBox(
-                                          height: margin2,
-                                        ),
-                                        Text(
-                                          "Bookmark",
-                                          style: textStyle10.copyWith(
-                                              color: _dashboardController
-                                                          .currentTab.value ==
-                                                      2
-                                                  ? Color(0xffF9CC12)
-                                                  : Colors.black),
-                                        )
-                                      ],
+                              Expanded(
+                                child: Material(
+                                  color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _dashboardController.currentTab.value =
+                                            2;
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ASSETS_ICONS_PATH +
+                                                "ic_bookmark.png",
+                                            width: iconBottomHeightWidth,
+                                            height: iconBottomHeightWidth,
+                                            color: _dashboardController
+                                                        .currentTab.value ==
+                                                    2
+                                                ? Color(0xff7FCB4F)
+                                                : Colors.black,
+                                          ),
+                                          SizedBox(
+                                            height: margin2,
+                                          ),
+                                          Text(
+                                            "Bookmarks",
+                                            textScaleFactor: 0.8,
+                                            style: textStyle10.copyWith(
+                                                color: _dashboardController
+                                                            .currentTab.value ==
+                                                        2
+                                                    ? Color(0xff7FCB4F)
+                                                    : Colors.black),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                              child: Material(
-                                color: Colors.white,
-                                child: InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      _dashboardController.currentTab.value = 3;
-                                    });
-                                  },
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          ASSETS_ICONS_PATH + "ic_more.png",
-                                          width: iconBottomHeightWidth,
-                                          height: iconBottomHeightWidth,
-                                          color: _dashboardController
-                                                      .currentTab.value ==
-                                                  3
-                                              ? Color(0xffF9CC12)
-                                              : Colors.black,
-                                        ),
-                                        SizedBox(
-                                          height: margin2,
-                                        ),
-                                        Text(
-                                          "More",
-                                          style: textStyle10.copyWith(
-                                              color: _dashboardController
-                                                          .currentTab.value ==
-                                                      3
-                                                  ? Color(0xffF9CC12)
-                                                  : Colors.black),
-                                        )
-                                      ],
+                              Expanded(
+                                child: Material(
+                                  color: Colors.white,
+                                  child: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _dashboardController.currentTab.value =
+                                            3;
+                                      });
+                                    },
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ASSETS_ICONS_PATH + "ic_more.png",
+                                            width: iconBottomHeightWidth,
+                                            height: iconBottomHeightWidth,
+                                            color: _dashboardController
+                                                        .currentTab.value ==
+                                                    3
+                                                ? Color(0xff7FCB4F)
+                                                : Colors.black,
+                                          ),
+                                          SizedBox(
+                                            height: margin2,
+                                          ),
+                                          Text(
+                                            "More",
+                                            textScaleFactor: 0.8,
+                                            style: textStyle10.copyWith(
+                                                color: _dashboardController
+                                                            .currentTab.value ==
+                                                        3
+                                                    ? Color(0xff7FCB4F)
+                                                    : Colors.black),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Center(
+                      Center(
+                        child: Container(
+                          width: Get.width * 0.15,
+                          height: Get.width * 0.15,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(0xffF9CC12),
+                          ),
+                          margin: EdgeInsets.only(bottom: Get.height * 0.04),
+                          child: Material(
+                            color: Color(0xffF9CC12),
+                            type: MaterialType.circle,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  Get.to(Subscription());
+                                });
+                              },
+                              child: Container(
+                                width: Get.width * 0.15,
+                                height: Get.width * 0.15,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child: Image.asset(
+                                    ASSETS_ICONS_PATH + "ic_lightbulb.png",
+                                    width: iconBottomHeightWidth + 5,
+                                    height: iconBottomHeightWidth + 5,
+                                    color:
+                                        _dashboardController.currentTab.value ==
+                                                4
+                                            ? Colors.black
+                                            : Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      /*Center(
                       child: Container(
                         width: Get.width * 0.15,
                         height: Get.width * 0.15,
-                        margin: EdgeInsets.only(bottom: margin24),
                         decoration: BoxDecoration(
-                            color: Color(0xffF9CC12), shape: BoxShape.circle),
+                          shape: BoxShape.circle,
+                          color: Color(0xffF9CC12),
+                        ),
+                        margin: EdgeInsets.only(bottom: Get.height * 0.04),
                         child: Center(
-                          child: Image.asset(
-                            ASSETS_ICONS_PATH + "ic_lightbulb.png",
-                            width: iconBottomHeightWidth + 5,
-                            height: iconBottomHeightWidth + 5,
+                          child: Material(
+                            type: MaterialType.circle,
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  _dashboardController.currentTab.value = 4;
+                                });
+                              },
+                              child: Image.asset(
+                                ASSETS_ICONS_PATH + "ic_lightbulb.png",
+                                width: iconBottomHeightWidth,
+                                height: iconBottomHeightWidth,
+                                color:
+                                    _dashboardController.currentTab.value == 4
+                                        ? Colors.black
+                                        : Colors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    )
-                  ],
+                    )*/
+                    ],
+                  ),
                 ),
-              ),
-            ))
-        /*floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.home),
-        onPressed: () {
-          setState(() {
-            currentTab = -1;
-            // currentScreen = HomeTab();
-          });
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 8,
-        elevation: 0,
-        color: Colors.transparent,
-        child: Container(
-          color: Colors.white,
-          height: MediaQuery.of(context).size.height * 0.08,
-          margin: EdgeInsets.all(margin8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentTab = 0;
-                        // currentScreen = CategoryTab();
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.dashboard,
-                          color: currentTab == 0 ? Colors.blue : Colors.grey,
-                        ),
-                        Text(
-                          'Categories',
-                          style: TextStyle(
-                            color: currentTab == 0 ? Colors.blue : Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentTab = 1;
-                        // currentScreen = OrdersTab();
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.chat,
-                          color: currentTab == 1 ? Colors.blue : Colors.grey,
-                        ),
-                        Text(
-                          'Orders',
-                          style: TextStyle(
-                            color: currentTab == 1 ? Colors.blue : Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-
-              // Right Tab bar icons
-
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentTab = 2;
-                        // currentScreen = LearnTab();
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.error_outline,
-                          color: currentTab == 2 ? Colors.blue : Colors.grey,
-                        ),
-                        Text(
-                          'Learn',
-                          style: TextStyle(
-                            color: currentTab == 2 ? Colors.blue : Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 40,
-                    onPressed: () {
-                      setState(() {
-                        currentTab = 3;
-                        // currentScreen = ProfileTab();
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.person_outline,
-                          color: currentTab == 3 ? Colors.blue : Colors.grey,
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(
-                            color: currentTab == 3 ? Colors.blue : Colors.grey,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      ),*/
-        );
+              )));
   }
 }
 

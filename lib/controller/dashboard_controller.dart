@@ -32,8 +32,7 @@ class DashboardController extends GetxController {
     Request request = Request(url: urlGetDashboard, body: {
       'type': "API",
       'standard_id': standardId,
-      // 'student_id': studentId,
-      'student_id': "9",
+      'student_id': studentId,
     });
     request.post().then((value) {
       isDashboardLoading.value = false;
@@ -44,10 +43,6 @@ class DashboardController extends GetxController {
             (responseData['subject'] as List)
                 .map((data) => ModelSubject.fromJson(data))
                 .toList());
-
-        // _subjectController.arrOfSubject.assignAll(_subjectController.arrOfSubject);
-        // _subjectController.arrOfSubject.addAll(_subjectController.arrOfSubject);
-        // _subjectController.arrOfSubject.addAll(_subjectController.arrOfSubject);
 
         arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
             .map((data) => ModelWatchHistory.fromJson(data))

@@ -26,6 +26,7 @@ class StateBookmarks extends State<Bookmarks> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    _bookmarkController.getBookmark();
   }
 
   @override

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
-import 'package:virtual_learning/modules/player/play_video.dart';
 
 class TopicTab extends StatelessWidget {
   SearchController _searchController = Get.find();
@@ -45,8 +44,7 @@ class TopicTab extends StatelessWidget {
                           splashColor: Colors.white,
                           onTap: () {
                             // _searchController.activeTopicPosition.value = index;
-                            Get.to(
-                                PlayVideo(_searchController.arrOfTopic[index]));
+                            // Get.to(PlayVideo(_searchController.arrOfTopic[index]));
                           },
                           borderRadius: BorderRadius.circular(24),
                           child: Column(
@@ -122,8 +120,7 @@ class TopicTab extends StatelessWidget {
                                         onTap: () {
                                           // _subj_searchControllerectController
                                           //     .activeTopicPosition.value = index;
-                                          Get.to(PlayVideo(_searchController
-                                              .arrOfTopic[index]));
+                                          // Get.to(PlayVideo(_searchController.arrOfTopic[index]));
                                         },
                                         child: CircularPercentIndicator(
                                           radius: 30.0,

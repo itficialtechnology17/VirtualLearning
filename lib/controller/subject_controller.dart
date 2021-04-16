@@ -8,7 +8,8 @@ import 'package:virtual_learning/model/model_question_bank.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/model/model_test_description.dart';
 import 'package:virtual_learning/model/model_topic.dart';
-import 'package:virtual_learning/modules/lesson/topic_listing.dart';
+import 'package:virtual_learning/model/model_watch_history.dart';
+import 'package:virtual_learning/modules/subject/chapter_details.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
@@ -18,6 +19,7 @@ class SubjectController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelChapter>().obs;
   var arrOfPdf = List<ModelPdf>().obs;
+  var arrOfWatchHistory = List<ModelWatchHistory>().obs;
   var arrOfQuestionBank = List<ModeQuestionBank>().obs;
   var arrOfTestDescription = List<ModelTestDescription>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
@@ -28,7 +30,12 @@ class SubjectController extends GetxController {
 
   var selectedSubject = ModelSubject().obs;
   var selectedChapter = ModelChapter().obs;
-  var activeTopicPosition = 0.obs;
+  var selectedSubjectPosition = -1.obs;
+  var selectedTopicPosition = -1.obs;
+  var selectedChapterPosition = -1.obs;
+  // var activeTopicPosition = 0.obs;
+
+  var selectedTab = 0.obs;
 
   void getChapters() async {
     isChapterLoading.value = true;
@@ -39,6 +46,7 @@ class SubjectController extends GetxController {
       'subject_id': selectedSubject.value.id.toString(),
       'student_id': studentId,
     });
+
     request.post().then((value) {
       isChapterLoading.value = false;
       final responseData = json.decode(value.body);
@@ -49,6 +57,11 @@ class SubjectController extends GetxController {
             .toList();
 
         arrOfChapter.assignAll(list);
+
+        arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
+            .map((data) => ModelWatchHistory.fromJson(data))
+            .toList());
+
         print("Success");
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
@@ -57,6 +70,16 @@ class SubjectController extends GetxController {
       isChapterLoading.value = false;
       print(onError);
     });
+  }
+
+  var arrOfNextFourVideo = List<ModelTopic>().obs;
+  void getNextFourVideo() {
+    arrOfNextFourVideo.clear();
+    var topics = arrOfChapter[selectedChapterPosition].topic;
+    for (var i = selectedTopicPosition + 1; i < topics.length; i++) {
+      arrOfNextFourVideo.add(topics[i]);
+      if (arrOfNextFourVideo.length == 4) break;
+    }
   }
 
   void getTopic() async {
@@ -76,9 +99,9 @@ class SubjectController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        arrOfTopic.assignAll((responseData['data'] as List)
+        /*arrOfTopic.assignAll((responseData['data'] as List)
             .map((data) => ModelTopic.fromJson(data))
-            .toList());
+            .toList());*/
 
         if (responseData['question_bank'] != null) {
           arrOfPdf.assignAll((responseData['question_bank'] as List)
@@ -111,7 +134,9 @@ class SubjectController extends GetxController {
 
   void setSelectedChapter(int index) {
     selectedChapter.value = arrOfChapter[index];
-    Get.to(TopicListing());
+    selectedChapterPosition = index;
+    Get.to(ChapterDetails());
+    // Get.to(TopicListing());
   }
 
   void setFavorite(String ids) async {
@@ -129,6 +154,9 @@ class SubjectController extends GetxController {
 
       if (responseData['status_code'] == 1) {
         showSnackBar("Success", responseData['message'], Colors.green);
+        arrOfChapter[selectedChapterPosition]
+            .topic[selectedTopicPosition]
+            .isFavorite = responseData['favorite_id'];
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
       }
@@ -164,17 +192,17 @@ class SubjectController extends GetxController {
   void setWatchHistory(String minutes, String contentId, String topicId) async {
     Request request = Request(url: urlSetWatchHistory, body: {
       'type': "API",
-      'student_id': studentId,
-      'minutes': minutes,
-      'content_id': contentId,
-      'topic_id': topicId,
+      'student_id': studentId.toString(),
+      'minutes': minutes.toString(),
+      'content_id': contentId.toString(),
+      'topic_id': topicId.toString(),
     });
     request.post().then((value) {
       final responseData = json.decode(value.body);
       if (responseData['status_code'] == 1) {
-        print("Saved Watch History");
+        print(responseData['message']);
       } else {
-        print("Failed To Saved Watch History");
+        print(responseData['message']);
       }
     }).catchError((onError) {
       print(onError);
