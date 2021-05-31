@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -6,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/modules/subscription/subscription.dart';
-import 'package:virtual_learning/shimmer/shimmer_main_page.dart';
 import 'package:virtual_learning/tab/bookmark_tab.dart';
 import 'package:virtual_learning/tab/home_tab.dart';
 import 'package:virtual_learning/tab/more_tab.dart';
@@ -52,7 +51,9 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
     MoreTab(),
   ];
 
+  ThemeController _themeController = Get.find();
   final PageStorageBucket bucket = PageStorageBucket();
+
   @override
   void initState() {
     super.initState();
@@ -66,38 +67,33 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   }
 
   var currentTab = 0;
+
   @override
   Widget build(BuildContext context) {
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.transparent,
-    //   statusBarIconBrightness: Brightness.dark,
-    //   systemNavigationBarColor: Colors.transparent,
-    //   systemNavigationBarIconBrightness: Brightness.dark,
-    //   statusBarBrightness: Brightness.dark,
-    // ));
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
 
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
-        body: Obx(() => _dashboardController.isDashboardLoading.value
-            ? ShimmerMainPage()
-            : PageStorage(
-                bucket: bucket,
-                child: listOfTab[_dashboardController.currentTab.value],
-              )),
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
+        body: Obx(() => PageStorage(
+              bucket: bucket,
+              child: listOfTab[_dashboardController.currentTab.value],
+            )),
         bottomNavigationBar: Obx(() => _dashboardController
                 .isDashboardLoading.value
             ? SizedBox.shrink()
             : Container(
-                height: Get.height * 0.16,
+                height: Get.height * 0.10,
                 color: Colors.transparent,
                 child: Container(
-                  margin: EdgeInsets.only(
-                    left: margin8,
-                    right: margin8,
-                    bottom: Platform.isAndroid
-                        ? kBottomNavigationBarHeight - 16
-                        : 8,
-                  ),
+                  margin: EdgeInsets.symmetric(horizontal: margin8),
                   child: Stack(
                     children: [
                       Container(
@@ -253,6 +249,9 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                               Expanded(
                                 child: Material(
                                   color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(margin4),
+                                      bottomRight: Radius.circular(margin4)),
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
@@ -376,7 +375,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-              )));
+              ))));
   }
 }
 

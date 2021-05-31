@@ -50,6 +50,7 @@ class SubjectController extends GetxController {
     request.post().then((value) {
       isChapterLoading.value = false;
       final responseData = json.decode(value.body);
+      String jsonFormat = jsonEncode(responseData);
 
       if (responseData['status_code'] == 1) {
         var list = (responseData['data'] as List)
@@ -61,6 +62,38 @@ class SubjectController extends GetxController {
         arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
             .map((data) => ModelWatchHistory.fromJson(data))
             .toList());
+
+        print("Success");
+      } else {
+        showSnackBar("Error", responseData['message'], Colors.red);
+      }
+    }).catchError((onError) {
+      isChapterLoading.value = false;
+      print(onError);
+    });
+  }
+
+  void getPractiseChapters() async {
+    isChapterLoading.value = true;
+
+    Request request = Request(url: urlGetChapter, body: {
+      'type': "API",
+      'standard_id': standardId.toString(),
+      'subject_id': selectedSubject.value.id.toString(),
+      'student_id': studentId,
+    });
+
+    request.post().then((value) {
+      isChapterLoading.value = false;
+      final responseData = json.decode(value.body);
+      String jsonFormat = jsonEncode(responseData);
+
+      if (responseData['status_code'] == 1) {
+        var list = (responseData['data'] as List)
+            .map((data) => ModelChapter.fromJson(data))
+            .toList();
+
+        arrOfChapter.assignAll(list);
 
         print("Success");
       } else {
@@ -166,12 +199,13 @@ class SubjectController extends GetxController {
     });
   }
 
-  void removeFavorite(String ids) async {
+  void removeFavorite(String ids, isQuestion) async {
     isAddingLoading.value = true;
 
     Request request = Request(url: urlRemoveFavorite, body: {
       'type': "API",
-      'favourite_id': ids,
+      'favourite_id': isQuestion ? "" : ids,
+      'bookmark_id': isQuestion ? ids : "",
       'student_id': studentId,
     });
     request.post().then((value) {

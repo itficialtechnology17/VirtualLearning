@@ -38,7 +38,7 @@ class _StateLetsKnowYou extends State<LetsKnowYou> {
                     ),
                     SizedBox(height: Get.height * 0.05),
                     Text(
-                      "Lets us Know more\nAbout you",
+                      "Let us Know more\nAbout you",
                       style: textStyle14Bold.copyWith(color: Colors.white),
                     ),
                     SizedBox(height: Get.height * 0.03),
@@ -78,10 +78,10 @@ class _StateLetsKnowYou extends State<LetsKnowYou> {
                           )),
                     ),
                     SizedBox(height: Get.height * 0.01),
-                    Text(
-                      "Let's know your name",
-                      style: textStyleSmall.copyWith(color: Colors.white),
-                    ),
+                    // Text(
+                    //   "Let's know your name",
+                    //   style: textStyleSmall.copyWith(color: Colors.white),
+                    // ),
                     SizedBox(height: Get.height * 0.02),
                     Container(
                       padding: EdgeInsets.only(left: margin4, right: margin4),
@@ -130,61 +130,61 @@ class _StateLetsKnowYou extends State<LetsKnowYou> {
                           )),
                     ),
                     SizedBox(height: Get.height * 0.01),
-                    Text(
-                      "Let's know your Email",
-                      style: textStyleSmall.copyWith(color: Colors.white),
-                    ),
+                    // Text(
+                    //   "Let's know your Email",
+                    //   style: textStyleSmall.copyWith(color: Colors.white),
+                    // ),
                     SizedBox(height: Get.height * 0.02),
-                    GridView.count(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 16,
-                        crossAxisSpacing: 16,
-                        shrinkWrap: true,
-                        childAspectRatio: 3 / 1,
-                        children: List.generate(
-                            _loginController.arrOfContactHours.length, (index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                                color: index ==
-                                        _loginController
-                                            .selectedContactTimePosition
-                                    ? Colors.white
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(4),
-                                border:
-                                    Border.all(color: Colors.white, width: 1)),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _loginController
-                                        .selectedContactTimePosition = index;
-                                    _loginController.selectedTimeToContact =
-                                        _loginController
-                                            .arrOfContactHours[index];
-                                  });
-                                },
-                                child: Center(
-                                  child: Text(
-                                    _loginController.arrOfContactHours[index],
-                                    style: textStyle10Bold.copyWith(
-                                        color: _loginController
-                                                    .selectedContactTimePosition ==
-                                                index
-                                            ? Colors.black
-                                            : Colors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        })),
-                    SizedBox(height: Get.height * 0.01),
-                    Text(
-                      "Best Time to Connect you.",
-                      style: textStyleSmall.copyWith(color: Colors.white),
-                    ),
+                    // GridView.count(
+                    //     crossAxisCount: 3,
+                    //     mainAxisSpacing: 16,
+                    //     crossAxisSpacing: 16,
+                    //     shrinkWrap: true,
+                    //     childAspectRatio: 3 / 1,
+                    //     children: List.generate(
+                    //         _loginController.arrOfContactHours.length, (index) {
+                    //       return Container(
+                    //         decoration: BoxDecoration(
+                    //             color: index ==
+                    //                     _loginController
+                    //                         .selectedContactTimePosition
+                    //                 ? Colors.white
+                    //                 : Colors.transparent,
+                    //             borderRadius: BorderRadius.circular(4),
+                    //             border:
+                    //                 Border.all(color: Colors.white, width: 1)),
+                    //         child: Material(
+                    //           color: Colors.transparent,
+                    //           child: InkWell(
+                    //             onTap: () {
+                    //               setState(() {
+                    //                 _loginController
+                    //                     .selectedContactTimePosition = index;
+                    //                 _loginController.selectedTimeToContact =
+                    //                     _loginController
+                    //                         .arrOfContactHours[index];
+                    //               });
+                    //             },
+                    //             child: Center(
+                    //               child: Text(
+                    //                 _loginController.arrOfContactHours[index],
+                    //                 style: textStyle10Bold.copyWith(
+                    //                     color: _loginController
+                    //                                 .selectedContactTimePosition ==
+                    //                             index
+                    //                         ? Colors.black
+                    //                         : Colors.white),
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     })),
+                    // SizedBox(height: Get.height * 0.01),
+                    // Text(
+                    //   "Best Time to Connect you.",
+                    //   style: textStyleSmall.copyWith(color: Colors.white),
+                    // ),
                     SizedBox(
                       height: Get.height * 0.05,
                     ),

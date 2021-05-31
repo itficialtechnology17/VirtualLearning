@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_share/flutter_share.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
-import 'package:virtual_learning/modules/search/search_page.dart';
 import 'package:virtual_learning/modules/subject/chapter.dart';
 import 'package:virtual_learning/modules/subject/custom_recent_video_player.dart';
+import 'package:virtual_learning/shimmer/shimmer_main_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -21,417 +22,463 @@ class HomeTab extends StatefulWidget {
 }
 
 class _StateHome extends State<HomeTab> {
+  ThemeController _themeController = Get.find();
   SubjectController _subjectController = Get.find();
   DashboardController _dashboardController = Get.find();
 
   @override
+  void initState() {
+    super.initState();
+    // getThemeMode();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xffF9F9FB),
-        statusBarColor: Color(0xffF9F9FB)));
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
 
-    return Scaffold(
-      backgroundColor: Color(0xffF9F9FB),
-      body: Obx(() => Stack(
-            children: [
-              /* Image.asset(
-                ASSETS_BG_PATH + 'ic_home_top_bg.png',
-                height: Get.height * 0.20,
-                width: Get.width * 0.60,
-                fit: BoxFit.fill,
-              ),*/
-              Scaffold(
-                backgroundColor: Colors.transparent,
-                appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Expanded(
-                        child: Container(
-                          // color: Colors.lightGreenAccent,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: margin4,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    child: Image.asset(
-                                      ASSETS_ICONS_PATH + 'ic_small_logo.png',
-                                      height: iconHeightWidth,
-                                      width: iconHeightWidth,
-                                      fit: BoxFit.fitWidth,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                "Virtual E",
-                                style: textStyle11Bold,
-                                textScaleFactor: 1.0,
-                              ),
-                              Spacer(),
-                              Material(
+    return Obx(() => Stack(
+          children: [
+            Scaffold(
+              backgroundColor: _themeController.background.value,
+              appBar: PreferredSize(
+                preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top,
+                    ),
+                    Expanded(
+                      child: Container(
+                        // color: Colors.lightGreenAccent,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: margin4,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(margin8),
+                              child: Material(
                                 color: Colors.transparent,
                                 child: InkWell(
-                                  onTap: () {
-                                    Get.to(SearchPage());
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.all(margin8),
-                                    child: Image.asset(
-                                      ASSETS_ICONS_PATH + 'ic_search.png',
-                                      height: iconHeightWidth,
-                                      width: iconHeightWidth,
-                                      fit: BoxFit.fitWidth,
-                                    ),
+                                  child: Image.asset(
+                                    ASSETS_ICONS_PATH + 'ic_small_logo.png',
+                                    height: iconHeightWidth,
+                                    width: iconHeightWidth,
+                                    fit: BoxFit.fitWidth,
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: margin4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                body: Container(
-                  padding: EdgeInsets.symmetric(horizontal: margin16),
-                  child: ListView(
-                    children: [
-                      RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                              text: "Choose",
-                              style: textStyle10Bold.copyWith(
-                                  color: Colors.black)),
-                          TextSpan(
-                              text: " Subject",
-                              style: textStyle10Bold.copyWith(
-                                  color: Color(0xff7FCB4F))),
-                        ]),
-                      ),
-                      SizedBox(
-                        height: margin24,
-                      ),
-                      GridView.count(
-                        crossAxisCount: 3,
-                        // mainAxisSpacing: margin16,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        childAspectRatio: 5 / 6,
-                        children: List<Widget>.generate(
-                            _subjectController.arrOfSubject.length, (index) {
-                          return Container(
-                              child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          _subjectController
-                                              .selectedSubjectPosition = index;
-                                          _subjectController
-                                                  .selectedSubject.value =
-                                              _subjectController
-                                                  .arrOfSubject[index];
-                                          // Get.to(LessonListing());
+                            ),
+                            Text(
+                              "Virtual E",
+                              style: textStyle11Bold.copyWith(
+                                  color: _themeController.textColor.value),
+                              textScaleFactor: 1.0,
+                            ),
+                            Spacer(),
+                            Switch(
+                              value: _themeController.isDarkTheme.value,
+                              onChanged: (value) {
+                                setState(() {
+                                  _themeController.isDarkTheme.value = value;
 
-                                          Get.to(() => Chapter());
-                                        });
-                                      },
-                                      child: Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.network(
-                                              storageUrl +
+                                  _themeController.setTheme();
+                                });
+                              },
+                              activeTrackColor: Colors.green,
+                              activeColor: Colors.white,
+                              inactiveThumbColor: Colors.white,
+                              inactiveTrackColor: Colors.grey,
+                            ),
+                            // Material(
+                            //   color: Colors.transparent,
+                            //   child: InkWell(
+                            //     onTap: () {
+                            //       if (!_dashboardController
+                            //           .isDashboardLoading.value) {
+                            //         Get.to(SearchPage());
+                            //       }
+                            //     },
+                            //     child: Padding(
+                            //       padding: EdgeInsets.all(margin8),
+                            //       child: Image.asset(
+                            //         ASSETS_ICONS_PATH + 'ic_search.png',
+                            //         height: iconHeightWidth,
+                            //         width: iconHeightWidth,
+                            //         fit: BoxFit.fitWidth,
+                            //         color: _themeController.iconColor.value,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
+                            SizedBox(
+                              width: margin4,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              body: _dashboardController.isDashboardLoading.value
+                  ? ShimmerMainPage()
+                  : Container(
+                      padding: EdgeInsets.symmetric(horizontal: margin16),
+                      child: ListView(
+                        children: [
+                          RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text: "Choose",
+                                  style: textStyle10Bold.copyWith(
+                                      color: _themeController.textColor.value)),
+                              TextSpan(
+                                  text: " Subject",
+                                  style: textStyle10Bold.copyWith(
+                                      color: Color(0xff7FCB4F))),
+                            ]),
+                          ),
+                          SizedBox(
+                            height: margin24,
+                          ),
+                          GridView.count(
+                            crossAxisCount: 3,
+                            // mainAxisSpacing: margin16,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            childAspectRatio: 5 / 6,
+                            children: List<Widget>.generate(
+                                _subjectController.arrOfSubject.length,
+                                (index) {
+                              return Container(
+                                  child: Material(
+                                      color: Colors.transparent,
+                                      child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _subjectController
+                                                      .selectedSubjectPosition =
+                                                  index;
+                                              _subjectController
+                                                      .selectedSubject.value =
                                                   _subjectController
-                                                      .arrOfSubject[index].icon,
-                                              height: Get.height * 0.09,
-                                              width: Get.height * 0.09,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            SizedBox(
-                                              height: 16,
-                                            ),
-                                            RichText(
-                                              textScaleFactor: 1.0,
-                                              maxLines: 2,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.center,
-                                              text: TextSpan(
-                                                  style: textStyle10.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                  text: getTwoWordsName(
+                                                      .arrOfSubject[index];
+                                              // Get.to(LessonListing());
+
+                                              Get.to(() => Chapter());
+                                            });
+                                          },
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.network(
+                                                  storageUrl +
                                                       _subjectController
                                                           .arrOfSubject[index]
-                                                          .name)),
-                                            )
-                                          ],
-                                        ),
-                                      ))));
-                          ;
-                        }),
-                      ),
-                      SizedBox(
-                        height: margin10,
-                      ),
-                      Container(
-                        width: Get.width,
-                        height: 2,
-                        color: Color(0xffE9E9E9),
-                      ),
-                      SizedBox(
-                        height: margin10,
-                      ),
-                      _dashboardController.arrOfWatchHistory.isNotEmpty
-                          ? Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                RichText(
-                                  textScaleFactor: 1.0,
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                        text: "Where you",
-                                        style: textStyle10Bold.copyWith(
-                                            color: Colors.black)),
-                                    TextSpan(
-                                        text: " Left",
-                                        style: textStyle10Bold.copyWith(
-                                            color: Color(0xff7FCB4F))),
-                                  ]),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: _dashboardController
-                                              .arrOfWatchHistory.length >
-                                          3
-                                      ? 3
-                                      : _dashboardController
-                                          .arrOfWatchHistory.length,
-                                  itemBuilder: (context, index) {
-                                    return Material(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: InkWell(
-                                        splashColor: Colors.grey,
-                                        borderRadius: BorderRadius.circular(8),
-                                        onTap: () {
-                                          Get.to(() => CustomRecentVideoPlayer(
-                                              _dashboardController
-                                                  .arrOfWatchHistory[index]));
-                                        },
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.10,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8)),
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 8),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                width: margin16,
-                                              ),
-                                              Image.network(
-                                                storageUrl +
-                                                    _dashboardController
-                                                        .arrOfWatchHistory[
-                                                            index]
-                                                        .standardIcon,
-                                                height: iconMediumHeightWidth,
-                                                width: iconMediumHeightWidth,
-                                                fit: BoxFit.fitWidth,
-                                              ),
-                                              SizedBox(
-                                                width: margin16,
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    RichText(
-                                                      textScaleFactor: 1.0,
-                                                      text: TextSpan(
-                                                          text: _dashboardController
-                                                              .arrOfWatchHistory[
+                                                          .icon,
+                                                  height: Get.height * 0.09,
+                                                  width: Get.height * 0.09,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                SizedBox(
+                                                  height: 16,
+                                                ),
+                                                RichText(
+                                                  textScaleFactor: 1.0,
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.center,
+                                                  text: TextSpan(
+                                                      style: textStyle10.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color:
+                                                              _themeController
+                                                                  .textColor
+                                                                  .value),
+                                                      text: getTwoWordsName(
+                                                          _subjectController
+                                                              .arrOfSubject[
                                                                   index]
-                                                              .name,
-                                                          style: textStyle10),
-                                                      maxLines: 1,
-                                                    ),
-                                                    Row(
+                                                              .name)),
+                                                )
+                                              ],
+                                            ),
+                                          ))));
+                              ;
+                            }),
+                          ),
+                          SizedBox(
+                            height: margin10,
+                          ),
+                          Container(
+                            width: Get.width,
+                            height: 2,
+                            color: Color(0xffE9E9E9),
+                          ),
+                          SizedBox(
+                            height: margin10,
+                          ),
+                          _dashboardController.arrOfWatchHistory.isNotEmpty
+                              ? Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      textScaleFactor: 1.0,
+                                      text: TextSpan(children: [
+                                        TextSpan(
+                                            text: "Where you",
+                                            style: textStyle10Bold.copyWith(
+                                                color: _themeController
+                                                    .textColor.value)),
+                                        TextSpan(
+                                            text: " Left",
+                                            style: textStyle10Bold.copyWith(
+                                                color: Color(0xff7FCB4F))),
+                                      ]),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    ListView.separated(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: _dashboardController
+                                                  .arrOfWatchHistory.length >
+                                              3
+                                          ? 3
+                                          : _dashboardController
+                                              .arrOfWatchHistory.length,
+                                      itemBuilder: (context, index) {
+                                        return Material(
+                                          color: _themeController
+                                              .cardBackground.value,
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          child: InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            onTap: () {
+                                              Get.to(() =>
+                                                  CustomRecentVideoPlayer(
+                                                      _dashboardController
+                                                              .arrOfWatchHistory[
+                                                          index]));
+                                            },
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.10,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8)),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 8),
+                                              child: Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: margin16,
+                                                  ),
+                                                  Image.network(
+                                                    storageUrl +
+                                                        _dashboardController
+                                                            .arrOfWatchHistory[
+                                                                index]
+                                                            .standardIcon,
+                                                    height:
+                                                        iconMediumHeightWidth,
+                                                    width:
+                                                        iconMediumHeightWidth,
+                                                    fit: BoxFit.fitWidth,
+                                                  ),
+                                                  SizedBox(
+                                                    width: margin16,
+                                                  ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: [
-                                                        Text(
-                                                          "Continue Learning",
+                                                        RichText(
                                                           textScaleFactor: 1.0,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              fontSize: 12),
+                                                          text: TextSpan(
+                                                              text: _dashboardController
+                                                                  .arrOfWatchHistory[
+                                                                      index]
+                                                                  .name,
+                                                              style: textStyle10.copyWith(
+                                                                  color: _themeController
+                                                                      .textColor
+                                                                      .value)),
+                                                          maxLines: 1,
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  top: 2),
-                                                          child: Icon(
-                                                            Icons
-                                                                .arrow_forward_outlined,
-                                                            color: Colors.grey,
-                                                            size: 10,
-                                                          ),
-                                                        )
+                                                        Row(
+                                                          children: [
+                                                            Text(
+                                                              "Continue Learning",
+                                                              textScaleFactor:
+                                                                  1.0,
+                                                              style: textStyle9.copyWith(
+                                                                  color: _themeController
+                                                                      .textColor
+                                                                      .value),
+                                                            ),
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(top: 2),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .arrow_forward_outlined,
+                                                                color:
+                                                                    Colors.grey,
+                                                                size: 10,
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
                                                       ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: margin16,
+                                                  ),
+                                                  Image.asset(
+                                                    ASSETS_ICONS_PATH +
+                                                        'ic_play.png',
+                                                    height: iconHeightWidth,
+                                                    width: iconHeightWidth,
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                  SizedBox(
+                                                    width: margin16,
+                                                  ),
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: margin16,
-                                              ),
-                                              Image.asset(
-                                                ASSETS_ICONS_PATH +
-                                                    'ic_play.png',
-                                                height: iconHeightWidth,
-                                                width: iconHeightWidth,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              SizedBox(
-                                                width: margin16,
-                                              ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(
-                                      height: 16,
-                                    );
-                                  },
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                          height: 16,
+                                        );
+                                      },
+                                    )
+                                  ],
                                 )
-                              ],
-                            )
-                          : SizedBox.shrink(),
-                      SizedBox(
-                        height: margin10,
-                      ),
-                      _dashboardController.arrOfWatchHistory.isNotEmpty
-                          ? Container(
-                              width: Get.width,
-                              height: 2,
-                              color: Color(0xffE9E9E9),
-                            )
-                          : SizedBox.shrink(),
-                      SizedBox(
-                        height:
-                            _dashboardController.arrOfWatchHistory.isNotEmpty
+                              : SizedBox.shrink(),
+                          SizedBox(
+                            height: margin10,
+                          ),
+                          _dashboardController.arrOfWatchHistory.isNotEmpty
+                              ? Container(
+                                  width: Get.width,
+                                  height: 2,
+                                  color: Color(0xffE9E9E9),
+                                )
+                              : SizedBox.shrink(),
+                          SizedBox(
+                            height: _dashboardController
+                                    .arrOfWatchHistory.isNotEmpty
                                 ? margin10
                                 : 0,
-                      ),
-                      Material(
-                        color: Color(0xff17212A),
-                        borderRadius: BorderRadius.circular(8),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () {
-                            shareApp();
-                          },
-                          child: Container(
-                            height: Get.height * 0.10,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: margin16,
-                                ),
-                                Image.asset(
-                                  ASSETS_IMAGE_PATH + 'ic_share.png',
-                                  height: iconLargeHeightWidth,
-                                  width: iconLargeHeightWidth,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(
-                                  width: margin16,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        textScaleFactor: 1.0,
-                                        text: TextSpan(children: [
-                                          TextSpan(
-                                              text: "Share With",
-                                              style: textStyle10Bold.copyWith(
-                                                  color: Colors.white)),
-                                          TextSpan(
-                                              text: " Friends",
-                                              style: textStyle10Bold.copyWith(
-                                                  color: Color(0xff7FCB4F))),
-                                        ]),
+                          ),
+                          Material(
+                            color: Color(0xff17212A),
+                            borderRadius: BorderRadius.circular(8),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(8),
+                              onTap: () {
+                                shareApp();
+                              },
+                              child: Container(
+                                height: Get.height * 0.10,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8)),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: margin16,
+                                    ),
+                                    Image.asset(
+                                      ASSETS_IMAGE_PATH + 'ic_share.png',
+                                      height: iconLargeHeightWidth,
+                                      width: iconLargeHeightWidth,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    SizedBox(
+                                      width: margin16,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          RichText(
+                                            textScaleFactor: 1.0,
+                                            text: TextSpan(children: [
+                                              TextSpan(
+                                                  text: "App",
+                                                  style:
+                                                      textStyle10Bold.copyWith(
+                                                          color: Colors.white)),
+                                              TextSpan(
+                                                  text: " Share",
+                                                  style:
+                                                      textStyle10Bold.copyWith(
+                                                          color: Color(
+                                                              0xff7FCB4F))),
+                                            ]),
+                                          ),
+                                          SizedBox(
+                                            height: margin4,
+                                          ),
+                                          Text(
+                                            "Share app with your Friends & Family",
+                                            textScaleFactor: 1.0,
+                                            style: textStyle9.copyWith(
+                                                color: Colors.white),
+                                          )
+                                        ],
                                       ),
-                                      SizedBox(
-                                        height: margin4,
-                                      ),
-                                      Text(
-                                        "Lorem Ipsum Dolor sit Amet sed do consectetur adipiscing elit",
-                                        textScaleFactor: 1.0,
-                                        style: textStyle9.copyWith(
-                                            color: Colors.white),
-                                      )
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(
+                                      width: margin16,
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: margin16,
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(
+                            height: margin10,
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: margin10,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          )),
-    );
+                    ),
+            )
+          ],
+        ));
   }
 
   Future<void> shareApp() async {

@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_answer.dart';
 import 'package:virtual_learning/model/model_test_description.dart';
@@ -27,6 +29,7 @@ class ChapterTestReport extends StatefulWidget {
 }
 
 class StateChapterTestReport extends State<ChapterTestReport> {
+  ThemeController _themeController = Get.find();
   SubjectController _subjectController = Get.find();
 
   @override
@@ -39,15 +42,19 @@ class StateChapterTestReport extends State<ChapterTestReport> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
+
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
         body: Stack(children: [
-          /* Image.asset(
-                ASSETS_BG_PATH + 'ic_home_top_bg.png',
-                height: Get.height * 0.20,
-                width: Get.width * 0.60,
-                fit: BoxFit.fill,
-              ),*/
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: PreferredSize(
@@ -79,6 +86,7 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                                     height: iconHeightWidth,
                                     width: iconHeightWidth,
                                     fit: BoxFit.fitWidth,
+                                    color: _themeController.iconColor.value,
                                   ),
                                 ),
                               ),
@@ -88,7 +96,8 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                             alignment: Alignment.center,
                             child: Text(
                               "Test Result",
-                              style: textStyle11Bold,
+                              style: textStyle11Bold.copyWith(
+                                  color: _themeController.textColor.value),
                             ),
                           ),
                         ],
@@ -108,7 +117,8 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                   text: TextSpan(children: [
                     TextSpan(
                         text: "Score and",
-                        style: textStyle12Bold.copyWith(color: Colors.black)),
+                        style: textStyle12Bold.copyWith(
+                            color: _themeController.textColor.value)),
                     TextSpan(
                         text: " Solutions",
                         style:
@@ -122,13 +132,15 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                     padding: EdgeInsets.symmetric(
                         horizontal: margin24 + margin16, vertical: margin24),
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: _themeController.cardBackground.value,
                         boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey[300],
-                            offset: Offset(0, 0),
-                            blurRadius: 10.0,
-                          ),
+                          !_themeController.isDarkTheme.value
+                              ? BoxShadow(
+                                  color: Colors.grey[300],
+                                  offset: Offset(0, 0),
+                                  blurRadius: 10.0,
+                                )
+                              : BoxShadow(),
                         ],
                         borderRadius: BorderRadius.circular(4)),
                     child: Column(
@@ -137,7 +149,8 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                       children: [
                         Text(
                           "YOUR SCORE",
-                          style: textStyle12Bold,
+                          style: textStyle12Bold.copyWith(
+                              color: _themeController.textColor.value),
                         ),
                         SizedBox(
                           height: margin12,
@@ -154,12 +167,14 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                             Text(
                               " / ",
                               style: textStyle14Bold.copyWith(
-                                  fontWeight: FontWeight.w900),
+                                  fontWeight: FontWeight.w900,
+                                  color: _themeController.textColor.value),
                             ),
                             Text(
                               totalQuestion,
                               style: textStyle14Bold.copyWith(
-                                  fontWeight: FontWeight.w900),
+                                  fontWeight: FontWeight.w900,
+                                  color: _themeController.textColor.value),
                             ),
                           ],
                         ),
@@ -173,14 +188,16 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                   padding: EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
                       boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey[300],
-                          offset: Offset(0, 0),
-                          blurRadius: 10.0,
-                        ),
+                        !_themeController.isDarkTheme.value
+                            ? BoxShadow(
+                                color: Colors.grey[300],
+                                offset: Offset(0, 0),
+                                blurRadius: 10.0,
+                              )
+                            : BoxShadow(),
                       ],
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white),
+                      color: _themeController.cardBackground.value),
                   child: Row(
                     children: [
                       Expanded(
@@ -189,12 +206,14 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                             Text(
                               correctAnswer.toString(),
                               style: textStyle14Bold.copyWith(
-                                  fontWeight: FontWeight.w900),
+                                  fontWeight: FontWeight.w900,
+                                  color: _themeController.textColor.value),
                             ),
                             Text(
                               "Correct",
                               textAlign: TextAlign.center,
-                              style: textStyle10Bold,
+                              style: textStyle10Bold.copyWith(
+                                  color: _themeController.textColor.value),
                             )
                           ],
                         ),
@@ -210,12 +229,14 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                             Text(
                               wrongAnswer.toString(),
                               style: textStyle14Bold.copyWith(
-                                  fontWeight: FontWeight.w900),
+                                  fontWeight: FontWeight.w900,
+                                  color: _themeController.textColor.value),
                             ),
                             Text(
                               "Wrong",
                               textAlign: TextAlign.center,
-                              style: textStyle10Bold,
+                              style: textStyle10Bold.copyWith(
+                                  color: _themeController.textColor.value),
                             )
                           ],
                         ),
@@ -231,12 +252,14 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                             Text(
                               skippedAnswer.toString(),
                               style: textStyle14Bold.copyWith(
-                                  fontWeight: FontWeight.w900),
+                                  fontWeight: FontWeight.w900,
+                                  color: _themeController.textColor.value),
                             ),
                             Text(
                               "Skipped",
                               textAlign: TextAlign.center,
-                              style: textStyle10Bold,
+                              style: textStyle10Bold.copyWith(
+                                  color: _themeController.textColor.value),
                             )
                           ],
                         ),
@@ -247,11 +270,13 @@ class StateChapterTestReport extends State<ChapterTestReport> {
                 Container(
                   decoration: BoxDecoration(
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey[100],
-                        offset: Offset(0, 0),
-                        blurRadius: 10.0,
-                      ),
+                      !_themeController.isDarkTheme.value
+                          ? BoxShadow(
+                              color: Colors.grey[100],
+                              offset: Offset(0, 0),
+                              blurRadius: 10.0,
+                            )
+                          : BoxShadow(),
                     ],
                   ),
                   margin: EdgeInsets.symmetric(
@@ -283,7 +308,7 @@ class StateChapterTestReport extends State<ChapterTestReport> {
               ],
             ),
           )
-        ]));
+        ])));
   }
 
   /*@override

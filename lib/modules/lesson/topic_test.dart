@@ -7,10 +7,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
 import 'package:virtual_learning/model/model_topic.dart';
+import 'package:virtual_learning/page/report_question.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -27,6 +29,7 @@ class TopicTest extends StatefulWidget {
 }
 
 class _StateTopicTest extends State<TopicTest> {
+  ThemeController _themeController = Get.find();
   final PageController controller = PageController();
 
   var animatedProgressValue = 0.0;
@@ -53,38 +56,206 @@ class _StateTopicTest extends State<TopicTest> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.white));
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
 
-    return Scaffold(
-      backgroundColor: Color(0xffF9F9FB),
-      body: Stack(
-        children: [
-          /* Image.asset(
+    return Obx(() => Scaffold(
+          backgroundColor: _themeController.background.value,
+          body: Stack(
+            children: [
+              /* Image.asset(
                 ASSETS_BG_PATH + 'ic_home_top_bg.png',
                 height: Get.height * 0.20,
                 width: Get.width * 0.60,
                 fit: BoxFit.fill,
               ),*/
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(
-                  AppBar().preferredSize.height + Get.height * 0.056),
-              child: Container(
-                // color: Colors.yellow,
-                child: Column(
+              Scaffold(
+                backgroundColor: _themeController.background.value,
+                appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(
+                      AppBar().preferredSize.height + Get.height * 0.056),
+                  child: Container(
+                    // color: Colors.yellow,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).padding.top,
+                        ),
+                        Container(
+                          // color: Colors.lightGreenAccent,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: margin8,
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                type: MaterialType.circle,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.all(margin8),
+                                    child: Image.asset(
+                                      ASSETS_ICONS_PATH + 'ic_back.png',
+                                      height: iconHeightWidth,
+                                      width: iconHeightWidth,
+                                      fit: BoxFit.fitWidth,
+                                      color: _themeController.iconColor.value,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: margin16,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  widget.modelTopic.name,
+                                  style: textStyle10Bold.copyWith(
+                                      color: _themeController.textColor.value),
+                                ),
+                              ),
+                              SizedBox(
+                                width: margin8,
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: Get.height * 0.06,
+                          width: Get.width,
+                          // color: Colors.blue,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: margin8,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: arrOfQuestion.length,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: margin4),
+                                      child: Material(
+                                        type: MaterialType.circle,
+                                        color: currentIndex == index
+                                            ? Color(0xff7FCB4F)
+                                            : Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () async {
+                                            setSelectedQuestion(index);
+                                            if (index != currentIndex) {
+                                              await controller.animateToPage(
+                                                index,
+                                                duration:
+                                                    Duration(milliseconds: 500),
+                                                curve: Curves.easeOut,
+                                              );
+                                            }
+                                          },
+                                          child: Container(
+                                            height: Get.height * 0.06,
+                                            padding: EdgeInsets.all(margin8),
+                                            child: Center(
+                                              child: Text(
+                                                "" + (index + 1).toString(),
+                                                style: textStyle10Bold.copyWith(
+                                                    color: currentIndex == index
+                                                        ? Colors.white
+                                                        : arrOfQuestion[index]
+                                                                    .givenAnswer ==
+                                                                -1
+                                                            ? Colors.grey
+                                                            : Color(
+                                                                0xff7FCB4F)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Material(
+                                color: Colors.transparent,
+                                type: MaterialType.circle,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                child: InkWell(
+                                  onTap: () {},
+                                  child: Padding(
+                                    padding: EdgeInsets.all(margin8),
+                                    child: Icon(Icons.navigate_next),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                body: Column(
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.top,
+                    Container(
+                      width: Get.width,
+                      height: 2,
+                      margin: EdgeInsets.symmetric(horizontal: margin8),
+                      color: Color(0xffE9E9E9),
                     ),
                     Container(
                       // color: Colors.lightGreenAccent,
                       child: Row(
                         children: [
-                          SizedBox(
-                            width: margin4,
+                          Spacer(),
+                          Material(
+                            color: Colors.transparent,
+                            type: MaterialType.circle,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            child: InkWell(
+                              onTap: () {
+                                if (arrOfQuestion[currentIndex].isBookmark ==
+                                    0) {
+                                  _testController.setQuestionBookmark(
+                                      arrOfQuestion[currentIndex].id.toString(),
+                                      "topic");
+                                  setState(() {
+                                    arrOfQuestion[currentIndex].isBookmark = 1;
+                                  });
+                                } else {
+                                  _testController.setQuestionBookmark(
+                                      arrOfQuestion[currentIndex]
+                                          .isBookmark
+                                          .toString(),
+                                      "topic");
+                                  setState(() {
+                                    arrOfQuestion[currentIndex].isBookmark = 0;
+                                  });
+                                }
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(margin8),
+                                child: Icon(
+                                  arrOfQuestion[currentIndex].isBookmark == 0
+                                      ? Icons.bookmark_border_outlined
+                                      : Icons.bookmark,
+                                  color: Color(0xff7FCB4F),
+                                ),
+                              ),
+                            ),
                           ),
                           Material(
                             color: Colors.transparent,
@@ -92,12 +263,15 @@ class _StateTopicTest extends State<TopicTest> {
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             child: InkWell(
                               onTap: () {
-                                Get.back();
+                                Get.to(ReportQuestion(
+                                    _subjectController.selectedSubject.value,
+                                    arrOfQuestion[currentIndex],
+                                    "Topic"));
                               },
                               child: Padding(
                                 padding: EdgeInsets.all(margin8),
                                 child: Image.asset(
-                                  ASSETS_ICONS_PATH + 'ic_back.png',
+                                  ASSETS_ICONS_PATH + 'ic_report.png',
                                   height: iconHeightWidth,
                                   width: iconHeightWidth,
                                   fit: BoxFit.fitWidth,
@@ -105,370 +279,177 @@ class _StateTopicTest extends State<TopicTest> {
                               ),
                             ),
                           ),
-                          Spacer(),
-                          Text(
-                            _subjectController.selectedSubject.value.name
-                                .toUpperCase(),
-                            style: textStyle10Bold,
-                          ),
-                          Spacer(),
-                          /*Material(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: Colors.transparent,
-                            // type: MaterialType.circle,
-                            child: InkWell(
-                              onTap: () async {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) =>
-                                        _confirmSubmit(context));
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Text(
-                                  "Submit".toUpperCase(),
-                                  style: textStyle9Bold.copyWith(
-                                      color: Color(0xff00B4FF)),
-                                ) */ /*Icon(
-                                    Icons.arrow_back_ios_rounded,
-                                    color: Colors.white,
-                                    size: iconHeightWidth,
-                                  )*/ /*
-                                ,
-                              ),
-                            ),
-                          ),*/
-                          /*Material(
-                            color: Colors.transparent,
-                            type: MaterialType.circle,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Image.asset(
-                                  ASSETS_ICONS_PATH + 'ic_close.png',
-                                  height: iconHeightWidth - 5,
-                                  width: iconHeightWidth - 5,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                            ),
-                          )*/
                         ],
                       ),
                     ),
-                    Container(
-                      height: Get.height * 0.06,
-                      width: Get.width,
-                      // color: Colors.blue,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: margin8,
-                          ),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: arrOfQuestion.length,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: margin4),
-                                  child: Material(
-                                    type: MaterialType.circle,
-                                    color: currentIndex == index
-                                        ? Color(0xff7FCB4F)
-                                        : Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        setSelectedQuestion(index);
-                                        if (index != currentIndex) {
-                                          await controller.animateToPage(
-                                            index,
-                                            duration:
-                                                Duration(milliseconds: 500),
-                                            curve: Curves.easeOut,
-                                          );
-                                        }
-                                      },
+                    Expanded(
+                      child: PageView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: arrOfQuestion.length,
+                        controller: controller,
+                        onPageChanged: (index) {
+                          setState(() {
+                            currentIndex = index;
+                            setSelectedQuestion(index);
+                          });
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListView(
+                            shrinkWrap: true,
+                            // physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.all(16),
+                                  alignment: Alignment.center,
+                                  child: Html(
+                                      data: arrOfQuestion[index].question,
+                                      style: {
+                                        "body": Style(
+                                            color: _themeController
+                                                .textColor.value,
+                                            fontFamily: "Nunito"),
+                                      })),
+                              // Spacer(),
+                              Container(
+                                padding: EdgeInsets.all(20),
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                      arrOfQuestion[index].answers.length,
+                                  itemBuilder: (context, answerIndex) {
+                                    return Container(
+                                      margin: EdgeInsets.only(
+                                          bottom: Get.height * 0.03),
                                       child: Container(
-                                        height: Get.height * 0.06,
-                                        padding: EdgeInsets.all(margin8),
-                                        child: Center(
-                                          child: Text(
-                                            "" + (index + 1).toString(),
-                                            style: textStyle10Bold.copyWith(
-                                                color: currentIndex == index
-                                                    ? Colors.white
-                                                    : arrOfQuestion[index]
-                                                                .givenAnswer ==
-                                                            -1
-                                                        ? Colors.grey
-                                                        : Color(0xff7FCB4F)),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.white,
+                                                Colors.white,
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(margin24),
+                                            boxShadow: <BoxShadow>[
+                                              !_themeController
+                                                      .isDarkTheme.value
+                                                  ? BoxShadow(
+                                                      color: Colors.grey[300],
+                                                      offset: Offset(0, 0),
+                                                      blurRadius: 10.0,
+                                                    )
+                                                  : BoxShadow(),
+                                            ],
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                          Material(
-                            color: Colors.transparent,
-                            type: MaterialType.circle,
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            child: InkWell(
-                              onTap: () {},
-                              child: Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Icon(Icons.navigate_next),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            body: Column(
-              children: [
-                Container(
-                  width: Get.width,
-                  height: 2,
-                  margin: EdgeInsets.symmetric(horizontal: margin8),
-                  color: Color(0xffE9E9E9),
-                ),
-                Container(
-                  // color: Colors.lightGreenAccent,
-                  child: Row(
-                    children: [
-                      Spacer(),
-                      Material(
-                        color: Colors.transparent,
-                        type: MaterialType.circle,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: EdgeInsets.all(margin8),
-                            child: Icon(
-                              Icons.bookmark_border_outlined,
-                              color: Color(0xff7FCB4F),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Material(
-                        color: Colors.transparent,
-                        type: MaterialType.circle,
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: EdgeInsets.all(margin8),
-                            child: Image.asset(
-                              ASSETS_ICONS_PATH + 'ic_report.png',
-                              height: iconHeightWidth,
-                              width: iconHeightWidth,
-                              fit: BoxFit.fitWidth,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: PageView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: arrOfQuestion.length,
-                    controller: controller,
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentIndex = index;
-                        setSelectedQuestion(index);
-                      });
-                    },
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListView(
-                        shrinkWrap: true,
-                        // physics: NeverScrollableScrollPhysics(),
-                        children: [
-                          Container(
-                            padding: EdgeInsets.all(16),
-                            alignment: Alignment.center,
-                            child: Html(
-                              data: arrOfQuestion[index].question,
-                            ),
-                          ),
-                          // Spacer(),
-                          Container(
-                            padding: EdgeInsets.all(20),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: arrOfQuestion[index].answers.length,
-                              itemBuilder: (context, answerIndex) {
-                                return Container(
-                                  margin: EdgeInsets.only(
-                                      bottom: Get.height * 0.03),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.white,
-                                            Colors.white,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(margin24),
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                            color: Colors.grey[300],
-                                            offset: Offset(0, 0),
-                                            blurRadius: 10.0,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Material(
-                                        color: arrOfQuestion[index]
-                                                .isSolutionVisible
-                                            ? arrOfQuestion[index]
-                                                        .answers[answerIndex]
-                                                        .isRight ==
-                                                    1
-                                                ? Colors.green
-                                                : arrOfQuestion[index]
-                                                            .givenAnswer ==
-                                                        arrOfQuestion[index]
+                                          child: Material(
+                                            color: arrOfQuestion[index]
+                                                    .isSolutionVisible
+                                                ? arrOfQuestion[index]
                                                             .answers[
                                                                 answerIndex]
-                                                            .id
-                                                    ? Colors.red
-                                                    : Colors.white
-                                            : arrOfQuestion[index]
-                                                    .answers[answerIndex]
-                                                    .isSelected
-                                                ? Color(0xff17212A)
-                                                : Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(margin24),
-                                        child: InkWell(
-                                          borderRadius:
-                                              BorderRadius.circular(margin24),
-                                          onTap: () {
-                                            setState(() {
-                                              if (!arrOfQuestion[index]
-                                                  .isSolutionVisible) {
-                                                for (var i = 0;
-                                                    i <
-                                                        arrOfQuestion[index]
-                                                            .answers
-                                                            .length;
-                                                    i++) {
-                                                  arrOfQuestion[index]
-                                                      .answers[i]
-                                                      .isSelected = false;
-                                                }
-                                                isOptionSelected = true;
-                                                arrOfQuestion[index]
-                                                    .answers[answerIndex]
-                                                    .isSelected = true;
-                                                arrOfQuestion[index]
-                                                        .givenAnswer =
-                                                    arrOfQuestion[index]
-                                                        .answers[answerIndex]
-                                                        .id;
-                                              }
-                                            });
-                                            // _bottomSheet(context);
-                                            // nextPage();
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: margin2),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        left: 16),
-                                                    child: Html(
-                                                        data:
+                                                            .isRight ==
+                                                        1
+                                                    ? Colors.green
+                                                    : arrOfQuestion[index]
+                                                                .givenAnswer ==
                                                             arrOfQuestion[index]
                                                                 .answers[
                                                                     answerIndex]
-                                                                .answer,
-                                                        style: {
-                                                          "body": Style(
-                                                              color: arrOfQuestion[
-                                                                          index]
-                                                                      .isSolutionVisible
-                                                                  ? arrOfQuestion[index]
-                                                                              .answers[
-                                                                                  answerIndex]
-                                                                              .isRight ==
-                                                                          1
-                                                                      ? Colors
-                                                                          .white
-                                                                      : arrOfQuestion[index].givenAnswer ==
-                                                                              arrOfQuestion[index]
-                                                                                  .answers[
-                                                                                      answerIndex]
-                                                                                  .id
-                                                                          ? Colors
-                                                                              .white
-                                                                          : Colors
-                                                                              .black
-                                                                  : arrOfQuestion[
-                                                                              index]
-                                                                          .answers[
-                                                                              answerIndex]
-                                                                          .isSelected
-                                                                      ? Colors
-                                                                          .white
-                                                                      : Colors
-                                                                          .black),
-                                                        }),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  width: margin16,
-                                                ),
-                                                arrOfQuestion[index]
-                                                        .isSolutionVisible
-                                                    ? arrOfQuestion[index]
+                                                                .id
+                                                        ? Colors.red
+                                                        : Colors.white
+                                                : arrOfQuestion[index]
+                                                        .answers[answerIndex]
+                                                        .isSelected
+                                                    ? Color(0xff17212A)
+                                                    : Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(margin24),
+                                            child: InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      margin24),
+                                              onTap: () {
+                                                setState(() {
+                                                  if (!arrOfQuestion[index]
+                                                      .isSolutionVisible) {
+                                                    for (var i = 0;
+                                                        i <
+                                                            arrOfQuestion[index]
+                                                                .answers
+                                                                .length;
+                                                        i++) {
+                                                      arrOfQuestion[index]
+                                                          .answers[i]
+                                                          .isSelected = false;
+                                                    }
+                                                    isOptionSelected = true;
+                                                    arrOfQuestion[index]
+                                                        .answers[answerIndex]
+                                                        .isSelected = true;
+                                                    arrOfQuestion[index]
+                                                            .givenAnswer =
+                                                        arrOfQuestion[index]
+                                                            .answers[
+                                                                answerIndex]
+                                                            .id;
+                                                  }
+                                                });
+                                                // _bottomSheet(context);
+                                                // nextPage();
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: margin2),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            left: 16),
+                                                        child: Html(
+                                                            data: arrOfQuestion[
+                                                                    index]
                                                                 .answers[
                                                                     answerIndex]
-                                                                .isRight ==
-                                                            1
-                                                        ? Image.asset(
-                                                            "assets/icons/ic_right.png",
-                                                            width:
-                                                                iconHeightWidth -
-                                                                    5,
-                                                            height:
-                                                                iconHeightWidth -
-                                                                    5,
-                                                          )
-                                                        : arrOfQuestion[index]
-                                                                    .givenAnswer ==
-                                                                arrOfQuestion[
-                                                                        index]
+                                                                .answer,
+                                                            style: {
+                                                              "body": Style(
+                                                                  fontFamily:
+                                                                      "Nunito",
+                                                                  color: arrOfQuestion[
+                                                                              index]
+                                                                          .isSolutionVisible
+                                                                      ? arrOfQuestion[index].answers[answerIndex].isRight ==
+                                                                              1
+                                                                          ? Colors
+                                                                              .white
+                                                                          : arrOfQuestion[index].givenAnswer == arrOfQuestion[index].answers[answerIndex].id
+                                                                              ? Colors.white
+                                                                              : Colors.black
+                                                                      : arrOfQuestion[index].answers[answerIndex].isSelected
+                                                                          ? Colors.white
+                                                                          : Colors.black),
+                                                            }),
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: margin16,
+                                                    ),
+                                                    arrOfQuestion[index]
+                                                            .isSolutionVisible
+                                                        ? arrOfQuestion[index]
                                                                     .answers[
                                                                         answerIndex]
-                                                                    .id
+                                                                    .isRight ==
+                                                                1
                                                             ? Image.asset(
-                                                                "assets/icons/ic_wrong.png",
+                                                                "assets/icons/ic_right.png",
                                                                 width:
                                                                     iconHeightWidth -
                                                                         5,
@@ -476,197 +457,184 @@ class _StateTopicTest extends State<TopicTest> {
                                                                     iconHeightWidth -
                                                                         5,
                                                               )
-                                                            : SizedBox.shrink()
-                                                    : SizedBox.shrink(),
-                                                SizedBox(
-                                                  width: margin16,
-                                                )
-                                              ],
+                                                            : arrOfQuestion[index]
+                                                                        .givenAnswer ==
+                                                                    arrOfQuestion[
+                                                                            index]
+                                                                        .answers[
+                                                                            answerIndex]
+                                                                        .id
+                                                                ? Image.asset(
+                                                                    "assets/icons/ic_wrong.png",
+                                                                    width:
+                                                                        iconHeightWidth -
+                                                                            5,
+                                                                    height:
+                                                                        iconHeightWidth -
+                                                                            5,
+                                                                  )
+                                                                : SizedBox
+                                                                    .shrink()
+                                                        : SizedBox.shrink(),
+                                                    SizedBox(
+                                                      width: margin16,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
                                             ),
+                                          )),
+                                    );
+                                  },
+                                ),
+                              ),
+                              arrOfQuestion[index].isSolutionVisible
+                                  ? arrOfQuestion[index].solution == null
+                                      ? SizedBox.shrink()
+                                      : Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff38AF48)
+                                                  .withOpacity(0.15),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      margin8),
+                                              border: Border.all(
+                                                  color: Color(0xff38AF48))),
+                                          padding: EdgeInsets.all(margin16),
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: margin16),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "Solution:",
+                                                style: textStyle10Bold.copyWith(
+                                                    color: Color(0xff22813D)),
+                                              ),
+                                              SizedBox(
+                                                height: margin8,
+                                              ),
+                                              Html(
+                                                  data: arrOfQuestion[index]
+                                                      .solution,
+                                                  style: {
+                                                    "body": Style(
+                                                        color: _themeController
+                                                            .textColor.value),
+                                                  })
+                                            ],
                                           ),
-                                        ),
-                                      )),
-                                );
-                              },
-                            ),
-                          ),
-                          arrOfQuestion[index].isSolutionVisible
-                              ? arrOfQuestion[index].solution == null
-                                  ? SizedBox.shrink()
-                                  : Container(
-                                      decoration: BoxDecoration(
-                                          color: Color(0xff38AF48)
-                                              .withOpacity(0.15),
-                                          borderRadius:
-                                              BorderRadius.circular(margin8),
-                                          border: Border.all(
-                                              color: Color(0xff38AF48))),
-                                      padding: EdgeInsets.all(margin16),
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: margin16),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Solution:",
-                                            style: textStyle10Bold.copyWith(
-                                                color: Color(0xff22813D)),
-                                          ),
-                                          SizedBox(
-                                            height: margin8,
-                                          ),
-                                          Html(
-                                              data:
-                                                  arrOfQuestion[index].solution,
-                                              style: {
-                                                "body":
-                                                    Style(color: Colors.black),
-                                              })
-                                        ],
-                                      ),
-                                    )
-                              : SizedBox.shrink(),
-                          SizedBox(
-                            height: margin16,
-                          ),
-                        ],
-                      );
-                    },
+                                        )
+                                  : SizedBox.shrink(),
+                              SizedBox(
+                                height: margin16,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                bottomNavigationBar: Container(
+                  height: Get.height * 0.05,
+                  width: Get.width,
+                  margin: EdgeInsets.only(bottom: Platform.isAndroid ? 0 : 0),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
                   ),
-                )
-              ],
-            ),
-            bottomNavigationBar: Container(
-              height: Get.height * 0.05,
-              width: Get.width,
-              margin: EdgeInsets.only(bottom: Platform.isAndroid ? 0 : 0),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Material(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Colors.transparent,
-                        // type: MaterialType.circle,
-                        child: InkWell(
-                          onTap: () async {
-                            setState(() {
-                              if (currentIndex != 0)
-                                currentIndex = currentIndex - 1;
-                            });
-                            previousPage();
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(margin4),
-                            child: Text(
-                              currentIndex == 0 ? '' : 'PREVIOUS'.toUpperCase(),
-                              style: textStyle9Bold.copyWith(
-                                  color: Color(0xff7FCB4F)),
-                            ) /*Icon(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Material(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: Colors.transparent,
+                            // type: MaterialType.circle,
+                            child: InkWell(
+                              onTap: () async {
+                                setState(() {
+                                  if (currentIndex != 0)
+                                    currentIndex = currentIndex - 1;
+                                });
+                                previousPage();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(margin4),
+                                child: Text(
+                                  currentIndex == 0
+                                      ? ''
+                                      : 'PREVIOUS'.toUpperCase(),
+                                  style: textStyle9Bold.copyWith(
+                                      color: Color(0xff7FCB4F)),
+                                ) /*Icon(
                                     Icons.arrow_back_ios_rounded,
                                     color: Colors.white,
                                     size: iconHeightWidth,
                                   )*/
-                            ,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Spacer(),
-                  /*Expanded(
-                          child: Center(
-                            child: Material(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(24),
-                              child: InkWell(
-                                splashColor: Colors.white,
-                                borderRadius: BorderRadius.circular(24),
-                                onTap: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          _confirmSubmit(context));
-                                },
-                                child: Container(
-                                  width: Get.width * 0.40,
-                                  height: Get.height * 0.06,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(24)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Submit Test'.toUpperCase(),
-                                        style: textStyle9Bold.copyWith(
-                                            color: Color(0xffFD5CA0)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                ,
                               ),
                             ),
                           ),
-                        )*/
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Material(
-                        color: Colors.transparent,
-                        // type: MaterialType.circle,
-                        child: InkWell(
-                          onTap: () async {
-                            if (!isOptionSelected) {
-                              nextPage();
-                            } else {
-                              if (arrOfQuestion[currentIndex]
-                                  .isSolutionVisible) {
-                                isOptionSelected = false;
-                                nextPage();
-                              } else {
-                                setState(() {
-                                  arrOfQuestion[currentIndex]
-                                      .isSolutionVisible = true;
-                                });
-                              }
-                            }
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(margin4),
-                            child: Text(
-                              !isOptionSelected
-                                  ? "Skip".toUpperCase()
-                                  : arrOfQuestion[currentIndex]
-                                          .isSolutionVisible
-                                      ? 'Next'.toUpperCase()
-                                      : "Check".toUpperCase(),
-                              style: textStyle9Bold.copyWith(
-                                  color: Color(0xffFD5CA0)),
-                            ) /*Icon(
+                        ),
+                      ),
+                      Spacer(),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Material(
+                            color: Colors.transparent,
+                            // type: MaterialType.circle,
+                            child: InkWell(
+                              onTap: () async {
+                                if (!isOptionSelected) {
+                                  nextPage();
+                                } else {
+                                  if (arrOfQuestion[currentIndex]
+                                      .isSolutionVisible) {
+                                    isOptionSelected = false;
+                                    nextPage();
+                                  } else {
+                                    setState(() {
+                                      arrOfQuestion[currentIndex]
+                                          .isSolutionVisible = true;
+                                    });
+                                  }
+                                }
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(margin4),
+                                child: Text(
+                                  !isOptionSelected
+                                      ? "Skip".toUpperCase()
+                                      : arrOfQuestion[currentIndex]
+                                              .isSolutionVisible
+                                          ? 'Next'.toUpperCase()
+                                          : "Check".toUpperCase(),
+                                  style: textStyle9Bold.copyWith(
+                                      color: Color(0xffFD5CA0)),
+                                ) /*Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     color: Colors.white,
                                     size: iconHeightWidth,
                                   )*/
-                            ,
+                                ,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    );
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 
   void previousPage() async {
@@ -690,149 +658,6 @@ class _StateTopicTest extends State<TopicTest> {
         curve: Curves.easeOut,
       );
     }
-  }
-
-  _confirmSubmit(BuildContext context) {
-    return AlertDialog(
-      contentPadding: EdgeInsets.all(0),
-      content: new Container(
-        child: Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              // crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: Get.height * 0.07,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(4))),
-                  child: Center(
-                    child: Text(
-                      "Submit Test ?",
-                      // textAlign: TextAlign.center,
-                      style: textStyle12Bold.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: margin16),
-                  margin: EdgeInsets.only(top: margin20),
-                  child: Center(
-                    child: Text(
-                      "Are you sure, you want to submit this test?",
-                      textAlign: TextAlign.center,
-                      style: textStyle10.copyWith(fontSize: Get.width * 0.05),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: margin20, bottom: margin20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Material(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Color(0xff7FCB4F),
-                        type: MaterialType.circle,
-                        child: InkWell(
-                          onTap: () async {
-                            /* Navigator.of(context, rootNavigator: true)
-                                .pop('dialog');
-                            _testController.submitChapterTest(
-                                widget.modelTestDescription.id.toString(),
-                                arrOfQuestion,
-                                widget.modelTestDescription);*/
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(margin8),
-                            child: Icon(
-                              Icons.done,
-                              color: Colors.white,
-                              size: iconHeightWidth,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: margin16,
-                      ),
-                      Material(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: Color(0xffFD5C5C),
-                        type: MaterialType.circle,
-                        child: InkWell(
-                          onTap: () async {
-                            Get.back();
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.all(margin8),
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                              size: iconHeightWidth,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-      /* actions: <Widget>[
-        Row(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Center(
-              child: Text("cc"),
-            )
-            */ /*new FlatButton(
-              onPressed: () async {
-                Navigator.of(context, rootNavigator: true).pop('dialog');
-                _testController.submitChapterTest(
-                    widget.modelTestDescription.id.toString(),
-                    arrOfQuestion,
-                    widget.modelTestDescription);
-              },
-              textColor: Colors.black,
-              child: const Text('YES'),
-            ),
-            new FlatButton(
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pop('dialog');
-              },
-              textColor: Colors.red,
-              child: const Text('NO'),
-            ),*/ /*
-          ],
-        ),
-        */ /* new FlatButton(
-          onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop('dialog');
-            _testController.submitChapterTest(
-                widget.modelTestDescription.id.toString(),
-                arrOfQuestion,
-                widget.modelTestDescription);
-          },
-          textColor: Colors.black,
-          child: const Text('YES'),
-        ),
-        new FlatButton(
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop('dialog');
-          },
-          textColor: Colors.red,
-          child: const Text('NO'),
-        ),*/ /*
-      ],*/
-    );
   }
 
   void setSelectedQuestion(int index) {

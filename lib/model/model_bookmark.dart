@@ -25,6 +25,8 @@ class ModelBookmark {
     this.color1,
     this.color2,
     this.favourites,
+    this.topicQuestion,
+    this.chapterQuestion,
   });
 
   int id;
@@ -39,6 +41,8 @@ class ModelBookmark {
   String color1;
   String color2;
   List<Favourite> favourites;
+  List<TopicQuestion> topicQuestion;
+  List<TopicQuestion> chapterQuestion;
 
   factory ModelBookmark.fromJson(Map<String, dynamic> json) => ModelBookmark(
         id: json["id"],
@@ -54,6 +58,10 @@ class ModelBookmark {
         color2: json["color_2"],
         favourites: List<Favourite>.from(
             json["favourites"].map((x) => Favourite.fromJson(x))),
+        topicQuestion: List<TopicQuestion>.from(
+            json["topic_questions"].map((x) => TopicQuestion.fromJson(x))),
+        chapterQuestion: List<TopicQuestion>.from(
+            json["chapter_questions"].map((x) => TopicQuestion.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -69,6 +77,10 @@ class ModelBookmark {
         "color_1": color1,
         "color_2": color2,
         "favourites": List<dynamic>.from(favourites.map((x) => x.toJson())),
+        "topic_questions":
+            List<dynamic>.from(topicQuestion.map((x) => x.toJson())),
+        "chapter_questions":
+            List<dynamic>.from(chapterQuestion.map((x) => x.toJson())),
       };
 }
 
@@ -150,11 +162,13 @@ class Content {
     this.vendorId,
     this.status,
     this.createdOn,
+    this.video,
   });
 
   int id;
   String file;
   String videoId;
+  String video;
   String title;
   String type;
   int standardId;
@@ -178,6 +192,7 @@ class Content {
         vendorId: json["vendor_id"],
         status: json["status"],
         createdOn: DateTime.parse(json["created_on"]),
+        video: json["video"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -192,6 +207,119 @@ class Content {
         "topic_id": topicId,
         "vendor_id": vendorId,
         "status": status,
+        "created_on": createdOn.toIso8601String(),
+        "video": video,
+      };
+}
+
+List<TopicQuestion> topicQuestionFromJson(String str) =>
+    List<TopicQuestion>.from(
+        json.decode(str).map((x) => TopicQuestion.fromJson(x)));
+
+String topicQuestionToJson(List<TopicQuestion> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class TopicQuestion {
+  TopicQuestion({
+    this.id,
+    this.question,
+    this.solution,
+    this.type,
+    this.marks,
+    this.standardId,
+    this.subjectId,
+    this.chapterId,
+    this.topicId,
+    this.videoId,
+    this.status,
+    this.createdOn,
+    this.givenAnswer,
+    this.answers,
+    this.isFavorite,
+  });
+
+  int id;
+  String question;
+  String solution;
+  String type;
+  String marks;
+  int standardId;
+  int subjectId;
+  int chapterId;
+  int topicId;
+  String videoId;
+  int status;
+  DateTime createdOn;
+  int givenAnswer;
+  List<Answer> answers;
+  int isFavorite;
+
+  factory TopicQuestion.fromJson(Map<String, dynamic> json) => TopicQuestion(
+        id: json["id"],
+        question: json["question"],
+        solution: json["solution"],
+        type: json["type"],
+        marks: json["marks"],
+        standardId: json["standard_id"],
+        subjectId: json["subject_id"],
+        chapterId: json["chapter_id"],
+        topicId: json["topic_id"],
+        videoId: json["video_id"],
+        status: json["status"],
+        createdOn: DateTime.parse(json["created_on"]),
+        givenAnswer: json["given_answer"],
+        answers:
+            List<Answer>.from(json["answers"].map((x) => Answer.fromJson(x))),
+        isFavorite: json["is_favorite"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "question": question,
+        "solution": solution,
+        "type": type,
+        "marks": marks,
+        "standard_id": standardId,
+        "subject_id": subjectId,
+        "chapter_id": chapterId,
+        "topic_id": topicId,
+        "video_id": videoId,
+        "status": status,
+        "created_on": createdOn.toIso8601String(),
+        "given_answer": givenAnswer,
+        "answers": List<dynamic>.from(answers.map((x) => x.toJson())),
+        "is_favorite": isFavorite,
+      };
+}
+
+class Answer {
+  Answer({
+    this.id,
+    this.answer,
+    this.isRight,
+    this.questionId,
+    this.createdOn,
+  });
+
+  int id;
+  String answer;
+  int isRight;
+  int questionId;
+  DateTime createdOn;
+
+  factory Answer.fromJson(Map<String, dynamic> json) => Answer(
+        id: json["id"],
+        answer: json["answer"],
+        isRight: json["is_right"],
+        questionId: json["question_id"],
+        createdOn: DateTime.parse(json["created_on"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "answer": answer,
+        "is_right": isRight,
+        "question_id": questionId,
         "created_on": createdOn.toIso8601String(),
       };
 }

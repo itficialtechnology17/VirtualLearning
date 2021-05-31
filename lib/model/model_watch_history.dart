@@ -33,6 +33,7 @@ class ModelWatchHistory {
     this.standardIcon,
     this.color,
     this.image,
+    this.video,
   });
 
   int id;
@@ -43,6 +44,7 @@ class ModelWatchHistory {
   DateTime createdOn;
   String file;
   String videoId;
+  String video;
   String title;
   String type;
   int standardId;
@@ -79,6 +81,7 @@ class ModelWatchHistory {
         standardIcon: json["standard_icon"],
         color: json["color"],
         image: json["image"],
+        video: json["video"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -102,5 +105,6 @@ class ModelWatchHistory {
         "standard_icon": standardIcon,
         "color": color,
         "image": image,
+        "video": video,
       };
 }

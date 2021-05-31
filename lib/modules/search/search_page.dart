@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
 import 'package:virtual_learning/modules/search/chapter_tab.dart';
 import 'package:virtual_learning/modules/search/subject_tab.dart';
 import 'package:virtual_learning/modules/search/topic_tab.dart';
+import 'package:virtual_learning/shimmer/shimmer_dummy_page.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/widgets/square_tab_indicator.dart';
-
-import 'non_search_view.dart';
 
 String searchText = "";
 
@@ -21,6 +24,7 @@ class SearchPage extends StatefulWidget {
 class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
   SearchController _searchController = Get.put(SearchController());
 
+  ThemeController _themeController = Get.find();
   TabController _tabController;
   @override
   void initState() {
@@ -31,78 +35,92 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
-          backgroundColor: Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            brightness: Brightness.light,
-            backgroundColor: Colors.white,
-            leading: Container(
-              child: Center(
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                          color: Color(0xffD0E6EE),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(4),
-                            bottomRight: Radius.circular(4),
-                          )),
-                      width: double.infinity,
-                      height: AppBar().preferredSize.height -
-                          AppBar().preferredSize.height * 0.30,
-                      child: Icon(Icons.arrow_back, color: Colors.black),
-                    ),
-                  ),
+          backgroundColor: _themeController.background.value,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(AppBar().preferredSize.height),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).padding.top,
                 ),
-              ),
-            ),
-            title: TextFormField(
-              autofocus: true,
-              initialValue: searchText,
-              // controller: _searchController.tfSearchController.value,
-              onChanged: (value) {
-                setState(() {
-                  searchText = value;
-                  if (searchText.isNotEmpty) {
-                    _searchController.getSearch(searchText);
-                  }
-                });
-              },
-              style: TextStyle(),
-              decoration: InputDecoration(
-                  hintText: "Search concept", border: InputBorder.none),
-            ),
-            actions: [
-              SizedBox(
-                width: 16,
-              ),
-              Visibility(
-                visible: searchText.length > 0 ? true : false,
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      searchText = "";
-                    });
-                  },
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.grey,
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: margin8,
+                      ),
+                      Material(
+                        color: Colors.transparent,
+                        type: MaterialType.circle,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.all(margin8),
+                            child: Image.asset(
+                              ASSETS_ICONS_PATH + 'ic_back.png',
+                              height: iconHeightWidth,
+                              width: iconHeightWidth,
+                              fit: BoxFit.fitWidth,
+                              color: _themeController.iconColor.value,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: margin8,
+                      ),
+                      Expanded(
+                        child: TextFormField(
+                          autofocus: true,
+                          initialValue: searchText,
+                          // controller: _searchController.tfSearchController.value,
+                          onChanged: (value) {
+                            setState(() {
+                              searchText = value;
+                              if (searchText.isNotEmpty) {
+                                _searchController.getSearch(searchText);
+                              }
+                            });
+                          },
+                          style: textStyle10,
+                          decoration: InputDecoration(
+                              hintText: "Search concept",
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      SizedBox(
+                        width: margin8,
+                      ),
+                      Visibility(
+                        visible: searchText.length > 0 ? true : false,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              searchText = "";
+                            });
+                          },
+                          child: Icon(
+                            Icons.close,
+                            color: _themeController.iconColor.value,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: margin8,
+                      ),
+                    ],
                   ),
-                ),
-              ),
-              SizedBox(
-                width: 16,
-              )
-            ],
+                )
+              ],
+            ),
           ),
           body: _searchController.isLoading.value
-              ? Center(
-                  child: CircularProgressIndicator(),
+              ? Padding(
+                  padding: EdgeInsets.all(margin16),
+                  child: ShimmerDummyPage(),
                 )
               : DefaultTabController(
                   length: 3,
@@ -113,13 +131,9 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                         SliverPersistentHeader(
                           delegate: _SliverAppBarDelegate(
                             TabBar(
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Nunito',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white),
+                              labelStyle: textStyle10,
                               labelColor: Colors.green,
-                              unselectedLabelColor: Colors.black,
+                              unselectedLabelColor: textColor,
                               indicator: SquareTabIndicator(
                                   color: Colors.green, radius: 2),
                               tabs: [
@@ -134,12 +148,10 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                         )
                       ];
                     },
-                    body: searchText == ""
-                        ? NonSearchView()
-                        : TabBarView(
-                            children: [SubjectTab(), ChapterTab(), TopicTab()],
-                            controller: _tabController,
-                          ),
+                    body: TabBarView(
+                      children: [SubjectTab(), ChapterTab(), TopicTab()],
+                      controller: _tabController,
+                    ),
                   ),
                 ),
         ));
@@ -149,10 +161,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
     return Tab(
       child: Text(
         title.toUpperCase(),
-        style: TextStyle(
-          color: Colors.black,
-          fontFamily: 'Nunito',
-        ),
+        style: textStyle10.copyWith(color: _themeController.textColor.value),
       ),
     );
   }
@@ -163,6 +172,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   final TabBar _tabBar;
 
+  ThemeController _themeController = Get.find();
   SearchController _searchController = Get.find();
 
   @override
@@ -178,7 +188,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
         ? Container()
         : Container(
             child: _tabBar,
-            color: Colors.white,
+            color: _themeController.background.value,
           );
   }
 

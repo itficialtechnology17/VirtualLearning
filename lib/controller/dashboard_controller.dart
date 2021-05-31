@@ -44,16 +44,18 @@ class DashboardController extends GetxController {
                 .map((data) => ModelSubject.fromJson(data))
                 .toList());
 
+        print("Subject Loaded");
         arrOfWatchHistory.assignAll((responseData['watchHistory'] as List)
             .map((data) => ModelWatchHistory.fromJson(data))
             .toList());
+        print("Watch History Loaded");
 
         lastGivenTestId.value = responseData['last_test'];
 
         loginController.modelUser.value =
             ModelUser.fromJson(responseData['student']);
 
-        print("Success");
+        print("Student Info Loaded");
       } else {
         showSnackBar("Error", responseData['message'], Colors.red);
       }

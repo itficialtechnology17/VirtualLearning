@@ -5,70 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/utils/methods.dart';
 
 class ShimmerMainPage extends StatelessWidget {
+  ThemeController _themeController = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
         body: Shimmer.fromColors(
-          baseColor: Colors.grey[100],
-          highlightColor: Colors.grey[200],
+          baseColor: _themeController.shimmerColor1.value,
+          highlightColor: _themeController.shimmerColor1.value,
           child: Stack(
             children: [
               Scaffold(
                 backgroundColor: Colors.transparent,
-                appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Expanded(
-                        child: Container(
-                          // color: Colors.lightGreenAccent,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: margin4,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 35,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 150,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 35,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(
-                                width: margin4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
                 body: Container(
                   padding: EdgeInsets.symmetric(horizontal: margin16),
                   child: ListView(
@@ -81,7 +34,9 @@ class ShimmerMainPage extends StatelessWidget {
                           Container(
                             width: 200,
                             height: 20,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4)),
                           ),
                           Spacer()
                         ],
@@ -97,7 +52,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -107,7 +64,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -117,7 +76,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           )
                         ],
@@ -133,7 +94,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -143,7 +106,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -153,7 +118,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           )
                         ],
@@ -169,7 +136,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -179,7 +148,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -189,7 +160,9 @@ class ShimmerMainPage extends StatelessWidget {
                             child: Container(
                               width: Get.height * 0.09,
                               height: Get.height * 0.11,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           )
                         ],
@@ -211,7 +184,9 @@ class ShimmerMainPage extends StatelessWidget {
                           Container(
                             width: 200,
                             height: 20,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4)),
                           ),
                           SizedBox(
                             height: 20,
@@ -225,7 +200,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 50,
                                   height: 50,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -239,7 +216,10 @@ class ShimmerMainPage extends StatelessWidget {
                                       Container(
                                         width: 150,
                                         height: 20,
-                                        color: Colors.white,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
                                       ),
                                       SizedBox(
                                         height: margin4,
@@ -249,13 +229,11 @@ class ShimmerMainPage extends StatelessWidget {
                                           Container(
                                             width: 80,
                                             height: 20,
-                                            color: Colors.white,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
                                           ),
-                                          Container(
-                                            width: 20,
-                                            height: 20,
-                                            color: Colors.white,
-                                          )
                                         ],
                                       ),
                                     ],
@@ -267,7 +245,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 20,
                                   height: 20,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -287,7 +267,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 50,
                                   height: 50,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -301,7 +283,10 @@ class ShimmerMainPage extends StatelessWidget {
                                       Container(
                                         width: 150,
                                         height: 20,
-                                        color: Colors.white,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
                                       ),
                                       SizedBox(
                                         height: margin4,
@@ -311,13 +296,11 @@ class ShimmerMainPage extends StatelessWidget {
                                           Container(
                                             width: 80,
                                             height: 20,
-                                            color: Colors.white,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
                                           ),
-                                          Container(
-                                            width: 20,
-                                            height: 20,
-                                            color: Colors.white,
-                                          )
                                         ],
                                       ),
                                     ],
@@ -329,7 +312,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 20,
                                   height: 20,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -349,7 +334,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 50,
                                   height: 50,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -363,7 +350,10 @@ class ShimmerMainPage extends StatelessWidget {
                                       Container(
                                         width: 150,
                                         height: 20,
-                                        color: Colors.white,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
                                       ),
                                       SizedBox(
                                         height: margin4,
@@ -373,13 +363,11 @@ class ShimmerMainPage extends StatelessWidget {
                                           Container(
                                             width: 80,
                                             height: 20,
-                                            color: Colors.white,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(4)),
                                           ),
-                                          Container(
-                                            width: 20,
-                                            height: 20,
-                                            color: Colors.white,
-                                          )
                                         ],
                                       ),
                                     ],
@@ -391,7 +379,9 @@ class ShimmerMainPage extends StatelessWidget {
                                 Container(
                                   width: 20,
                                   height: 20,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                                 SizedBox(
                                   width: margin16,
@@ -413,7 +403,9 @@ class ShimmerMainPage extends StatelessWidget {
                       Container(
                         height: Get.height * 0.10,
                         width: Get.width,
-                        color: Colors.white,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(4)),
                       ),
                       SizedBox(height: margin10),
                     ],
@@ -422,6 +414,6 @@ class ShimmerMainPage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        )));
   }
 }

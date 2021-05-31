@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_question.dart';
 import 'package:virtual_learning/model/model_test_description.dart';
@@ -31,6 +33,7 @@ class TestGuide extends StatefulWidget {
 }
 
 class _StateTestGuide extends State<TestGuide> {
+  ThemeController _themeController = Get.find();
   SubjectController _subjectController = Get.find();
 
   var isLoadingTest = false;
@@ -46,200 +49,6 @@ class _StateTestGuide extends State<TestGuide> {
       getChapterTest(widget.testId);
     }
   }
-
-  /* @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        brightness: Brightness.dark,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: _subjectController.selectedSubject.value.id == null
-                  ? LinearGradient(
-                      colors: [Color(0xff14C269), Color(0xff0A0A78)],
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                    )
-                  : LinearGradient(
-                      colors: [
-                        HexColor.fromHex(
-                            _subjectController.selectedSubject.value.color1),
-                        HexColor.fromHex(
-                            _subjectController.selectedSubject.value.color2)
-                      ],
-                      begin: Alignment.bottomLeft,
-                      end: Alignment.topRight,
-                    )),
-        ),
-        title: Text(
-          widget.testName,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-        ),
-        leading: Container(
-          child: Center(
-            child: Material(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(4),
-                bottomRight: Radius.circular(4),
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.back();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(4),
-                    bottomRight: Radius.circular(4),
-                  )),
-                  width: double.infinity,
-                  height: AppBar().preferredSize.height -
-                      AppBar().preferredSize.height * 0.30,
-                  child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-      body: isLoadingTest
-          ? Container(
-              child: Center(
-                child: SizedBox(
-                  height: Get.width * 0.10,
-                  width: Get.width * 0.10,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                ),
-              ),
-              height: Get.height - (AppBar().preferredSize.height + 10),
-            )
-          : Container(
-              margin: EdgeInsets.all(16),
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Text(
-                    widget.testName,
-                    style: bodyLargeTestStyle,
-                  ),
-                  SizedBox(
-                    height: 32,
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            // color: Color(0xff0A0A78).withOpacity(0.2),
-                            spreadRadius: 1,
-                            offset: Offset(0, 3),
-                            blurRadius: 15)
-                      ],
-                    ),
-                    height: AppBar().preferredSize.height,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          " ? Total Question",
-                          style: buttonTextStyle.copyWith(
-                              color: Color(0xfffd5ca0)),
-                        ),
-                        Text(
-                            arrOfQuestion.isEmpty
-                                ? "0"
-                                : arrOfQuestion.length.toString(),
-                            style: buttonTextStyle.copyWith(
-                                color: Color(0xff162129))),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.10,
-                  ),
-                  Text("Instruction"),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  widget.modelTestDescription.instruction != null
-                      ? Html(
-                          data: widget.modelTestDescription.instruction,
-                        )
-                      : Text("No instruction added.")
-                ],
-              ),
-            ),
-      bottomNavigationBar: isLoadingTest
-          ? Container(
-              height: 1,
-              color: Colors.white,
-            )
-          : Container(
-              height: Get.height * 0.06,
-              decoration: BoxDecoration(
-                  color: Colors.black, borderRadius: BorderRadius.circular(24)),
-              margin: EdgeInsets.symmetric(
-                  horizontal: Get.width * 0.30,
-                  vertical: Platform.isAndroid ? 0 : 24),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Center(
-                            child: Text(
-                          "Start".toUpperCase(),
-                          style: buttonTextStyle.copyWith(color: Colors.white),
-                        )),
-                        Material(
-                          borderRadius: BorderRadius.circular(24),
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: BorderRadius.circular(24),
-                            splashColor: Colors.grey[50],
-                            onTap: () {
-                              if (widget.testId != "") {
-                                ModelTestDescription _modelTestDescription =
-                                    ModelTestDescription();
-                                _modelTestDescription.id =
-                                    int.parse(widget.testId);
-                                _modelTestDescription.title = widget.testName;
-                                Get.off(ChapterTest(
-                                    arrOfQuestion, _modelTestDescription));
-                              } else {
-                                Get.off(ChapterTest(arrOfQuestion,
-                                    widget.modelTestDescription));
-                              }
-                            },
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-    );
-  }*/
 
   void getChapterTest(String testId) async {
     setState(() {
@@ -287,11 +96,17 @@ class _StateTestGuide extends State<TestGuide> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-    ));
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
 
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
         body: Stack(children: [
           /* Image.asset(
                 ASSETS_BG_PATH + 'ic_home_top_bg.png',
@@ -300,7 +115,7 @@ class _StateTestGuide extends State<TestGuide> {
                 fit: BoxFit.fill,
               ),*/
           Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: _themeController.background.value,
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(AppBar().preferredSize.height),
               child: Column(
@@ -311,24 +126,28 @@ class _StateTestGuide extends State<TestGuide> {
                   Expanded(
                     child: Stack(
                       children: [
-                        SizedBox(
-                          width: margin4,
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          type: MaterialType.circle,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          child: InkWell(
-                            onTap: () {
-                              Get.back();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(margin8),
-                              child: Image.asset(
-                                ASSETS_ICONS_PATH + 'ic_back.png',
-                                height: iconHeightWidth,
-                                width: iconHeightWidth,
-                                fit: BoxFit.fitWidth,
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: margin8),
+                            child: Material(
+                              color: Colors.transparent,
+                              type: MaterialType.circle,
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              child: InkWell(
+                                onTap: () {
+                                  Get.back();
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(margin8),
+                                  child: Image.asset(
+                                    ASSETS_ICONS_PATH + 'ic_back.png',
+                                    height: iconHeightWidth,
+                                    width: iconHeightWidth,
+                                    fit: BoxFit.fitWidth,
+                                    color: _themeController.iconColor.value,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -337,7 +156,8 @@ class _StateTestGuide extends State<TestGuide> {
                           child: Text(
                             widget.testName.toUpperCase(),
                             textScaleFactor: 1.0,
-                            style: textStyle11Bold,
+                            style: textStyle11Bold.copyWith(
+                                color: _themeController.textColor.value),
                           ),
                         ),
                       ],
@@ -428,7 +248,8 @@ class _StateTestGuide extends State<TestGuide> {
                   padding: EdgeInsets.symmetric(horizontal: margin16),
                   child: Text(
                     "Instructions",
-                    style: textStyle12Bold,
+                    style: textStyle12Bold.copyWith(
+                        color: _themeController.textColor.value),
                     textScaleFactor: 1.0,
                   ),
                 ),
@@ -440,10 +261,15 @@ class _StateTestGuide extends State<TestGuide> {
                   child: widget.modelTestDescription.instruction != null
                       ? Html(
                           data: widget.modelTestDescription.instruction,
-                        )
+                          style: {
+                              "body": Style(
+                                  color: _themeController.textColor.value,
+                                  fontFamily: "Nunito"),
+                            })
                       : Text(
                           "No instruction added.",
                           textScaleFactor: 1.0,
+                          style: textStyle9,
                         ),
                 ),
                 Spacer(),
@@ -460,11 +286,11 @@ class _StateTestGuide extends State<TestGuide> {
                               ModelTestDescription();
                           _modelTestDescription.id = int.parse(widget.testId);
                           _modelTestDescription.title = widget.testName;
-                          Get.off(ChapterTest(
-                              arrOfQuestion, _modelTestDescription));
+                          Get.off(ChapterTest(arrOfQuestion,
+                              _modelTestDescription, widget.testName));
                         } else {
-                          Get.off(ChapterTest(
-                              arrOfQuestion, widget.modelTestDescription));
+                          Get.off(ChapterTest(arrOfQuestion,
+                              widget.modelTestDescription, widget.testName));
                         }
                       },
                       child: Container(
@@ -493,6 +319,6 @@ class _StateTestGuide extends State<TestGuide> {
               ],
             ),
           )
-        ]));
+        ])));
   }
 }

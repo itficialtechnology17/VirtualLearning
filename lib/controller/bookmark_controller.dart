@@ -15,6 +15,7 @@ class BookmarkController extends GetxController {
   var currentBookmarkIndex = 0.obs;
 
   Future<List<ModelBookmark>> getBookmark() async {
+    // if (arrOfBookmark.isNotEmpty) return arrOfBookmark;
     var url =
         "$baseUrl$urlGetBookmark?type=API&standard_id=$standardId&student_id=$studentId";
     final res = await http.get(url);
@@ -25,6 +26,7 @@ class BookmarkController extends GetxController {
           .map((data) => ModelBookmark.fromJson(data))
           .toList());
       var arr = response['data'] as List;
+      print("Bookmark Data Loaded");
       return arr.map((e) => ModelBookmark.fromJson(e)).toList();
     }
 

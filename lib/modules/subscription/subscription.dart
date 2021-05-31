@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/payment_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
 import 'package:virtual_learning/modules/subscription/select_subject.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class Subscription extends StatefulWidget {
   @override
@@ -152,10 +155,7 @@ class StateSubscription extends State<Subscription> {
                                                       .title
                                                       .toString()
                                                       .toUpperCase(),
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w600),
+                                                  style: textStyle10,
                                                 )
                                               ],
                                             ),
@@ -166,6 +166,9 @@ class StateSubscription extends State<Subscription> {
                                             data: _subscriptionController
                                                 .arrOfSubscription[index]
                                                 .description,
+                                            style: {
+                                              "body": Style(color: textColor),
+                                            },
                                           ),
                                         ),
                                         InkWell(

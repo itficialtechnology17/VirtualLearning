@@ -5,70 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/utils/methods.dart';
 
 class ShimmerChapterPage extends StatelessWidget {
+  ThemeController _themeController = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
         body: Shimmer.fromColors(
-          baseColor: Colors.grey[100],
-          highlightColor: Colors.grey[200],
+          baseColor: _themeController.shimmerColor1.value,
+          highlightColor: _themeController.shimmerColor2.value,
           child: Stack(
             children: [
               Scaffold(
                 backgroundColor: Colors.transparent,
-                appBar: PreferredSize(
-                  preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
-                      ),
-                      Expanded(
-                        child: Container(
-                          // color: Colors.lightGreenAccent,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: margin4,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 35,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 150,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: EdgeInsets.all(margin8),
-                                child: Container(
-                                  width: 35,
-                                  height: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(
-                                width: margin4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
                 body: Container(
                   padding: EdgeInsets.symmetric(horizontal: margin16),
                   child: ListView(
@@ -82,7 +35,9 @@ class ShimmerChapterPage extends StatelessWidget {
                           Container(
                             width: 200,
                             height: 20,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4)),
                           ),
                           Spacer()
                         ],
@@ -97,7 +52,9 @@ class ShimmerChapterPage extends StatelessWidget {
                           Expanded(
                             child: Container(
                               height: Get.height * 0.15,
-                              color: Colors.white,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4)),
                             ),
                           ),
                           SizedBox(
@@ -124,7 +81,9 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Container(
                                     width: 120,
                                     height: 20,
-                                    color: Colors.white,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4)),
                                   ),
                                   Spacer(),
                                   Padding(
@@ -144,7 +103,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   ),
                                   SizedBox(
@@ -153,7 +115,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   )
                                 ],
@@ -178,7 +143,9 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Container(
                                     width: 120,
                                     height: 20,
-                                    color: Colors.white,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4)),
                                   ),
                                   Spacer(),
                                   Padding(
@@ -186,7 +153,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                     child: Container(
                                       width: 80,
                                       height: 20,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   ),
                                 ],
@@ -198,7 +168,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   ),
                                   SizedBox(
@@ -207,7 +180,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   )
                                 ],
@@ -232,7 +208,9 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Container(
                                     width: 120,
                                     height: 20,
-                                    color: Colors.white,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(4)),
                                   ),
                                   Spacer(),
                                   Padding(
@@ -240,7 +218,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                     child: Container(
                                       width: 80,
                                       height: 30,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   ),
                                 ],
@@ -252,7 +233,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   ),
                                   SizedBox(
@@ -261,7 +245,10 @@ class ShimmerChapterPage extends StatelessWidget {
                                   Expanded(
                                     child: Container(
                                       height: Get.height * 0.15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(4)),
                                     ),
                                   )
                                 ],
@@ -287,6 +274,6 @@ class ShimmerChapterPage extends StatelessWidget {
               )
             ],
           ),
-        ));
+        )));
   }
 }

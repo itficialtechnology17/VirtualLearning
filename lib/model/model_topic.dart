@@ -92,10 +92,12 @@ class Content {
     this.status,
     this.createdOn,
     this.question,
+    this.video,
   });
 
   int id;
   String file;
+  String video;
   String videoId;
   String title;
   String type;
@@ -123,6 +125,7 @@ class Content {
         createdOn: DateTime.parse(json["created_on"]),
         question: List<ModelQuestion>.from(
             json["question"].map((x) => ModelQuestion.fromJson(x))),
+        video: json["video"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -139,5 +142,6 @@ class Content {
         "status": status,
         "created_on": createdOn.toIso8601String(),
         "question": List<dynamic>.from(question.map((x) => x.toJson())),
+    "video": video,
       };
 }

@@ -8,19 +8,16 @@ import 'package:get/get.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/test_controller.dart';
-import 'package:virtual_learning/model/model_topic.dart';
-import 'package:virtual_learning/modules/lesson/topic_test.dart';
-import 'package:virtual_learning/modules/subject/custom_next_video_player.dart';
+import 'package:virtual_learning/model/model_bookmark.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/utils/url.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class CustomVideoPlayer extends StatefulWidget {
-  final ModelTopic modelTopic;
-
-  CustomVideoPlayer(this.modelTopic);
+class CustomBookmarkVideoPlayer extends StatefulWidget {
+  final Favourite favourite;
+  CustomBookmarkVideoPlayer(this.favourite);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +25,7 @@ class CustomVideoPlayer extends StatefulWidget {
   }
 }
 
-class _YoutubeVideoState extends State<CustomVideoPlayer> {
+class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
   bool controllerVisible = true;
   bool isMute = false;
   double volume = 0;
@@ -36,33 +33,24 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
 
   String playbackSpeedValue = "1x";
   VideoQuality videoQuality = VideoQuality.medium480;
-
   ThemeController _themeController = Get.find();
-  SubjectController _subjectController = Get.find();
-  TestController _testController = Get.find();
 
-  bool isTotalDurationVisible = false;
   bool isSkipVisible = false;
   bool isVideoLoaded = false;
   bool isVideoEnded = false;
-
-  int rotation = 0;
 
   @override
   void initState() {
     super.initState();
 
-    print("Current Playing Video Url : " + widget.modelTopic.content.video);
     _controller = VideoPlayerController.network(
-        videoUrl + widget.modelTopic.content.video,
+        videoUrl + widget.favourite.content.video,
         youtubeVideoQuality: videoQuality)
       ..initialize().then((_) {
         startTimer();
         setState(() {
           isVideoLoaded = true;
-          isTotalDurationVisible = true;
           isSkipVisible = true;
-          isVideoEnded = false;
         });
         hideController();
         setState(() {});
@@ -75,34 +63,23 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
           });
         }
       });
-  }
 
-  @override
-  void dispose() {
-    _controller.pause();
-    _controller.dispose();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    Duration lastPlayedSecond = _controller.value.position;
-    _subjectController.setWatchHistory(
-        lastPlayedSecond.inMinutes.toString(),
-        _subjectController
-            .arrOfChapter[_subjectController.selectedChapterPosition]
-            .topic[_subjectController.selectedTopicPosition]
-            .content
-            .id
-            .toString(),
-        _subjectController
-            .arrOfChapter[_subjectController.selectedChapterPosition]
-            .topic[_subjectController.selectedTopicPosition]
-            .id
-            .toString());
-    super.dispose();
-  }
-
-  hideController() {
-    setState(() {
-      if (_controller.value.isPlaying) controllerVisible = false;
-    });
+    // _controller = VideoPlayerController.network(
+    //     widget.modelWatchHistory.videoId,
+    //     youtubeVideoQuality: videoQuality)
+    //   ..initialize().then((_) {
+    //     startTimer();
+    //     setState(() {
+    //       isVideoLoaded = true;
+    //       isSkipVisible = true;
+    //     });
+    //     hideController();
+    //     setState(() {});
+    //   })
+    //   ..play()
+    //   ..addListener(() {
+    //     setState(() {});
+    //   });
   }
 
   Timer _timer;
@@ -126,18 +103,27 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
     );
   }
 
+  @override
+  void dispose() {
+    _controller.pause();
+    _controller.dispose();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    super.dispose();
+  }
+
+  hideController() {
+    setState(() {
+      if (_controller.value.isPlaying) controllerVisible = false;
+    });
+  }
+
+  SubjectController _subjectController = Get.find();
+  TestController _testController = Get.find();
+
+  int rotation = 0;
+
   format(Duration d) {
-    if (d
-        .toString()
-        .split('.')
-        .first
-        .padLeft(8, "0")
-        .substring(3)
-        .contains("null")) {
-      return "";
-    } else {
-      return d.toString().split('.').first.padLeft(8, "0").substring(3);
-    }
+    return d.toString().split('.').first.padLeft(8, "0").substring(3);
   }
 
   @override
@@ -151,21 +137,20 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
             : Brightness.light,
         systemNavigationBarColor: _themeController.background.value,
         statusBarColor: _themeController.background.value));
-
     return Obx(() => Scaffold(
-          backgroundColor: _themeController.background.value,
+          backgroundColor: Colors.black,
           body: Stack(
             children: [
               rotation == 0
                   ? Container(
-                      color: _themeController.background.value,
+                      color: Colors.white,
                     )
                   : SizedBox.shrink(),
               rotation != 0
                   ? Center(
                       child: RotatedBox(
                         child: Container(
-                          color: _themeController.background.value,
+                          color: Colors.black,
                           child: AspectRatio(
                             // aspectRatio: _controller.value.aspectRatio,
                             aspectRatio: 16 / 9,
@@ -324,7 +309,7 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                   horizontal: 16),
                                               margin: EdgeInsets.symmetric(
                                                   horizontal: margin8,
-                                                  vertical: margin24),
+                                                  vertical: margin8),
                                               decoration: BoxDecoration(
                                                   color: Colors.white12,
                                                   borderRadius:
@@ -428,10 +413,13 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                                     8),
                                                             child: Text(
                                                               playbackSpeedValue,
-                                                              style: textStyle9
-                                                                  .copyWith(
-                                                                      color: Colors
-                                                                          .white),
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16),
                                                             ),
                                                           ),
                                                         ),
@@ -555,35 +543,35 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                               ),
                                             ),
                                           ),
-                                          // Align(
-                                          //   alignment: Alignment.topRight,
-                                          //   child: Padding(
-                                          //     padding:
-                                          //         EdgeInsets.only(top: margin8),
-                                          //     child: Material(
-                                          //       color: Colors.transparent,
-                                          //       type: MaterialType.circle,
-                                          //       clipBehavior:
-                                          //           Clip.antiAliasWithSaveLayer,
-                                          //       child: InkWell(
-                                          //         onTap: () {
-                                          //           _showQualityBottomSheet(
-                                          //               context);
-                                          //         },
-                                          //         child: Padding(
-                                          //           padding:
-                                          //               EdgeInsets.all(margin8),
-                                          //           child: Icon(
-                                          //             Icons
-                                          //                 .video_settings_outlined,
-                                          //             color: Colors.white,
-                                          //             size: Get.width * 0.06,
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // )
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: margin8),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                type: MaterialType.circle,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    _showQualityBottomSheet(
+                                                        context);
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(margin8),
+                                                    child: Icon(
+                                                      Icons
+                                                          .video_settings_outlined,
+                                                      color: Colors.white,
+                                                      size: Get.width * 0.06,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       )
                                     : SizedBox.shrink(),
@@ -750,10 +738,7 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                             Colors.transparent,
                                                         child: InkWell(
                                                           onTap: () {
-                                                            if (isVideoEnded) {
-                                                              _controller
-                                                                  .initialize();
-                                                            } else if (isVideoLoaded) {
+                                                            if (isVideoLoaded) {
                                                               if (_controller
                                                                   .value
                                                                   .isPlaying) {
@@ -920,10 +905,6 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                                 ),
                                                                 VideoProgressIndicator(
                                                                   _controller,
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              margin4),
                                                                   allowScrubbing:
                                                                       true,
                                                                 )
@@ -954,10 +935,14 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                                       .all(8),
                                                               child: Text(
                                                                 playbackSpeedValue,
-                                                                style: textStyle9
-                                                                    .copyWith(
-                                                                        color: Colors
-                                                                            .white),
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontSize:
+                                                                        16),
                                                               ),
                                                             ),
                                                           ),
@@ -1055,96 +1040,42 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                 ),
                                               ),
                                             ),
-                                            // Align(
-                                            //   alignment: Alignment.topRight,
-                                            //   child: Row(
-                                            //     mainAxisAlignment:
-                                            //         MainAxisAlignment.end,
-                                            //     children: [
-                                            //
-                                            //       Padding(
-                                            //         padding: EdgeInsets.only(
-                                            //             right: margin8),
-                                            //         child: Material(
-                                            //           type: MaterialType.circle,
-                                            //           clipBehavior: Clip
-                                            //               .antiAliasWithSaveLayer,
-                                            //           color: Colors.transparent,
-                                            //           child: InkWell(
-                                            //             onTap: () {
-                                            //               if (isVideoLoaded) {
-                                            //                 _showQualityBottomSheet(
-                                            //                     context);
-                                            //               }
-                                            //             },
-                                            //             child: Padding(
-                                            //               padding: EdgeInsets
-                                            //                   .symmetric(
-                                            //                       horizontal:
-                                            //                           16,
-                                            //                       vertical: 8),
-                                            //               child: Icon(
-                                            //                 Icons
-                                            //                     .video_settings_outlined,
-                                            //                 color: Colors.white,
-                                            //                 size: Get.width *
-                                            //                     0.06,
-                                            //               ),
-                                            //             ),
-                                            //           ),
-                                            //         ),
-                                            //       )
-                                            //     ],
-                                            //   ),
-                                            // )
-                                          ],
-                                        )
-                                      : SizedBox.shrink(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      // Container(
-                                      //   height: MediaQuery.of(context).padding.top,
-                                      //   color: Colors.black,
-                                      // ),
-                                      Row(
-                                        children: [
-                                          controllerVisible
-                                              ? Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: margin4),
-                                                  child: Material(
-                                                    color: Colors.transparent,
-                                                    type: MaterialType.circle,
-                                                    clipBehavior: Clip
-                                                        .antiAliasWithSaveLayer,
-                                                    child: InkWell(
-                                                      onTap: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Padding(
-                                                        padding: EdgeInsets.all(
-                                                            margin8),
-                                                        child: Image.asset(
-                                                          ASSETS_ICONS_PATH +
-                                                              'ic_back.png',
-                                                          height:
-                                                              iconHeightWidth,
-                                                          width:
-                                                              iconHeightWidth,
-                                                          fit: BoxFit.fitWidth,
-                                                          color: Colors.white,
-                                                        ),
+                                            Align(
+                                              alignment: Alignment.topRight,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: margin8),
+                                                child: Material(
+                                                  type: MaterialType.circle,
+                                                  clipBehavior: Clip
+                                                      .antiAliasWithSaveLayer,
+                                                  color: Colors.transparent,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      if (isVideoLoaded) {
+                                                        _showQualityBottomSheet(
+                                                            context);
+                                                      }
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 16,
+                                                              vertical: 8),
+                                                      child: Icon(
+                                                        Icons
+                                                            .video_settings_outlined,
+                                                        color: Colors.white,
+                                                        size: Get.width * 0.06,
                                                       ),
                                                     ),
                                                   ),
-                                                )
-                                              : SizedBox.shrink(),
-                                          Spacer(),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      : SizedBox.shrink(),
                                   isVideoEnded
                                       ? Stack(
                                           children: [
@@ -1218,7 +1149,6 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                             ),
                             Expanded(
                               child: Container(
-                                // color: background,
                                 color: _themeController.background.value,
                                 padding:
                                     EdgeInsets.symmetric(horizontal: margin16),
@@ -1226,376 +1156,83 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                 child: MediaQuery.removePadding(
                                   context: context,
                                   removeTop: true,
-                                  child: Container(
-                                    color: _themeController.background.value,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: margin8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: RichText(
-                                                maxLines: 2,
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                text: TextSpan(
-                                                  text: _subjectController
-                                                      .arrOfChapter[
-                                                          _subjectController
-                                                              .selectedChapterPosition]
-                                                      .topic[_subjectController
-                                                          .selectedTopicPosition]
-                                                      .name,
-                                                  style: bodyMediumTestStyle
-                                                      .copyWith(
-                                                          color:
-                                                              _themeController
-                                                                  .textColor
-                                                                  .value),
-                                                ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: margin8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: RichText(
+                                              maxLines: 2,
+                                              textAlign: TextAlign.start,
+                                              overflow: TextOverflow.ellipsis,
+                                              text: TextSpan(
+                                                text: widget.favourite.name,
+                                                style: bodyMediumTestStyle
+                                                    .copyWith(
+                                                        color: _themeController
+                                                            .textColor.value),
                                               ),
                                             ),
-                                            SizedBox(
-                                              width: 8,
-                                            ),
-                                            Material(
-                                              color: Colors.transparent,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (_subjectController
-                                                            .arrOfChapter[
-                                                                _subjectController
-                                                                    .selectedChapterPosition]
-                                                            .topic[_subjectController
-                                                                .selectedTopicPosition]
-                                                            .isFavorite ==
-                                                        0) {
-                                                      _subjectController.setFavorite(
-                                                          _subjectController
-                                                              .arrOfChapter[
-                                                                  _subjectController
-                                                                      .selectedChapterPosition]
-                                                              .topic[_subjectController
-                                                                  .selectedTopicPosition]
-                                                              .id
-                                                              .toString());
-
-                                                      _subjectController
-                                                          .arrOfChapter[
-                                                              _subjectController
-                                                                  .selectedChapterPosition]
-                                                          .topic[_subjectController
-                                                              .selectedTopicPosition]
-                                                          .isFavorite = 1;
-                                                    } else {
-                                                      _subjectController.removeFavorite(
-                                                          _subjectController
-                                                              .arrOfChapter[
-                                                                  _subjectController
-                                                                      .selectedChapterPosition]
-                                                              .topic[_subjectController
-                                                                  .selectedTopicPosition]
-                                                              .isFavorite
-                                                              .toString(),
-                                                          false);
-
-                                                      _subjectController
-                                                          .arrOfChapter[
-                                                              _subjectController
-                                                                  .selectedChapterPosition]
-                                                          .topic[_subjectController
-                                                              .selectedTopicPosition]
-                                                          .isFavorite = 0;
-                                                    }
-                                                  });
-                                                },
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  decoration: BoxDecoration(),
-                                                  child: Icon(
-                                                    _subjectController
-                                                                .arrOfChapter[
-                                                                    _subjectController
-                                                                        .selectedChapterPosition]
-                                                                .topic[_subjectController
-                                                                    .selectedTopicPosition]
-                                                                .isFavorite ==
-                                                            0
-                                                        ? Icons.bookmark_border
-                                                        : Icons.bookmark,
-                                                    color: Colors.green,
-                                                    size: iconHeightWidth,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          width: Get.width,
-                                          height: 2,
-                                          margin: EdgeInsets.only(top: margin8),
-                                          color: Color(0xffE9E9E9),
-                                        ),
-                                        SizedBox(
-                                          height: margin8,
-                                        ),
-                                        _subjectController
-                                                .arrOfNextFourVideo.isNotEmpty
-                                            ? RichText(
-                                                text: TextSpan(children: [
-                                                  TextSpan(
-                                                      text: "Next",
-                                                      style: textStyle10Bold
-                                                          .copyWith(
-                                                              color:
-                                                                  _themeController
-                                                                      .textColor
-                                                                      .value)),
-                                                  TextSpan(
-                                                      text: " Topic",
-                                                      style: textStyle10Bold
-                                                          .copyWith(
-                                                              color: Color(
-                                                                  0xff7FCB4F))),
-                                                ]),
-                                              )
-                                            : SizedBox.shrink(),
-                                        SizedBox(
-                                          height: margin8,
-                                        ),
-                                        MediaQuery.removePadding(
-                                          context: context,
-                                          removeTop: true,
-                                          child: GridView.builder(
-                                            gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 2,
-                                                    childAspectRatio: 3 / 2,
-                                                    crossAxisSpacing: 16,
-                                                    mainAxisSpacing: 16),
-
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemCount: _subjectController
-                                                .arrOfNextFourVideo.length,
-                                            // itemCount: _subjectController.arrOfTopic.length,
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    image: DecorationImage(
-                                                        image: NetworkImage(
-                                                            _subjectController
-                                                                .arrOfNextFourVideo[
-                                                                    index]
-                                                                .image),
-                                                        fit: BoxFit.cover)),
-                                                child: Material(
-                                                  color: Colors.transparent,
-                                                  borderRadius:
-                                                      BorderRadius.circular(8),
-                                                  child: InkWell(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    splashColor: Colors.white,
-                                                    onTap: () {
-                                                      Navigator.pop(context);
-                                                      Get.to(CustomNextVideoPlayer(
-                                                          _subjectController
-                                                                  .arrOfNextFourVideo[
-                                                              index]));
-                                                    },
-                                                    child: Stack(
-                                                      children: [
-                                                        Container(
-                                                          width:
-                                                              Get.width * 0.45,
-                                                          height:
-                                                              Get.width * 0.30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                            color: HexColor.fromHex(
-                                                                    _subjectController
-                                                                        .arrOfNextFourVideo[
-                                                                            index]
-                                                                        .color)
-                                                                .withOpacity(
-                                                                    0.80),
-                                                          ),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                              left: margin4,
-                                                              bottom: margin24,
-                                                              right: margin20,
-                                                            ),
-                                                            child: RichText(
-                                                              maxLines: 3,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              text: TextSpan(
-                                                                  style: textStyle9
-                                                                      .copyWith(
-                                                                          color: Colors
-                                                                              .white),
-                                                                  text: _subjectController
-                                                                      .arrOfNextFourVideo[
-                                                                          index]
-                                                                      .name),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Align(
-                                                          alignment: Alignment
-                                                              .bottomRight,
-                                                          child: Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    bottom:
-                                                                        margin4,
-                                                                    right:
-                                                                        margin4),
-                                                            child: Material(
-                                                              color: _themeController
-                                                                  .playIconBGColor
-                                                                  .value,
-                                                              type: MaterialType
-                                                                  .circle,
-                                                              clipBehavior: Clip
-                                                                  .antiAliasWithSaveLayer,
-                                                              child: InkWell(
-                                                                onTap: () {
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  Get.to(CustomNextVideoPlayer(
-                                                                      _subjectController
-                                                                              .arrOfNextFourVideo[
-                                                                          index]));
-                                                                },
-                                                                child: Padding(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              margin2),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .play_arrow,
-                                                                    size:
-                                                                        iconHeightWidth,
-                                                                    color: _themeController
-                                                                        .playIconColor
-                                                                        .value,
-                                                                  ),
-                                                                  /*child: Image.asset(
-                                                  ASSETS_ICONS_PATH +
-                                                      'ic_play.png',
-                                                  height:
-                                                      iconHeightWidth - 8,
-                                                  width:
-                                                      iconHeightWidth - 8,
-                                                  fit: BoxFit.fill,
-                                                ),*/
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            },
                                           ),
-                                        ),
-                                        Spacer(),
-                                        _subjectController
-                                                .arrOfChapter[_subjectController
-                                                    .selectedChapterPosition]
-                                                .topic[_subjectController
-                                                    .selectedTopicPosition]
-                                                .content
-                                                .question
-                                                .isNotEmpty
-                                            ? Container(
-                                                margin: EdgeInsets.only(
-                                                    bottom: margin8),
-                                                child: Center(
-                                                  child: Material(
-                                                    color: Color(0xff7FCB4F),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            24),
-                                                    child: InkWell(
-                                                      splashColor: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              24),
-                                                      onTap: () {
-                                                        _testController
-                                                            .isVideoPlaying
-                                                            .value = true;
-                                                        _controller.pause();
-                                                        Get.to(TopicTest(_subjectController
-                                                                .arrOfChapter[
-                                                                    _subjectController
-                                                                        .selectedChapterPosition]
-                                                                .topic[
-                                                            _subjectController
-                                                                .selectedTopicPosition]));
-                                                      },
-                                                      child: Container(
-                                                        width: Get.width * 0.40,
-                                                        height:
-                                                            Get.height * 0.06,
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24)),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                              "Start Quiz",
-                                                              style: textStyle10Bold
-                                                                  .copyWith(
-                                                                      color: Colors
-                                                                          .white),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
+                                          SizedBox(
+                                            width: 8,
+                                          ),
+                                          Material(
+                                            color: Colors.transparent,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (widget.favourite
+                                                          .isFavorite ==
+                                                      0) {
+                                                    _subjectController
+                                                        .setFavorite(widget
+                                                            .favourite.id
+                                                            .toString());
+
+                                                    widget.favourite
+                                                        .isFavorite = 1;
+                                                  } else {
+                                                    _subjectController
+                                                        .removeFavorite(
+                                                            widget.favourite
+                                                                .isFavorite
+                                                                .toString(),
+                                                            false);
+
+                                                    widget.favourite
+                                                        .isFavorite = 0;
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(8),
+                                                decoration: BoxDecoration(),
+                                                child: Icon(
+                                                  widget.favourite.isFavorite ==
+                                                          0
+                                                      ? Icons.bookmark_border
+                                                      : Icons.bookmark,
+                                                  color: Colors.green,
+                                                  size: iconHeightWidth,
                                                 ),
-                                              )
-                                            : SizedBox.shrink()
-                                      ],
-                                    ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: margin8,
+                                      ),
+                                      Spacer(),
+                                    ],
                                   ),
                                 ),
                               ),

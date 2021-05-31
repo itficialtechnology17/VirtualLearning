@@ -1,17 +1,22 @@
-final String baseUrl = 'https://itficial.app/virtuale/';
-final String storageUrl = 'https://itficial.app/virtuale/storage/';
+// final String baseUrl = 'https://itficial.app/virtuale/';
+final String baseUrl = 'http://virtuale.in/backend/';
+// final String storageUrl = 'https://itficial.app/virtuale/storage/';
+final String storageUrl = 'http://virtuale.in/backend/storage/';
 final String dummyImageUrl = 'http://virtuale.in/img/logo-dark2.png';
+final String videoUrl = 'http://virtuale.in/backend/storage/video/';
 
 String urlGetTestQuestion = "api/get-test-details";
 String urlGetCourse = "api/standard-list";
 String urlGetDashboard = "api/app-home";
 String urlSearch = "api/search";
+String urlReportIssue = "api/report-issue";
 String urlLogin = "api/process-login";
 String urlUpdateProfile = "api/profile-update";
 String urlGetChapter = "api/chapter-list";
 String urlGetTopic = "api/topic-list";
 String urlGetBookmark = "api/get-favourite";
 String urlSetFavorite = "api/set-favourite";
+String urlSetQuestionBookmark = "api/set-bookmark";
 String urlRemoveFavorite = "api/remove-favourite";
 String urlGetSubscription = "api/subscription";
 String urlSetWatchHistory = "api/set-watch-history";

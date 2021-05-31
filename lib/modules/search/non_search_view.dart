@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class NonSearchView extends StatelessWidget {
   var trending = [
@@ -10,7 +12,7 @@ class NonSearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: background,
       body: Container(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -42,9 +44,7 @@ class NonSearchView extends StatelessWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           text: TextSpan(
-                              text: trending[index],
-                              style: TextStyle(
-                                  color: Colors.black, fontFamily: "Nunito")),
+                              text: trending[index], style: textStyle10),
                         ),
                       ),
                       SizedBox(

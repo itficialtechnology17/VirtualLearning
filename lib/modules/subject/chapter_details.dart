@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/modules/lesson/tab/notes_tab.dart';
 import 'package:virtual_learning/modules/lesson/tab/q_bank_tab.dart';
@@ -18,6 +20,7 @@ class ChapterDetails extends StatefulWidget {
 }
 
 class _StateChapterDetails extends State<ChapterDetails> {
+  ThemeController _themeController = Get.find();
   SubjectController _subjectController = Get.find();
 
   final List<Widget> listOfTab = [
@@ -32,13 +35,24 @@ class _StateChapterDetails extends State<ChapterDetails> {
   @override
   void initState() {
     super.initState();
+
     _subjectController.getTopic();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(0xffF9F9FB),
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarIconBrightness: _themeController.isDarkTheme.value
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarBrightness: _themeController.isDarkTheme.value
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: _themeController.background.value,
+        statusBarColor: _themeController.background.value));
+
+    return Obx(() => Scaffold(
+        backgroundColor: _themeController.background.value,
         body: Obx(() => Stack(children: [
               /* Image.asset(
                 ASSETS_BG_PATH + 'ic_home_top_bg.png',
@@ -47,7 +61,7 @@ class _StateChapterDetails extends State<ChapterDetails> {
                 fit: BoxFit.fill,
               ),*/
               Scaffold(
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: _themeController.background.value,
                   appBar: PreferredSize(
                     preferredSize:
                         Size.fromHeight(AppBar().preferredSize.height),
@@ -79,15 +93,16 @@ class _StateChapterDetails extends State<ChapterDetails> {
                                         height: iconHeightWidth,
                                         width: iconHeightWidth,
                                         fit: BoxFit.fitWidth,
+                                        color: _themeController.iconColor.value,
                                       ),
                                     ),
                                   ),
                                 ),
                                 Spacer(),
                                 Text(
-                                  _subjectController.selectedSubject.value.name
-                                      .toUpperCase(),
-                                  style: textStyle11Bold,
+                                  _subjectController.selectedSubject.value.name,
+                                  style: textStyle10Bold.copyWith(
+                                      color: _themeController.textColor.value),
                                   textScaleFactor: 1.0,
                                 ),
                                 Spacer(),
@@ -106,6 +121,7 @@ class _StateChapterDetails extends State<ChapterDetails> {
                                         height: iconHeightWidth,
                                         width: iconHeightWidth,
                                         fit: BoxFit.fitWidth,
+                                        color: _themeController.iconColor.value,
                                       ),
                                     ),
                                   ),
@@ -128,11 +144,7 @@ class _StateChapterDetails extends State<ChapterDetails> {
                                 text: _subjectController
                                     .selectedChapter.value.name,
                                 style: textStyle10Bold.copyWith(
-                                    color: Colors.black)),
-                            /*TextSpan(
-                                text: " you Left",
-                                style: textStyle10Bold.copyWith(
-                                    color: Color(0xff7FCB4F))),*/
+                                    color: _themeController.textColor.value)),
                           ]),
                         ),
                         SizedBox(
@@ -368,6 +380,6 @@ class _StateChapterDetails extends State<ChapterDetails> {
                           ),
                         )
                       ])))
-            ])));
+            ]))));
   }
 }

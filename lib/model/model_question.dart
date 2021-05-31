@@ -31,6 +31,7 @@ class ModelQuestion {
   int givenAnswer;
   bool isSelected = false;
   bool isSolutionVisible = false;
+  int isBookmark = 0;
 
   List<Answer> answers;
 

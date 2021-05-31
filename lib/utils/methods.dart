@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/utils/constant.dart';
 
 void showSnackBar(String title, String message, Color color) {
   Get.snackbar("", "",
@@ -110,18 +111,21 @@ TextStyle bodyLargeTestStyle = TextStyle(
     fontFamily: "Nunito");
 
 TextStyle bodyMediumTestStyle = TextStyle(
+    color: textColor,
     fontWeight: FontWeight.w400,
     fontSize: Get.width * 0.04,
     fontFamily: "Nunito");
 
 TextStyle buttonTextStyle = TextStyle(
     fontWeight: FontWeight.w500,
+    color: textColor,
     fontSize: Get.width * 0.05,
     fontFamily: "Nunito");
 
 TextStyle buttonMediumTextStyle = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: Get.width * 0.04,
+    color: textColor,
     fontFamily: "Nunito");
 
 void showToast(String msg, [int position]) {
@@ -131,6 +135,28 @@ void showToast(String msg, [int position]) {
       backgroundColor: Colors.black54,
       gravity: position == 0 ? ToastGravity.BOTTOM : ToastGravity.CENTER);
 }
+
+Widget loader() {
+  return Center(
+    child: SizedBox(
+      height: Get.width * 0.10,
+      width: Get.width * 0.10,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+      ),
+    ),
+  );
+}
+
+// void getThemeMode() async {
+//   Get.isDarkMode = await getBoolValuesSF(KEY_IS_DARK_THEME) ?? false;
+//   print("Is Dark Theme :" + isDarkTheme.toString());
+// }
+
+// void setThemeMode() async {
+//   addBoolToSF(KEY_IS_DARK_THEME, isDarkTheme);
+//   print("Is Dark Theme :" + isDarkTheme.toString());
+// }
 
 double margin2 = Get.width * 0.01;
 double margin4 = Get.width * 0.02;

@@ -9,7 +9,7 @@ class ChapterTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: background,
       body: Obx(() => Container(
             margin: EdgeInsets.all(16),
             child: _searchController.arrOfChapter.isEmpty

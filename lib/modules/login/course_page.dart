@@ -2,11 +2,14 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
-import 'package:virtual_learning/modules/login/lets_know_you.dart';
 import 'package:virtual_learning/page/new_main_page.dart';
+import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
+
+import 'lets_know_you.dart';
 
 class CoursePage extends StatefulWidget {
   @override
@@ -28,313 +31,6 @@ class _StateCoursePage extends State<CoursePage> {
 
     super.initState();
   }
-
-/*  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.top,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(4),
-                      child: SvgPicture.asset(
-                        'assets/svg/ic_back.svg',
-                        height: MediaQuery.of(context).size.width * 0.05,
-                        width: MediaQuery.of(context).size.width * 0.05,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 32, left: 14),
-                    child: Text(
-                      'Choose Course',
-                      style: textStyle14Bold.copyWith(color: Color(0xff205072)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: Text(
-                      'Select course you are interested in',
-                      style: textStyle12.copyWith(
-                          color: Color(0xff3aa59b),
-                          fontSize: Get.height * 0.018),
-                      textAlign: TextAlign.start,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 5,
-            child: Obx(() => _loginController.isLoadingCourse.value
-                ? Container(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                      ),
-                    ),
-                  )
-                : Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
-                    child: GridView.count(
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      crossAxisCount: 2,
-                      children: List.generate(
-                          _loginController.arrOfCourse.length, (index) {
-                        return Container(
-                          child: Stack(
-                            fit: StackFit.expand,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    // boxShadow: getBoxShadow(index),
-                                    border: Border.all(
-                                        color: Color(
-                                            */ /*_loginController
-                                                .arrOfCourse[index].selected
-                                            ? 0xff205072
-                                            : */ /*
-                                            0xff3AA59B),
-                                        width: _loginController
-                                                .arrOfCourse[index].selected
-                                            ? 3
-                                            : 1),
-                                    borderRadius: BorderRadius.circular(16)),
-                                width: MediaQuery.of(context).size.width * 0.25,
-                                height:
-                                    MediaQuery.of(context).size.width * 0.25,
-                                child: Center(
-                                  child: Stack(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Wrap(
-                                          children: [
-                                            Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Text(
-                                                      _loginController
-                                                          .arrOfCourse[index]
-                                                          .name,
-                                                      style: textStyle16Bold.copyWith(
-                                                          color: Color(
-                                                              selectedPosition ==
-                                                                      1
-                                                                  ? 0xff205072
-                                                                  : 0xff3AA59B)),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 2,
-                                                    ),
-                                                    Column(
-                                                      children: [
-                                                        Text(
-                                                          'th',
-                                                          style: textStyle10Bold.copyWith(
-                                                              color: Color(
-                                                                  selectedPosition ==
-                                                                          1
-                                                                      ? 0xff205072
-                                                                      : 0xff3AA59B)),
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                        ),
-                                                        SizedBox(
-                                                          height: 16,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                                isNumeric(_loginController
-                                                        .arrOfCourse[index]
-                                                        .displayName)
-                                                    ? Text("")
-                                                    : Text(
-                                                        _loginController
-                                                            .arrOfCourse[index]
-                                                            .displayName,
-                                                        style: textStyle10.copyWith(
-                                                            color: Color(
-                                                                selectedPosition ==
-                                                                        1
-                                                                    ? 0xff205072
-                                                                    : 0xff3AA59B)),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      )
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Material(
-                                type: MaterialType.transparency,
-                                color: Colors.white,
-                                child: InkWell(
-                                  onTap: () {
-                                    _loginController.onSelectSubject(index);
-                                  },
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16)),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      }),
-                    ),
-                  )),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(),
-                  ),
-                  Container(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: EdgeInsets.only(right: 32),
-                        child: Material(
-                          color: Colors.transparent,
-                          type: MaterialType.circle,
-                          clipBehavior: Clip.hardEdge,
-                          child: InkWell(
-                            onTap: () async {
-                              if (_loginController.selectedCoursePosition ==
-                                  -1) {
-                                Flushbar(
-                                  messageText: Text(
-                                    "Please select course",
-                                    style: TextStyle(
-                                        fontFamily: "Nunito",
-                                        color: Colors.white,
-                                        fontSize: 16),
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  backgroundColor: Color(0xff205072),
-                                )..show(context);
-                              } else {
-                                //
-                                if (_loginController
-                                            .modelUser.value.firstName ==
-                                        null ||
-                                    _loginController
-                                            .modelUser.value.firstName ==
-                                        "") {
-                                  if (isLogin) {
-                                    Get.to(MainPage());
-                                  } else {
-                                    Get.off(SignUpPage());
-                                  }
-                                } else {
-                                  Get.off(MainPage());
-                                }
-                              }
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              height: MediaQuery.of(context).size.width * 0.15,
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff205072)),
-                                  shape: BoxShape.circle),
-                              child: SvgPicture.asset(
-                                'assets/svg/ic_bg_next.svg',
-                                height:
-                                    MediaQuery.of(context).size.width * 0.01,
-                                width: MediaQuery.of(context).size.width * 0.01,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ) */ /*Material(
-                          color: Colors.transparent,
-                          clipBehavior: Clip.hardEdge,
-                          type: MaterialType.circle,
-                          child: InkWell(
-                            onTap: () {
-                              if (selectedPosition == 0) {
-                                Flushbar(
-                                  messageText: Text(
-                                    "Please select course",
-                                    style: TextStyle(
-                                        fontFamily: "Nunito",
-                                        color: Colors.white,
-                                        fontSize: 16),
-                                  ),
-                                  duration: Duration(seconds: 3),
-                                  backgroundColor: Color(0xff205072),
-                                )..show(context);
-                              } else {}
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.15,
-                              height: MediaQuery.of(context).size.width * 0.15,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Color(0xff205072)),
-                                  shape: BoxShape.circle,
-                                  color: Colors.white),
-                              child: Padding(
-                                padding: EdgeInsets.all(12),
-                                child: SvgPicture.asset(
-                                  'assets/svg/ic_bg_next.svg',
-                                  height:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.01,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )*/ /*
-                        ,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }*/
 
   getBoxShadow(int i) {
     if (_loginController.arrOfCourse[i].selected) {
@@ -374,113 +70,189 @@ class _StateCoursePage extends State<CoursePage> {
                   style: textStyle14Bold.copyWith(color: Colors.white),
                 ),
                 Expanded(
-                  child: GridView.count(
-                      crossAxisSpacing: 24,
-                      mainAxisSpacing: 8,
-                      crossAxisCount: 2,
-                      childAspectRatio: 6 / 5,
-                      children: List.generate(
-                          _loginController.arrOfCourse.length, (index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                              color: Colors.transparent,
-                              image: DecorationImage(
-                                  image: AssetImage(_loginController
-                                          .arrOfCourse[index].selected
-                                      ? "assets/images/ic_selected_course_bg.png"
-                                      : "assets/images/ic_course_bg.png"),
-                                  fit: BoxFit.cover)),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 11),
-                            child: Material(
-                              color: Colors.transparent,
-                              child: InkWell(
-                                onTap: () {
-                                  _loginController.onSelectSubject(index);
-                                },
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        _loginController
-                                            .arrOfCourse[index].name,
-                                        style: textStyle14Bold,
+                  child: _loginController.isLoadingCourse.value
+                      ? Container(
+                          padding: EdgeInsets.symmetric(vertical: margin16),
+                          width: Get.width,
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.white12,
+                            highlightColor: Colors.white30,
+                            // period: Duration(milliseconds: 700),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: Get.width * 0.70,
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                                Container(
+                                  width: Get.width * 0.40,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                                Container(
+                                  width: Get.width * 0.50,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                                SizedBox(
+                                  height: margin16,
+                                ),
+                                Container(
+                                  width: Get.width * 0.70,
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                                Container(
+                                  width: Get.width * 0.40,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                                Container(
+                                  width: Get.width * 0.50,
+                                  height: 15,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(16)),
+                                  margin: EdgeInsets.only(bottom: margin12),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : GridView.count(
+                          crossAxisSpacing: 24,
+                          mainAxisSpacing: 8,
+                          crossAxisCount: 2,
+                          childAspectRatio: 6 / 5,
+                          children: List.generate(
+                              _loginController.arrOfCourse.length, (index) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  image: DecorationImage(
+                                      image: AssetImage(_loginController
+                                              .arrOfCourse[index].selected
+                                          ? "assets/images/ic_selected_course_bg.png"
+                                          : "assets/images/ic_course_bg.png"),
+                                      fit: BoxFit.cover)),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 11),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _loginController.onSelectSubject(index);
+                                    },
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            _loginController
+                                                .arrOfCourse[index].name,
+                                            style: textStyle14Bold.copyWith(
+                                                color: Colors.black),
+                                          ),
+                                          Text(
+                                            "th",
+                                            style: textStyle10Bold.copyWith(
+                                                color: Colors.black),
+                                          )
+                                        ],
                                       ),
-                                      Text(
-                                        "th",
-                                        style: textStyle10Bold,
-                                      )
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        );
-                      })),
+                            );
+                          })),
                 ),
                 SizedBox(
                   height: Get.height * 0.05,
                 ),
-                Material(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.white,
-                  child: InkWell(
-                    onTap: () {
-                      if (_loginController.selectedCoursePosition == -1) {
-                        Flushbar(
-                          messageText: Text(
-                            "Please select course",
-                            style: TextStyle(
-                                fontFamily: "Nunito",
-                                color: Colors.white,
-                                fontSize: 16),
+                _loginController.isLoadingCourse.value
+                    ? SizedBox.shrink()
+                    : Material(
+                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white,
+                        child: InkWell(
+                          onTap: () {
+                            if (_loginController.selectedCoursePosition == -1) {
+                              Flushbar(
+                                messageText: Text(
+                                  "Please select course",
+                                  style: TextStyle(
+                                      fontFamily: "Nunito",
+                                      color: Colors.white,
+                                      fontSize: 16),
+                                ),
+                                duration: Duration(seconds: 3),
+                                backgroundColor: Color(0xff205072),
+                              )..show(context);
+                            } else {
+                              if (_loginController.modelUser.value.firstName ==
+                                      null ||
+                                  _loginController.modelUser.value.firstName ==
+                                      "") {
+                                if (studentId == "79") {
+                                  Get.to(MainPage());
+                                } else {
+                                  Get.off(LetsKnowYou());
+                                }
+                              } else {
+                                Get.off(MainPage());
+                              }
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4)),
+                            constraints: BoxConstraints(
+                              minWidth: Get.width * 0.20,
+                              maxWidth: Get.width * 0.30,
+                              minHeight: Get.height * 0.06,
+                            ),
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Next",
+                                    style: textStyle10Bold.copyWith(
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    width: margin4,
+                                  ),
+                                  Icon(
+                                    Icons.navigate_next_outlined,
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                          duration: Duration(seconds: 3),
-                          backgroundColor: Color(0xff205072),
-                        )..show(context);
-                      } else {
-                        if (_loginController.modelUser.value.firstName ==
-                                null ||
-                            _loginController.modelUser.value.firstName == "") {
-                          Get.off(LetsKnowYou());
-                        } else {
-                          Get.off(MainPage());
-                        }
-                      }
-                    },
-                    child: Container(
-                      decoration:
-                          BoxDecoration(borderRadius: BorderRadius.circular(4)),
-                      constraints: BoxConstraints(
-                        minWidth: Get.width * 0.20,
-                        maxWidth: Get.width * 0.30,
-                        minHeight: Get.height * 0.06,
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Next",
-                              style:
-                                  textStyle10Bold.copyWith(color: Colors.black),
-                            ),
-                            SizedBox(
-                              width: margin4,
-                            ),
-                            Icon(
-                              Icons.navigate_next_outlined,
-                            )
-                          ],
                         ),
                       ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: Get.height * 0.18,
                 ),

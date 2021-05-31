@@ -2,15 +2,16 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/modules/login/course_page.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
-import 'package:virtual_learning/page/new_main_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/my_preference.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
+
+import 'new_main_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -35,12 +36,17 @@ class _StateSplashPage extends State<SplashPage> {
 
   loadPrefs() async {
     isLogin = await getBoolValuesSF(KEY_IS_LOGIN) ?? false;
+
     isRegister = await getBoolValuesSF(KEY_IS_REGISTER) ?? false;
 
     if (isLogin) {
       studentId = await getStringValuesSF(KEY_IS_USER_ID) ?? "0";
       standardId = await getStringValuesSF(KEY_STANDARD_ID) ?? "0";
-      Get.off(MainPage());
+      if (studentId == "79") {
+        Get.off(CoursePage());
+      } else {
+        Get.off(MainPage());
+      }
     } else {
       Get.off(LoginPage());
     }
@@ -48,7 +54,7 @@ class _StateSplashPage extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     return Scaffold(
       // backgroundColor: Color(0xff0A0A78),
       body: Container(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
+import 'package:virtual_learning/utils/constant.dart';
 
 class TopicTab extends StatelessWidget {
   SearchController _searchController = Get.find();
@@ -10,7 +11,7 @@ class TopicTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: background,
       body: Container(
         margin: EdgeInsets.all(16),
         child: Obx(
