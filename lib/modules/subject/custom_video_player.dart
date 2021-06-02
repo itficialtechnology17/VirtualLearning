@@ -54,8 +54,7 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
 
     print("Current Playing Video Url : " + widget.modelTopic.content.video);
     _controller = VideoPlayerController.network(
-        videoUrl + widget.modelTopic.content.video,
-        youtubeVideoQuality: videoQuality)
+        videoUrl + widget.modelTopic.content.video)
       ..initialize().then((_) {
         startTimer();
         setState(() {
@@ -105,11 +104,10 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
     });
   }
 
-  Timer _timer;
   int _start = 9;
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    Timer.periodic(
       oneSec,
       (Timer timer) {
         if (_start == 0) {
@@ -619,6 +617,38 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                               ),
                                             ),
                                           ),
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: margin8),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                type: MaterialType.circle,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      rotation = 0;
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(margin8),
+                                                    child: Image.asset(
+                                                      ASSETS_ICONS_PATH +
+                                                          'ic_back.png',
+                                                      height: iconHeightWidth,
+                                                      width: iconHeightWidth,
+                                                      fit: BoxFit.fitWidth,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       )
                                     : SizedBox.shrink(),
@@ -1178,6 +1208,36 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                                 ),
                                               ),
                                             ),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: margin8),
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  type: MaterialType.circle,
+                                                  clipBehavior: Clip
+                                                      .antiAliasWithSaveLayer,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(
+                                                          margin8),
+                                                      child: Image.asset(
+                                                        ASSETS_ICONS_PATH +
+                                                            'ic_back.png',
+                                                        height: iconHeightWidth,
+                                                        width: iconHeightWidth,
+                                                        fit: BoxFit.fitWidth,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         )
                                       : SizedBox.shrink(),

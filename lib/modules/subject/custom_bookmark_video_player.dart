@@ -63,23 +63,6 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
           });
         }
       });
-
-    // _controller = VideoPlayerController.network(
-    //     widget.modelWatchHistory.videoId,
-    //     youtubeVideoQuality: videoQuality)
-    //   ..initialize().then((_) {
-    //     startTimer();
-    //     setState(() {
-    //       isVideoLoaded = true;
-    //       isSkipVisible = true;
-    //     });
-    //     hideController();
-    //     setState(() {});
-    //   })
-    //   ..play()
-    //   ..addListener(() {
-    //     setState(() {});
-    //   });
   }
 
   Timer _timer;
@@ -123,7 +106,17 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
   int rotation = 0;
 
   format(Duration d) {
-    return d.toString().split('.').first.padLeft(8, "0").substring(3);
+    if (d
+        .toString()
+        .split('.')
+        .first
+        .padLeft(8, "0")
+        .substring(3)
+        .contains("null")) {
+      return "";
+    } else {
+      return d.toString().split('.').first.padLeft(8, "0").substring(3);
+    }
   }
 
   @override
@@ -543,35 +536,35 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
                                               ),
                                             ),
                                           ),
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(top: margin8),
-                                              child: Material(
-                                                color: Colors.transparent,
-                                                type: MaterialType.circle,
-                                                clipBehavior:
-                                                    Clip.antiAliasWithSaveLayer,
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    _showQualityBottomSheet(
-                                                        context);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.all(margin8),
-                                                    child: Icon(
-                                                      Icons
-                                                          .video_settings_outlined,
-                                                      color: Colors.white,
-                                                      size: Get.width * 0.06,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          )
+                                          // Align(
+                                          //   alignment: Alignment.topRight,
+                                          //   child: Padding(
+                                          //     padding:
+                                          //         EdgeInsets.only(top: margin8),
+                                          //     child: Material(
+                                          //       color: Colors.transparent,
+                                          //       type: MaterialType.circle,
+                                          //       clipBehavior:
+                                          //           Clip.antiAliasWithSaveLayer,
+                                          //       child: InkWell(
+                                          //         onTap: () {
+                                          //           _showQualityBottomSheet(
+                                          //               context);
+                                          //         },
+                                          //         child: Padding(
+                                          //           padding:
+                                          //               EdgeInsets.all(margin8),
+                                          //           child: Icon(
+                                          //             Icons
+                                          //                 .video_settings_outlined,
+                                          //             color: Colors.white,
+                                          //             size: Get.width * 0.06,
+                                          //           ),
+                                          //         ),
+                                          //       ),
+                                          //     ),
+                                          //   ),
+                                          // )
                                         ],
                                       )
                                     : SizedBox.shrink(),
@@ -607,6 +600,38 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
                                               ),
                                             ),
                                           ),
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Padding(
+                                              padding:
+                                                  EdgeInsets.only(top: margin8),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                type: MaterialType.circle,
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      rotation = 0;
+                                                    });
+                                                  },
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(margin8),
+                                                    child: Image.asset(
+                                                      ASSETS_ICONS_PATH +
+                                                          'ic_back.png',
+                                                      height: iconHeightWidth,
+                                                      width: iconHeightWidth,
+                                                      fit: BoxFit.fitWidth,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                         ],
                                       )
                                     : SizedBox.shrink(),
@@ -1040,39 +1065,39 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
                                                 ),
                                               ),
                                             ),
-                                            Align(
-                                              alignment: Alignment.topRight,
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    right: margin8),
-                                                child: Material(
-                                                  type: MaterialType.circle,
-                                                  clipBehavior: Clip
-                                                      .antiAliasWithSaveLayer,
-                                                  color: Colors.transparent,
-                                                  child: InkWell(
-                                                    onTap: () {
-                                                      if (isVideoLoaded) {
-                                                        _showQualityBottomSheet(
-                                                            context);
-                                                      }
-                                                    },
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 16,
-                                                              vertical: 8),
-                                                      child: Icon(
-                                                        Icons
-                                                            .video_settings_outlined,
-                                                        color: Colors.white,
-                                                        size: Get.width * 0.06,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )
+                                            // Align(
+                                            //   alignment: Alignment.topRight,
+                                            //   child: Padding(
+                                            //     padding: EdgeInsets.only(
+                                            //         right: margin8),
+                                            //     child: Material(
+                                            //       type: MaterialType.circle,
+                                            //       clipBehavior: Clip
+                                            //           .antiAliasWithSaveLayer,
+                                            //       color: Colors.transparent,
+                                            //       child: InkWell(
+                                            //         onTap: () {
+                                            //           if (isVideoLoaded) {
+                                            //             _showQualityBottomSheet(
+                                            //                 context);
+                                            //           }
+                                            //         },
+                                            //         child: Padding(
+                                            //           padding:
+                                            //               EdgeInsets.symmetric(
+                                            //                   horizontal: 16,
+                                            //                   vertical: 8),
+                                            //           child: Icon(
+                                            //             Icons
+                                            //                 .video_settings_outlined,
+                                            //             color: Colors.white,
+                                            //             size: Get.width * 0.06,
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // )
                                           ],
                                         )
                                       : SizedBox.shrink(),
@@ -1109,6 +1134,36 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
                                                 ),
                                               ),
                                             ),
+                                            Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: margin8),
+                                                child: Material(
+                                                  color: Colors.transparent,
+                                                  type: MaterialType.circle,
+                                                  clipBehavior: Clip
+                                                      .antiAliasWithSaveLayer,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(
+                                                          margin8),
+                                                      child: Image.asset(
+                                                        ASSETS_ICONS_PATH +
+                                                            'ic_back.png',
+                                                        height: iconHeightWidth,
+                                                        width: iconHeightWidth,
+                                                        fit: BoxFit.fitWidth,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                           ],
                                         )
                                       : SizedBox.shrink(),

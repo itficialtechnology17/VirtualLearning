@@ -246,6 +246,7 @@ class _StateCoursePage extends State<CoursePage> {
                                   ),
                                   Icon(
                                     Icons.navigate_next_outlined,
+                                    color: Colors.black,
                                   )
                                 ],
                               ),

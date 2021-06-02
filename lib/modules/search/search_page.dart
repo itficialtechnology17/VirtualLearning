@@ -12,8 +12,6 @@ import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/widgets/square_tab_indicator.dart';
 
-String searchText = "";
-
 class SearchPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -24,12 +22,19 @@ class SearchPage extends StatefulWidget {
 class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
   SearchController _searchController = Get.put(SearchController());
 
+  final tfSearchController = TextEditingController();
   ThemeController _themeController = Get.find();
   TabController _tabController;
   @override
   void initState() {
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    tfSearchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -75,19 +80,23 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                       Expanded(
                         child: TextFormField(
                           autofocus: true,
-                          initialValue: searchText,
-                          // controller: _searchController.tfSearchController.value,
+                          controller: tfSearchController,
                           onChanged: (value) {
                             setState(() {
-                              searchText = value;
-                              if (searchText.isNotEmpty) {
-                                _searchController.getSearch(searchText);
+                              if (tfSearchController.text
+                                  .toString()
+                                  .isNotEmpty) {
+                                _searchController.getSearch(
+                                    tfSearchController.text.toString());
                               }
                             });
                           },
-                          style: textStyle10,
+                          style: textStyle10.copyWith(
+                              color: _themeController.textColor.value),
                           decoration: InputDecoration(
-                              hintText: "Search concept",
+                              hintText: "Search subject, chapter, topic",
+                              hintStyle:
+                                  textStyle9.copyWith(color: Colors.grey),
                               border: InputBorder.none),
                         ),
                       ),
@@ -95,11 +104,13 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                         width: margin8,
                       ),
                       Visibility(
-                        visible: searchText.length > 0 ? true : false,
+                        visible: tfSearchController.text.toString().length > 0
+                            ? true
+                            : false,
                         child: InkWell(
                           onTap: () {
                             setState(() {
-                              searchText = "";
+                              tfSearchController.text = "";
                             });
                           },
                           child: Icon(
@@ -184,12 +195,10 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return searchText.length <= 0
-        ? Container()
-        : Container(
-            child: _tabBar,
-            color: _themeController.background.value,
-          );
+    return Container(
+      child: _tabBar,
+      color: _themeController.background.value,
+    );
   }
 
   @override

@@ -168,7 +168,7 @@ class _StateNotesView extends State<NotesView> {
                     : PDFView(
                         filePath: urlPDFPath,
                         autoSpacing: false,
-                        fitEachPage: true,
+                        fitPolicy: FitPolicy.HEIGHT,
                         onError: (e) {},
                         onRender: (_pages) {
                           setState(() {

@@ -1,155 +1,117 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
-import 'package:virtual_learning/utils/constant.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/utils/methods.dart';
+import 'package:virtual_learning/utils/textstyle.dart';
 
 class ChapterTab extends StatelessWidget {
+  ThemeController _themeController = Get.find();
   SearchController _searchController = Get.find();
+  SubjectController _subjectController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: background,
-      body: Obx(() => Container(
-            margin: EdgeInsets.all(16),
-            child: _searchController.arrOfChapter.isEmpty
-                ? Center(
-                    child: Text("No Chapter Founds."),
-                  )
-                : ListView.separated(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: _searchController.arrOfChapter.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(24),
-                          /*boxShadow: [
-                              BoxShadow(
-                                  color: Colors.white,
-                                  spreadRadius: 1,
-                                  blurRadius: 4)
-                            ],*/
-                          /*image: DecorationImage(
-                      image: AssetImage("assets/images/ic_bg.png"),
-                      fit: BoxFit.fill)*/
+    return Obx(() => Scaffold(
+          backgroundColor: _themeController.background.value,
+          body: Obx(() => Container(
+                margin: EdgeInsets.all(16),
+                child: _searchController.arrOfChapter.isEmpty
+                    ? Center(
+                        child: Text(
+                          "No Chapter Founds.",
+                          style: textStyle10.copyWith(
+                              color: _themeController.textColor.value),
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(24),
-                          child: InkWell(
-                            splashColor: Colors.white,
-                            onTap: () {
-                              // _searchController.setSelectedChapter(index);
-                            },
-                            borderRadius: BorderRadius.circular(24),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 16, right: 16, top: 16, bottom: 16),
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Image.network(
-                                          defaultChapterIcon,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.05,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.05,
-                                          fit: BoxFit.cover,
+                      )
+                    : ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: _searchController.arrOfChapter.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: margin8, horizontal: margin8),
+                              decoration: BoxDecoration(
+                                color: _themeController.cardBackground.value,
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.white,
+                                    Colors.white,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(margin4),
+                                boxShadow: <BoxShadow>[
+                                  !_themeController.isDarkTheme.value
+                                      ? BoxShadow(
+                                          color: Colors.grey[300],
+                                          offset: Offset(0, 0),
+                                          blurRadius: 10.0,
+                                        )
+                                      : BoxShadow(),
+                                ],
+                              ),
+                              child: Material(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(margin4),
+                                child: InkWell(
+                                  borderRadius: BorderRadius.circular(margin4),
+                                  onTap: () {
+                                    _subjectController.selectedChapterPosition =
+                                        -1;
+                                    _subjectController.selectedTab.value = 0;
+
+                                    _subjectController
+                                        .setSelectedChapter(index);
+                                  },
+                                  child: Container(
+                                    child: Row(
+                                      children: [
+                                        // Text(
+                                        //   "" +
+                                        //       (index + 1)
+                                        //           .toString() +
+                                        //       ".",
+                                        //   style: textStyle11Bold
+                                        //       .copyWith(
+                                        //           color: Color(
+                                        //               0xff7FCB4F)),
+                                        // ),
+                                        SizedBox(
+                                          width: margin10,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 16,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                  text: _searchController
-                                                      .arrOfChapter[index].name,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontFamily: "Nunito",
-                                                      fontSize: 15)),
-                                              maxLines: 1,
-                                            ),
-                                            SizedBox(
-                                              height: 4,
-                                            ),
-                                            Text(
-                                              "Minutes: " +
-                                                  _searchController
-                                                      .arrOfChapter[index]
-                                                      .minutes,
-                                              style: TextStyle(
-                                                  color: Colors.black45,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 12),
-                                            ),
-                                          ],
+                                        Expanded(
+                                            child: Text(
+                                          _searchController
+                                              .arrOfChapter[index].name,
+                                          style: textStyle10.copyWith(
+                                              color: Colors.black),
+                                          textScaleFactor: 1.0,
+                                        )),
+                                        SizedBox(
+                                          width: margin10,
                                         ),
-                                      ),
-                                      Material(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: InkWell(
-                                          splashColor: Colors.white,
-                                          onTap: () {
-                                            // _searchController.setSelectedChapter(index);
-                                          },
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: Container(
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.navigate_next,
-                                                size: 15,
-                                              ),
-                                            ),
-                                            padding: EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.grey,
-                                                    width: 1),
-                                                borderRadius:
-                                                    BorderRadius.circular(8)),
-                                          ),
+                                        Icon(
+                                          Icons.navigate_next_outlined,
+                                          color: Colors.grey,
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      ),
-                                    ],
+                                        SizedBox(
+                                          width: margin2,
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 16,
-                      );
-                    },
-                  ),
-          )),
-    );
+                              ));
+                        },
+                        separatorBuilder: (context, index) {
+                          return SizedBox(height: margin16);
+                        },
+                      ),
+              )),
+        ));
   }
 }

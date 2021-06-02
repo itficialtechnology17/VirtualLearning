@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:virtual_learning/model/model_chapter.dart';
+import 'package:virtual_learning/model/model_search_chapter.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/network/request.dart';
@@ -11,17 +11,21 @@ import 'package:virtual_learning/utils/show_snackbar.dart';
 import 'package:virtual_learning/utils/url.dart';
 
 class SearchController extends GetxController {
-  // var tfSearchController = TextEditingController().obs;
-
   var isLoading = false.obs;
 
   var arrOfSubject = List<ModelSubject>().obs;
-  var arrOfChapter = List<ModelChapter>().obs;
+  var arrOfChapter = List<ModelSearchChapter>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
   // var arrOfTopic = List<Topic>().obs;
 
   void getSearch(String searchText) async {
-    isLoading.value = true;
+    if (arrOfSubject.isNotEmpty ||
+        arrOfChapter.isNotEmpty ||
+        arrOfTopic.isNotEmpty) {
+      isLoading.value = false;
+    } else {
+      isLoading.value = true;
+    }
 
     Request request = Request(url: urlSearch, body: {
       'type': "API",
@@ -39,7 +43,7 @@ class SearchController extends GetxController {
             .toList());
 
         arrOfChapter.assignAll((responseData['chapter'] as List)
-            .map((data) => ModelChapter.fromJson(data))
+            .map((data) => ModelSearchChapter.fromJson(data))
             .toList());
 
         arrOfTopic.assignAll((responseData['topic'] as List)

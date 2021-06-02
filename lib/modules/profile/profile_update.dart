@@ -104,176 +104,227 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
                 fit: BoxFit.fill,
               ),*/
                   Scaffold(
-                    backgroundColor: _themeController.background.value,
-                    appBar: PreferredSize(
-                      preferredSize:
-                          Size.fromHeight(AppBar().preferredSize.height),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).padding.top,
-                          ),
-                          Expanded(
-                            child: Container(
-                              // color: Colors.lightGreenAccent,
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      type: MaterialType.circle,
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.back();
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(margin8),
-                                          child: Image.asset(
-                                            ASSETS_ICONS_PATH + 'ic_back.png',
-                                            height: iconHeightWidth,
-                                            width: iconHeightWidth,
-                                            fit: BoxFit.fitWidth,
-                                            color: _themeController
-                                                .iconColor.value,
+                      backgroundColor: _themeController.background.value,
+                      appBar: PreferredSize(
+                        preferredSize:
+                            Size.fromHeight(AppBar().preferredSize.height),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).padding.top,
+                            ),
+                            Expanded(
+                              child: Container(
+                                // color: Colors.lightGreenAccent,
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        type: MaterialType.circle,
+                                        clipBehavior:
+                                            Clip.antiAliasWithSaveLayer,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(margin8),
+                                            child: Image.asset(
+                                              ASSETS_ICONS_PATH + 'ic_back.png',
+                                              height: iconHeightWidth,
+                                              width: iconHeightWidth,
+                                              fit: BoxFit.fitWidth,
+                                              color: _themeController
+                                                  .iconColor.value,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      "Profile Update".toUpperCase(),
-                                      style: textStyle10Bold.copyWith(
-                                          color:
-                                              _themeController.textColor.value),
-                                      textScaleFactor: 1.0,
+                                    Center(
+                                      child: Text(
+                                        "Profile Update".toUpperCase(),
+                                        style: textStyle10Bold.copyWith(
+                                            color: _themeController
+                                                .textColor.value),
+                                        textScaleFactor: 1.0,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    body: Container(
-                      padding: EdgeInsets.all(16),
-                      child: SingleChildScrollView(
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          children: [
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                            ),
-                            Text("Personal Details"),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              decoration: borderDecoration("Name"),
-                              initialValue: _loginController
-                                          .modelUser.value.firstName ==
-                                      null
-                                  ? ""
-                                  : _loginController.modelUser.value.firstName,
-                              onChanged: (value) {
-                                setState(() {
-                                  userName = value;
-                                  modelUser.firstName = userName;
-                                });
-                              },
-                              style: textStyle10.copyWith(
-                                  color: _themeController.textColor.value),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              initialValue:
-                                  _loginController.modelUser.value.email == null
-                                      ? ""
-                                      : _loginController.modelUser.value.email,
-                              decoration: borderDecoration("Email"),
-                              onChanged: (value) {
-                                setState(() {
-                                  emailAddress = value;
-                                  modelUser.email = emailAddress;
-                                });
-                              },
-                              style: textStyle10.copyWith(
-                                  color: _themeController.textColor.value),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                            )
                           ],
                         ),
                       ),
-                    ),
-                    bottomNavigationBar: Container(
-                      height: Get.height * 0.05,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomLeft,
-                              end: Alignment.topRight,
-                              colors: [
-                                Color(0xff14C269),
-                                Color(0xff0A0A78),
-                              ]),
-                          borderRadius: BorderRadius.circular(24)),
-                      margin: EdgeInsets.symmetric(
-                          horizontal: Get.width * 0.30,
-                          vertical: Platform.isAndroid ? 0 : 24),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                Center(
-                                    child: isUpdating
-                                        ? CircularProgressIndicator()
-                                        : Text(
-                                            "Save".toUpperCase(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                          )),
-                                Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    splashColor: Colors.grey[50],
-                                    onTap: () {
-                                      if (modelUser.firstName.isEmpty) {
-                                        showSnackBar("Required",
-                                            "Name is required", Colors.yellow);
-                                      } else if (modelUser.email.isEmpty) {
-                                        showSnackBar("Required",
-                                            "Email is required", Colors.yellow);
-                                      } else {
-                                        _loginController.modelUser.value
-                                            .firstName = modelUser.firstName;
-                                        _loginController.modelUser.value.email =
-                                            modelUser.email;
-                                        updateUserDetails();
-                                      }
-                                    },
-                                  ),
-                                )
-                              ],
+                      body: Container(
+                        padding: EdgeInsets.all(16),
+                        child: SingleChildScrollView(
+                          child: ListView(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.05,
+                              ),
+                              Text("Personal Details"),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextFormField(
+                                decoration: borderDecoration("Name"),
+                                initialValue: _loginController
+                                            .modelUser.value.firstName ==
+                                        null
+                                    ? ""
+                                    : _loginController
+                                        .modelUser.value.firstName,
+                                onChanged: (value) {
+                                  setState(() {
+                                    userName = value;
+                                    modelUser.firstName = userName;
+                                  });
+                                },
+                                style: textStyle10.copyWith(
+                                    color: _themeController.textColor.value),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              TextFormField(
+                                initialValue: _loginController
+                                            .modelUser.value.email ==
+                                        null
+                                    ? ""
+                                    : _loginController.modelUser.value.email,
+                                decoration: borderDecoration("Email"),
+                                onChanged: (value) {
+                                  setState(() {
+                                    emailAddress = value;
+                                    modelUser.email = emailAddress;
+                                  });
+                                },
+                                style: textStyle10.copyWith(
+                                    color: _themeController.textColor.value),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      bottomNavigationBar: Container(
+                        height: Get.height * 0.05,
+                        width: Get.width,
+                        child: Center(
+                          child: Material(
+                            color: Color(0xff7FCB4F),
+                            borderRadius: BorderRadius.circular(24),
+                            child: InkWell(
+                              splashColor: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                              onTap: () {
+                                if (modelUser.firstName.isEmpty) {
+                                  showSnackBar("Required", "Name is required",
+                                      Colors.yellow);
+                                } else if (modelUser.email.isEmpty) {
+                                  showSnackBar("Required", "Email is required",
+                                      Colors.yellow);
+                                } else {
+                                  _loginController.modelUser.value.firstName =
+                                      modelUser.firstName;
+                                  _loginController.modelUser.value.email =
+                                      modelUser.email;
+                                  updateUserDetails();
+                                }
+                              },
+                              child: Container(
+                                width: Get.width * 0.40,
+                                height: Get.height * 0.06,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Save",
+                                      textScaleFactor: 1.0,
+                                      style: textStyle10Bold.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  )
+                        ),
+                      )
+
+                      // Container(
+                      //   height: Get.height * 0.05,
+                      //   decoration: BoxDecoration(
+                      //       gradient: LinearGradient(
+                      //           begin: Alignment.bottomLeft,
+                      //           end: Alignment.topRight,
+                      //           colors: [
+                      //             Color(0xff14C269),
+                      //             Color(0xff0A0A78),
+                      //           ]),
+                      //       borderRadius: BorderRadius.circular(24)),
+                      //   margin: EdgeInsets.symmetric(
+                      //       horizontal: Get.width * 0.30,
+                      //       vertical: Platform.isAndroid ? 0 : 24),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //         child: Stack(
+                      //           fit: StackFit.expand,
+                      //           children: [
+                      //             Center(
+                      //                 child: isUpdating
+                      //                     ? CircularProgressIndicator()
+                      //                     : Text(
+                      //                         "Save".toUpperCase(),
+                      //                         style: TextStyle(
+                      //                             color: Colors.white,
+                      //                             fontSize: 18,
+                      //                             fontWeight: FontWeight.w600),
+                      //                       )),
+                      //             Material(
+                      //               color: Colors.transparent,
+                      //               child: InkWell(
+                      //                 splashColor: Colors.grey[50],
+                      //                 onTap: () {
+                      //                   if (modelUser.firstName.isEmpty) {
+                      //                     showSnackBar("Required",
+                      //                         "Name is required", Colors.yellow);
+                      //                   } else if (modelUser.email.isEmpty) {
+                      //                     showSnackBar("Required",
+                      //                         "Email is required", Colors.yellow);
+                      //                   } else {
+                      //                     _loginController.modelUser.value
+                      //                         .firstName = modelUser.firstName;
+                      //                     _loginController.modelUser.value.email =
+                      //                         modelUser.email;
+                      //                     updateUserDetails();
+                      //                   }
+                      //                 },
+                      //               ),
+                      //             )
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      )
                 ],
               )),
         ));

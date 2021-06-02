@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
+import 'package:virtual_learning/modules/analysis/analytics_page.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
 import 'package:virtual_learning/modules/menu/parent_connect.dart';
 import 'package:virtual_learning/modules/profile/contact_page.dart';
@@ -136,6 +137,38 @@ class _StateHome extends State<MoreTab> {
                                     title: Padding(
                                       child: Text(
                                         "Parent Connect",
+                                        style: textStyle10.copyWith(
+                                            color: _themeController
+                                                .textColor.value),
+                                      ),
+                                      padding: EdgeInsets.only(bottom: 0),
+                                    ),
+                                    trailing: const Icon(Icons.navigate_next,
+                                        size: 18, color: Colors.grey),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 8.0),
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  child: ListTile(
+                                    onTap: () async {
+                                      Get.to(AnalyticsPage());
+                                    },
+                                    leading: Icon(
+                                      Icons.bar_chart,
+                                      color: _themeController.textColor.value,
+                                    ),
+                                    // leading: RadiantGradientMask(
+                                    //   child: Icon(
+                                    //     Icons.people_alt_outlined,
+                                    //     color: Colors.white,
+                                    //   ),
+                                    // ),
+                                    title: Padding(
+                                      child: Text(
+                                        "Analysis",
                                         style: textStyle10.copyWith(
                                             color: _themeController
                                                 .textColor.value),

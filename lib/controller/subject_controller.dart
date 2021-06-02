@@ -33,7 +33,6 @@ class SubjectController extends GetxController {
   var selectedSubjectPosition = -1.obs;
   var selectedTopicPosition = -1.obs;
   var selectedChapterPosition = -1.obs;
-  // var activeTopicPosition = 0.obs;
 
   var selectedTab = 0.obs;
 
