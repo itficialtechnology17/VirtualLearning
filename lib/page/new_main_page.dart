@@ -26,7 +26,8 @@ class MainPage extends StatefulWidget {
   }
 }
 
-class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
+class _StateMainPage extends State<MainPage>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   var userProfile = "";
   final Duration duration = const Duration(milliseconds: 300);
   AnimationController _controller;
@@ -55,6 +56,20 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
+  void didChangePlatformBrightness() {
+    print("Theme Change");
+    final Brightness brightness =
+        WidgetsBinding.instance.window.platformBrightness;
+    //inform listeners and rebuild widget tree
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -64,6 +79,7 @@ class _StateMainPage extends State<MainPage> with TickerProviderStateMixin {
         Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
         .animate(_controller);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   var currentTab = 0;

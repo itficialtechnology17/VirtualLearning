@@ -110,7 +110,8 @@ class TestDescriptionTab extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Test not available.",
-                              style: textStyle9,
+                              style: textStyle9.copyWith(
+                                  color: _themeController.textColor.value),
                             ),
                           ),
                           height: Get.height - (AppBar().preferredSize.height),

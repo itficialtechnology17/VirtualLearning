@@ -10,6 +10,7 @@ import 'package:virtual_learning/model/model_test_description.dart';
 import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/model/model_watch_history.dart';
 import 'package:virtual_learning/modules/subject/chapter_details.dart';
+import 'package:virtual_learning/modules/subject/custom_next_video_player.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
@@ -107,6 +108,7 @@ class SubjectController extends GetxController {
   var arrOfNextFourVideo = List<ModelTopic>().obs;
   void getNextFourVideo() {
     arrOfNextFourVideo.clear();
+
     var topics = arrOfChapter[selectedChapterPosition].topic;
     for (var i = selectedTopicPosition + 1; i < topics.length; i++) {
       arrOfNextFourVideo.add(topics[i]);
@@ -114,11 +116,39 @@ class SubjectController extends GetxController {
     }
   }
 
+  void getUpNextFourVideo(BuildContext context, String id) {
+    arrOfNextFourVideo.clear();
+
+    var topics = arrOfChapter[selectedChapterPosition].topic;
+    int lastIndex;
+    for (var i = 0; i < topics.length; i++) {
+      if (topics[i].id.toString() == id) {
+        lastIndex = i;
+        break;
+      }
+    }
+
+    for (var i = lastIndex; i < topics.length; i++) {
+      arrOfNextFourVideo.add(topics[i]);
+      if (arrOfNextFourVideo.length == 4) break;
+    }
+
+    for (var i = 0; i < arrOfNextFourVideo.length; i++) {
+      if (arrOfNextFourVideo[i].id.toString() == id) {
+        break;
+      }
+    }
+
+    Navigator.pop(context);
+    Get.to(CustomNextVideoPlayer(arrOfNextFourVideo[0]));
+  }
+
   void getTopic() async {
     isTopicLoading.value = true;
     arrOfTopic.clear();
     arrOfPdf.clear();
     arrOfQuestionBank.clear();
+    arrOfTestDescription.clear();
 
     Request request = Request(url: urlGetTopic, body: {
       'type': "API",

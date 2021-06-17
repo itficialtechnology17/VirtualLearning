@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:virtual_learning/controller/login_controller.dart';
@@ -25,11 +26,11 @@ class _StateCoursePage extends State<CoursePage> {
 
   @override
   void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     if (_loginController.arrOfCourse.isEmpty) {
       _loginController.getCourse();
     }
-
-    super.initState();
   }
 
   getBoxShadow(int i) {
@@ -161,23 +162,44 @@ class _StateCoursePage extends State<CoursePage> {
                                       _loginController.onSelectSubject(index);
                                     },
                                     child: Center(
-                                      child: Row(
+                                      child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            _loginController
-                                                .arrOfCourse[index].name,
-                                            style: textStyle14Bold.copyWith(
-                                                color: Colors.black),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                _loginController
+                                                    .arrOfCourse[index].name,
+                                                style: textStyle14Bold.copyWith(
+                                                    color: Colors.black),
+                                              ),
+                                              Text(
+                                                "th",
+                                                style: textStyle10Bold.copyWith(
+                                                    color: Colors.black),
+                                              )
+                                            ],
                                           ),
-                                          Text(
-                                            "th",
-                                            style: textStyle10Bold.copyWith(
-                                                color: Colors.black),
-                                          )
+                                          SizedBox(
+                                            height: margin2,
+                                          ),
+                                          _loginController.arrOfCourse[index]
+                                                      .displayName.length >
+                                                  2
+                                              ? Text(
+                                                  _loginController
+                                                      .arrOfCourse[index]
+                                                      .displayName,
+                                                  style:
+                                                      textStyle10Bold.copyWith(
+                                                          color: Colors.black),
+                                                )
+                                              : SizedBox.shrink()
                                         ],
                                       ),
                                     ),

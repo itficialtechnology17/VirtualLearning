@@ -176,13 +176,6 @@ class _StatePerformanceTab extends State<PerformanceTab>
       pieData
           .add(_PieData(_subjectController.arrOfSubject[i].name, 35, "Test"));
     }
-    // List<_PieData> pieData = [
-    //   _PieData('Jan', 35, "Test"),
-    //   _PieData('Feb', 28),
-    //   _PieData('Mar', 34),
-    //   _PieData('Apr', 32),
-    //   _PieData('May', 40)
-    // ];
 
     TooltipBehavior _tooltipBehavior = TooltipBehavior(enable: true);
 

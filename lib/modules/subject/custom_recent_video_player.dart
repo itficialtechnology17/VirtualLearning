@@ -96,9 +96,11 @@ class _YoutubeVideoState extends State<CustomRecentVideoPlayer> {
             timer.cancel();
           });
         } else {
-          setState(() {
-            _start--;
-          });
+          if (mounted) {
+            setState(() {
+              _start--;
+            });
+          }
         }
       },
     );

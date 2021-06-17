@@ -78,9 +78,11 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
             timer.cancel();
           });
         } else {
-          setState(() {
-            _start--;
-          });
+          if (mounted) {
+            setState(() {
+              _start--;
+            });
+          }
         }
       },
     );

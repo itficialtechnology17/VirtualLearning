@@ -44,7 +44,8 @@ class _StateQuestionBank extends State<QuestionBankTab> {
                           child: Center(
                             child: Text(
                               "Q-Bank Or Pdf not available.",
-                              style: textStyle9,
+                              style: textStyle9.copyWith(
+                                  color: _themeController.textColor.value),
                             ),
                           ),
                           height: Get.height - (AppBar().preferredSize.height),

@@ -99,7 +99,11 @@ class _StateNotesTab extends State<NotesTab> {
                       )
                     : Container(
                         child: Center(
-                          child: Text("Notes not available."),
+                          child: Text(
+                            "Notes not available.",
+                            style: textStyle9.copyWith(
+                                color: _themeController.textColor.value),
+                          ),
                         ),
                         height: Get.height - (AppBar().preferredSize.height),
                       ),

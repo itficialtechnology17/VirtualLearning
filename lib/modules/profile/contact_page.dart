@@ -92,27 +92,27 @@ class ContactPage extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        Text(
-                          "Contact Number 1",
-                          style: textStyle10Bold.copyWith(color: Colors.grey),
-                        ),
-                        Text(
-                          contactNumber1,
-                          style: textStyle10Bold.copyWith(
-                              color: _themeController.textColor.value),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "Contact Number 2",
-                          style: textStyle10Bold.copyWith(color: Colors.grey),
-                        ),
-                        Text(
-                          contactNumber2,
-                          style: textStyle10Bold.copyWith(
-                              color: _themeController.textColor.value),
-                        ),
+                        // Text(
+                        //   "Contact Number 1",
+                        //   style: textStyle10Bold.copyWith(color: Colors.grey),
+                        // ),
+                        // Text(
+                        //   contactNumber1,
+                        //   style: textStyle10Bold.copyWith(
+                        //       color: _themeController.textColor.value),
+                        // ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
+                        // Text(
+                        //   "Contact Number 2",
+                        //   style: textStyle10Bold.copyWith(color: Colors.grey),
+                        // ),
+                        // Text(
+                        //   contactNumber2,
+                        //   style: textStyle10Bold.copyWith(
+                        //       color: _themeController.textColor.value),
+                        // ),
                       ],
                     )),
               )

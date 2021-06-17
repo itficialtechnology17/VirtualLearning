@@ -76,6 +76,8 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
   borderDecoration(String type) {
     return InputDecoration(
         labelText: type,
+        labelStyle:
+            textStyle10.copyWith(color: _themeController.textColor.value),
         contentPadding: EdgeInsets.all(0),
         border: UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
@@ -168,11 +170,15 @@ class _StateProfileUpdate extends State<ProfileUpdate> {
                             children: [
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.05,
+                                    MediaQuery.of(context).size.height * 0.03,
                               ),
-                              Text("Personal Details"),
+                              Text(
+                                "Personal Details",
+                                style: textStyle10.copyWith(
+                                    color: _themeController.textColor.value),
+                              ),
                               SizedBox(
-                                height: 16,
+                                height: margin20,
                               ),
                               TextFormField(
                                 decoration: borderDecoration("Name"),

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/modules/login/course_page.dart';
 import 'package:virtual_learning/modules/login/login_page.dart';
@@ -31,7 +30,7 @@ class _StateSplashPage extends State<SplashPage> {
   }
 
   Future<void> disableCapture() async {
-    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    // await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
   loadPrefs() async {

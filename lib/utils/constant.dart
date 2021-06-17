@@ -20,7 +20,7 @@ bool isSubscribe = false;
 String studentId = "";
 String standardId = "";
 
-String contactEmail = "study@virtuale.com";
+String contactEmail = "guide@virtuale.in";
 String contactNumber1 = "+91-97121 98951";
 String contactNumber2 = "+91-96870 26223";
 String privacyPolicy = "https://sites.google.com/view/virtual-e-learning/home";

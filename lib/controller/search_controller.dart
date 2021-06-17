@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_search_chapter.dart';
 import 'package:virtual_learning/model/model_subject.dart';
 import 'package:virtual_learning/model/model_topic.dart';
@@ -16,6 +17,8 @@ class SearchController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelSearchChapter>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
+
+  SubjectController _subjectController = Get.find();
   // var arrOfTopic = List<Topic>().obs;
 
   void getSearch(String searchText) async {
@@ -31,6 +34,7 @@ class SearchController extends GetxController {
       'type': "API",
       'standard_id': standardId,
       'student_id': studentId,
+      'subject_id': _subjectController.selectedSubject.value.id.toString(),
       'search': searchText,
     });
     request.post().then((value) {
