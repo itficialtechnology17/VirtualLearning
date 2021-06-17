@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/model/model_search_chapter.dart';
+import 'package:virtual_learning/model/model_search_note.dart';
 import 'package:virtual_learning/model/model_subject.dart';
+import 'package:virtual_learning/model/model_test_description.dart';
 import 'package:virtual_learning/model/model_topic.dart';
 import 'package:virtual_learning/network/request.dart';
 import 'package:virtual_learning/utils/constant.dart';
@@ -17,6 +19,8 @@ class SearchController extends GetxController {
   var arrOfSubject = List<ModelSubject>().obs;
   var arrOfChapter = List<ModelSearchChapter>().obs;
   var arrOfTopic = List<ModelTopic>().obs;
+  var arrOfTest = List<ModelTestDescription>().obs;
+  var arrOfNotes = List<ModelSearchNote>().obs;
 
   SubjectController _subjectController = Get.find();
   // var arrOfTopic = List<Topic>().obs;
@@ -30,7 +34,7 @@ class SearchController extends GetxController {
       isLoading.value = true;
     }
 
-    Request request = Request(url: urlSearch, body: {
+    Request request = Request(url: urlChapterSearch, body: {
       'type': "API",
       'standard_id': standardId,
       'student_id': studentId,
@@ -42,14 +46,20 @@ class SearchController extends GetxController {
       final responseData = json.decode(value.body);
 
       if (responseData['status_code'] == 1) {
-        arrOfSubject.assignAll((responseData['subject'] as List)
-            .map((data) => ModelSubject.fromJson(data))
-            .toList());
-
         arrOfChapter.assignAll((responseData['chapter'] as List)
             .map((data) => ModelSearchChapter.fromJson(data))
             .toList());
 
+        arrOfNotes.assignAll((responseData['notes'] as List)
+            .map((data) => ModelSearchNote.fromJson(data))
+            .toList());
+
+        arrOfTest.assignAll((responseData['test'] as List)
+            .map((data) => ModelTestDescription.fromJson(data))
+            .toList());
+        //
+
+        //
         arrOfTopic.assignAll((responseData['topic'] as List)
             .map((data) => ModelTopic.fromJson(data))
             .toList());

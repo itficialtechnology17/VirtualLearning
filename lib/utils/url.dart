@@ -9,6 +9,7 @@ String urlGetTestQuestion = "api/get-test-details";
 String urlGetCourse = "api/standard-list";
 String urlGetDashboard = "api/app-home";
 String urlSearch = "api/search";
+String urlChapterSearch = "api/chapter-search";
 String urlReportIssue = "api/report-issue";
 String urlLogin = "api/process-login";
 String urlUpdateProfile = "api/profile-update";

@@ -142,6 +142,6 @@ class Content {
         "status": status,
         "created_on": createdOn.toIso8601String(),
         "question": List<dynamic>.from(question.map((x) => x.toJson())),
-    "video": video,
+        "video": video,
       };
 }

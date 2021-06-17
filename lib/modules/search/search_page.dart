@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
 import 'package:virtual_learning/modules/search/chapter_tab.dart';
-import 'package:virtual_learning/modules/search/subject_tab.dart';
+import 'package:virtual_learning/modules/search/search_notes_tab.dart';
+import 'package:virtual_learning/modules/search/search_test_description_tab.dart';
 import 'package:virtual_learning/modules/search/topic_tab.dart';
 import 'package:virtual_learning/shimmer/shimmer_dummy_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
@@ -27,7 +28,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
   TabController _tabController;
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _tabController = TabController(length: 4, vsync: this, initialIndex: 0);
     super.initState();
   }
 
@@ -134,7 +135,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                   child: ShimmerDummyPage(),
                 )
               : DefaultTabController(
-                  length: 3,
+                  length: 4,
                   child: NestedScrollView(
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
@@ -144,13 +145,15 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                             TabBar(
                               labelStyle: textStyle10,
                               labelColor: Colors.green,
+                              isScrollable: false,
                               unselectedLabelColor: textColor,
                               indicator: SquareTabIndicator(
                                   color: Colors.green, radius: 2),
                               tabs: [
-                                getTab("Subject"),
                                 getTab("Chapter"),
                                 getTab("Topic"),
+                                getTab("Test"),
+                                getTab("Notes"),
                               ],
                               controller: _tabController,
                             ),
@@ -160,7 +163,12 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                       ];
                     },
                     body: TabBarView(
-                      children: [SubjectTab(), ChapterTab(), TopicTab()],
+                      children: [
+                        ChapterTab(),
+                        TopicTab(),
+                        SearchTestDescriptionTab(),
+                        SearchNotesTab()
+                      ],
                       controller: _tabController,
                     ),
                   ),
@@ -172,7 +180,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
     return Tab(
       child: Text(
         title.toUpperCase(),
-        style: textStyle10.copyWith(color: _themeController.textColor.value),
+        style: textStyle9.copyWith(color: _themeController.textColor.value),
       ),
     );
   }
