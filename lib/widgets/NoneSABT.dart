@@ -40,7 +40,7 @@ class _NoneSABTState extends State<NoneSABT> {
 
   void _positionListener() {
     final FlexibleSpaceBarSettings settings =
-        context.inheritFromWidgetOfExactType(FlexibleSpaceBarSettings);
+        context.dependOnInheritedWidgetOfExactType();
     bool visible =
         settings == null || settings.currentExtent <= settings.minExtent;
     if (_visible != visible) {

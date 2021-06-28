@@ -17,12 +17,14 @@ import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/url.dart';
 
 class SubjectController extends GetxController {
-  var arrOfSubject = List<ModelSubject>().obs;
-  var arrOfChapter = List<ModelChapter>().obs;
-  var arrOfPdf = List<ModelPdf>().obs;
-  var arrOfWatchHistory = List<ModelWatchHistory>().obs;
-  var arrOfQuestionBank = List<ModeQuestionBank>().obs;
-  var arrOfTestDescription = List<ModelTestDescription>().obs;
+  List<ModelSubject> arrOfSubject = <ModelSubject>[].obs;
+  List<ModelChapter> arrOfChapter = <ModelChapter>[].obs;
+  List<ModelPdf> arrOfPdf = <ModelPdf>[].obs;
+  List<ModelWatchHistory> arrOfWatchHistory = <ModelWatchHistory>[].obs;
+  List<ModeQuestionBank> arrOfQuestionBank = <ModeQuestionBank>[].obs;
+  List<ModelTestDescription> arrOfTestDescription =
+      <ModelTestDescription>[].obs;
+
   var arrOfTopic = List<ModelTopic>().obs;
 
   var isChapterLoading = false.obs;

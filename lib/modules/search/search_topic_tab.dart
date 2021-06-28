@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
 import 'package:virtual_learning/controller/search_controller.dart';
+import 'package:virtual_learning/modules/subject/custom_search_video_player.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
 
-class TopicTab extends StatelessWidget {
+class SearchTopicTab extends StatelessWidget {
   ThemeController _themeController = Get.find();
   SearchController _searchController = Get.find();
 
@@ -41,7 +42,9 @@ class TopicTab extends StatelessWidget {
 
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            itemCount: _searchController.arrOfTopic.length,
+                            itemCount: _searchController.arrOfTopic.length > 16
+                                ? 16
+                                : _searchController.arrOfTopic.length,
                             // itemCount: _subjectController.arrOfTopic.length,
                             itemBuilder: (context, index) {
                               return Container(
@@ -59,19 +62,16 @@ class TopicTab extends StatelessWidget {
                                     splashColor: Colors.white,
                                     onTap: () {
                                       if (_searchController.arrOfTopic[index]
-                                              .content.video ==
-                                          null) {
+                                                  .content.video ==
+                                              null ||
+                                          _searchController.arrOfTopic[index]
+                                                  .content.video ==
+                                              "") {
                                         showToast("Video Not Found");
                                       } else {
-                                        // _subjectController.selectedTopicPosition =
-                                        //     index;
-                                        //
-                                        // _subjectController.getNextFourVideo();
-                                        // Get.to(CustomVideoPlayer(
-                                        //     _subjectController
-                                        //         .arrOfChapter[_subjectController
-                                        //         .selectedChapterPosition]
-                                        //         .topic[index]));
+                                        Get.to(CustomSearchVideoPlayer(
+                                            _searchController
+                                                .arrOfTopic[index]));
                                       }
                                     },
                                     child: Stack(
@@ -122,28 +122,25 @@ class TopicTab extends StatelessWidget {
                                                   Clip.antiAliasWithSaveLayer,
                                               child: InkWell(
                                                 onTap: () {
-                                                  // if (_searchController
-                                                  //     .arrOfTopic[_subjectController
-                                                  //     .selectedTopicPosition]
-                                                  //     .content
-                                                  //     .video ==
-                                                  //     null) {
-                                                  //   showToast("Video Not Found");
-                                                  // } else {
-                                                  //   _subjectController
-                                                  //       .selectedTopicPosition =
-                                                  //       index;
-                                                  //   _subjectController
-                                                  //       .getNextFourVideo();
-                                                  //   Get.to(CustomVideoPlayer(
-                                                  //       _subjectController
-                                                  //           .arrOfChapter[
-                                                  //       _subjectController
-                                                  //           .selectedChapterPosition]
-                                                  //           .topic[
-                                                  //       _subjectController
-                                                  //           .selectedTopicPosition]));
-                                                  // }
+                                                  if (_searchController
+                                                              .arrOfTopic[index]
+                                                              .content
+                                                              .video ==
+                                                          null ||
+                                                      _searchController
+                                                              .arrOfTopic[index]
+                                                              .content
+                                                              .video ==
+                                                          "") {
+                                                    showToast(
+                                                        "Video Not Found");
+                                                  } else {
+                                                    Get.to(
+                                                        CustomSearchVideoPlayer(
+                                                            _searchController
+                                                                    .arrOfTopic[
+                                                                index]));
+                                                  }
                                                 },
                                                 child: Padding(
                                                   padding:

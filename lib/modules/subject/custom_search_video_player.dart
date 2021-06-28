@@ -16,10 +16,10 @@ import 'package:virtual_learning/utils/textstyle.dart';
 import 'package:virtual_learning/utils/url.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
-class CustomVideoPlayer extends StatefulWidget {
-  final ModelTopic modelTopic;
+class CustomSearchVideoPlayer extends StatefulWidget {
+  final ModelTopic modelSearchTopic;
 
-  CustomVideoPlayer(this.modelTopic);
+  CustomSearchVideoPlayer(this.modelSearchTopic);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +27,7 @@ class CustomVideoPlayer extends StatefulWidget {
   }
 }
 
-class _YoutubeVideoState extends State<CustomVideoPlayer> {
+class _YoutubeVideoState extends State<CustomSearchVideoPlayer> {
   bool controllerVisible = true;
   bool isMute = false;
   double volume = 0;
@@ -52,9 +52,10 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
     super.initState();
     _enableRotation();
 
-    print("Current Playing Video Url : " + widget.modelTopic.content.video);
+    print(
+        "Current Playing Video Url : " + widget.modelSearchTopic.content.video);
     _controller = VideoPlayerController.network(
-        videoUrl + widget.modelTopic.content.video)
+        videoUrl + widget.modelSearchTopic.content.video)
       ..initialize().then((_) {
         startTimer();
         setState(() {
@@ -261,109 +262,6 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                         Navigator.pop(context);
                                       },
                                       title: Text(playbackSpeed[index].name,
-                                          style: textStyle10.copyWith(
-                                              color: _themeController
-                                                  .textColor.value)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showQualityBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            color: Color.fromRGBO(0, 0, 0, 0.001),
-            child: GestureDetector(
-              onTap: () {},
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.4,
-                minChildSize: 0.2,
-                maxChildSize: 0.75,
-                builder: (_, controller) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: _themeController.background.value,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16.0),
-                        topRight: const Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Icon(
-                          Icons.remove,
-                          color: Colors.grey[600],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Video Quality",
-                          style: textStyle10Bold.copyWith(
-                              color: _themeController.textColor.value),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: controller,
-                            itemCount: arrOfVideoQuality.length,
-                            itemBuilder: (_, index) {
-                              return Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.back();
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    child: RadioListTile(
-                                      value:
-                                          arrOfVideoQuality[index].isSelected,
-                                      groupValue: 1,
-                                      selected:
-                                          arrOfVideoQuality[index].isSelected,
-                                      onChanged: (value) async {
-                                        setState(() {
-                                          videoQuality =
-                                              arrOfVideoQuality[index]
-                                                  .videoQuality;
-                                          for (var i = 0;
-                                              i < arrOfVideoQuality.length;
-                                              ++i) {
-                                            arrOfVideoQuality[i].isSelected =
-                                                false;
-                                          }
-                                          arrOfVideoQuality[index].isSelected =
-                                              true;
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      title: Text(arrOfVideoQuality[index].name,
                                           style: textStyle10.copyWith(
                                               color: _themeController
                                                   .textColor.value)),
@@ -1381,12 +1279,7 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                               textAlign: TextAlign.start,
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
-                                text: _subjectController
-                                    .arrOfChapter[_subjectController
-                                        .selectedChapterPosition]
-                                    .topic[_subjectController
-                                        .selectedTopicPosition]
-                                    .name,
+                                text: widget.modelSearchTopic.name,
                                 style: bodyMediumTestStyle.copyWith(
                                     color: _themeController.textColor.value),
                               ),
@@ -1401,45 +1294,18 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  if (_subjectController
-                                          .arrOfChapter[_subjectController
-                                              .selectedChapterPosition]
-                                          .topic[_subjectController
-                                              .selectedTopicPosition]
-                                          .isFavorite ==
-                                      0) {
+                                  if (widget.modelSearchTopic.isFavorite == 0) {
                                     _subjectController.setFavorite(
-                                        _subjectController
-                                            .arrOfChapter[_subjectController
-                                                .selectedChapterPosition]
-                                            .topic[_subjectController
-                                                .selectedTopicPosition]
-                                            .id
-                                            .toString());
+                                        widget.modelSearchTopic.id.toString());
 
-                                    _subjectController
-                                        .arrOfChapter[_subjectController
-                                            .selectedChapterPosition]
-                                        .topic[_subjectController
-                                            .selectedTopicPosition]
-                                        .isFavorite = 1;
+                                    widget.modelSearchTopic.isFavorite = 1;
                                   } else {
                                     _subjectController.removeFavorite(
-                                        _subjectController
-                                            .arrOfChapter[_subjectController
-                                                .selectedChapterPosition]
-                                            .topic[_subjectController
-                                                .selectedTopicPosition]
-                                            .isFavorite
+                                        widget.modelSearchTopic.isFavorite
                                             .toString(),
                                         false);
 
-                                    _subjectController
-                                        .arrOfChapter[_subjectController
-                                            .selectedChapterPosition]
-                                        .topic[_subjectController
-                                            .selectedTopicPosition]
-                                        .isFavorite = 0;
+                                    widget.modelSearchTopic.isFavorite = 0;
                                   }
                                 });
                               },
@@ -1447,13 +1313,7 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                 padding: EdgeInsets.all(8),
                                 decoration: BoxDecoration(),
                                 child: Icon(
-                                  _subjectController
-                                              .arrOfChapter[_subjectController
-                                                  .selectedChapterPosition]
-                                              .topic[_subjectController
-                                                  .selectedTopicPosition]
-                                              .isFavorite ==
-                                          0
+                                  widget.modelSearchTopic.isFavorite == 0
                                       ? Icons.bookmark_border
                                       : Icons.bookmark,
                                   color: Colors.green,
@@ -1473,158 +1333,8 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                       SizedBox(
                         height: margin8,
                       ),
-                      _subjectController.arrOfNextFourVideo.isNotEmpty
-                          ? RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "Next",
-                                    style: textStyle10Bold.copyWith(
-                                        color:
-                                            _themeController.textColor.value)),
-                                TextSpan(
-                                    text: " Topic",
-                                    style: textStyle10Bold.copyWith(
-                                        color: Color(0xff7FCB4F))),
-                              ]),
-                            )
-                          : SizedBox.shrink(),
-                      SizedBox(
-                        height: margin8,
-                      ),
-                      MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        child: GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 3 / 2,
-                                  crossAxisSpacing: 16,
-                                  mainAxisSpacing: 16),
-
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              _subjectController.arrOfNextFourVideo.length,
-                          // itemCount: _subjectController.arrOfTopic.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  image: DecorationImage(
-                                      image: NetworkImage(_subjectController
-                                          .arrOfNextFourVideo[index].image),
-                                      fit: BoxFit.cover)),
-                              child: Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(8),
-                                child: InkWell(
-                                  borderRadius: BorderRadius.circular(8),
-                                  splashColor: Colors.white,
-                                  onTap: () {
-                                    _subjectController.getUpNextFourVideo(
-                                        context,
-                                        _subjectController
-                                            .arrOfNextFourVideo[index].id
-                                            .toString());
-                                    // Navigator.pop(context);
-                                    // Get.to(CustomNextVideoPlayer(
-                                    //     _subjectController
-                                    //         .arrOfNextFourVideo[index]));
-                                  },
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        width: Get.width * 0.45,
-                                        height: Get.width * 0.30,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          color: HexColor.fromHex(
-                                                  _subjectController
-                                                      .arrOfNextFourVideo[index]
-                                                      .color)
-                                              .withOpacity(0.80),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            left: margin4,
-                                            bottom: margin24,
-                                            right: margin20,
-                                          ),
-                                          child: RichText(
-                                            maxLines: 3,
-                                            textAlign: TextAlign.left,
-                                            text: TextSpan(
-                                                style: textStyle9.copyWith(
-                                                    color: Colors.white),
-                                                text: _subjectController
-                                                    .arrOfNextFourVideo[index]
-                                                    .name),
-                                          ),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: margin4, right: margin4),
-                                          child: Material(
-                                            color: _themeController
-                                                .playIconBGColor.value,
-                                            type: MaterialType.circle,
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            child: InkWell(
-                                              onTap: () {
-                                                // Navigator.pop(context);
-                                                // Get.to(CustomNextVideoPlayer(
-                                                //     _subjectController
-                                                //             .arrOfNextFourVideo[
-                                                //         index]));
-
-                                                _subjectController
-                                                    .getUpNextFourVideo(
-                                                        context,
-                                                        _subjectController
-                                                            .arrOfNextFourVideo[
-                                                                index]
-                                                            .id
-                                                            .toString());
-                                              },
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.all(margin2),
-                                                child: Icon(
-                                                  Icons.play_arrow,
-                                                  size: iconHeightWidth,
-                                                  color: _themeController
-                                                      .playIconColor.value,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
                       Spacer(),
-                      _subjectController
-                              .arrOfChapter[
-                                  _subjectController.selectedChapterPosition]
-                              .topic[_subjectController.selectedTopicPosition]
-                              .content
-                              .question
-                              .isNotEmpty
+                      widget.modelSearchTopic.content.question.isNotEmpty
                           ? Container(
                               margin: EdgeInsets.only(bottom: margin8),
                               child: Center(
@@ -1638,12 +1348,8 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
                                       _testController.isVideoPlaying.value =
                                           true;
                                       _controller.pause();
-                                      Get.to(TopicTest(_subjectController
-                                              .arrOfChapter[_subjectController
-                                                  .selectedChapterPosition]
-                                              .topic[
-                                          _subjectController
-                                              .selectedTopicPosition]));
+                                      Get.to(
+                                          TopicTest(widget.modelSearchTopic));
                                     },
                                     child: Container(
                                       width: Get.width * 0.40,

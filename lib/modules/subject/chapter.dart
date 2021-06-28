@@ -32,17 +32,6 @@ class _StateChapter extends State<Chapter> {
     'https://itficial.app/virtuale/storage/pencils-5096372_960_720.jpeg',
   ];
 
-  List<Color> colors = [
-    Color(0xff0A0A78),
-    Color(0xffF9CC12),
-    Color(0xff22813D),
-    // Color(0xff00B4FF),
-    // Color(0xff17212A),
-    Color(0xff4E2A99),
-    // Color(0xff7FCB4F),
-    Color(0xffFD5CA0),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -211,7 +200,10 @@ class _StateChapter extends State<Chapter> {
                                                             8),
                                                     image: DecorationImage(
                                                       image: NetworkImage(
-                                                          getRandomBG()),
+                                                          _subjectController
+                                                              .arrOfWatchHistory[
+                                                                  0]
+                                                              .image),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
@@ -226,10 +218,13 @@ class _StateChapter extends State<Chapter> {
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(8),
-                                                          color:
-                                                              getRandomColor()
-                                                                  .withOpacity(
-                                                                      0.80),
+                                                          color: HexColor.fromHex(
+                                                                  _subjectController
+                                                                      .arrOfWatchHistory[
+                                                                          0]
+                                                                      .color)
+                                                              .withOpacity(
+                                                                  0.80),
                                                         ),
                                                       ),
                                                       Align(
@@ -321,12 +316,13 @@ class _StateChapter extends State<Chapter> {
                                             width: Get.width,
                                             height: 2,
                                             margin: EdgeInsets.only(
-                                                right: margin16),
+                                                right: margin12,
+                                                left: margin16),
                                             color: Color(0xffE9E9E9),
                                           ),
-                                          SizedBox(
-                                            height: margin4,
-                                          )
+                                          // SizedBox(
+                                          //   height: margin4,
+                                          // )
                                         ],
                                       )
                                     : SizedBox.shrink(),
@@ -336,7 +332,7 @@ class _StateChapter extends State<Chapter> {
                                             AppBar().preferredSize.height,
                                         child: Center(
                                           child: Text(
-                                            "No Chpater Found",
+                                            "No Chapter Found",
                                             style: textStyle9.copyWith(
                                                 color: _themeController
                                                     .textColor.value),
@@ -357,80 +353,93 @@ class _StateChapter extends State<Chapter> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                SizedBox(
-                                                  height: margin8,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: margin12,
-                                                    ),
-                                                    Expanded(
-                                                      child: Text(
-                                                        _subjectController
+                                                _subjectController
                                                             .arrOfChapter[index]
-                                                            .name,
-                                                        style: textStyle10Bold
-                                                            .copyWith(
-                                                                color:
-                                                                    _themeController
-                                                                        .textColor
-                                                                        .value),
-                                                        textScaleFactor: 1.0,
+                                                            .topic
+                                                            .length ==
+                                                        0
+                                                    ? SizedBox.shrink()
+                                                    : SizedBox(
+                                                        height: margin8,
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: margin10,
-                                                    ),
-                                                    Material(
-                                                      color: Colors.transparent,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          // Get.to(ChapterDetails());
-
-                                                          _subjectController
-                                                                  .selectedChapterPosition =
-                                                              index;
-                                                          _subjectController
-                                                              .selectedTab
-                                                              .value = 0;
-
-                                                          _subjectController
-                                                              .setSelectedChapter(
-                                                                  index);
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  margin8),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right: 0),
+                                                _subjectController
+                                                            .arrOfChapter[index]
+                                                            .topic
+                                                            .length ==
+                                                        0
+                                                    ? SizedBox.shrink()
+                                                    : Row(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: margin12,
+                                                          ),
+                                                          Expanded(
                                                             child: Text(
-                                                              "View All(" +
-                                                                  _subjectController
-                                                                      .arrOfChapter[
-                                                                          index]
-                                                                      .topicCount
-                                                                      .toString() +
-                                                                  ")".toUpperCase(),
-                                                              style: textStyle9Bold
-                                                                  .copyWith(
-                                                                      color: Color(
-                                                                          0xff7FCB4F)),
+                                                              _subjectController
+                                                                  .arrOfChapter[
+                                                                      index]
+                                                                  .name,
+                                                              style: textStyle10Bold.copyWith(
+                                                                  color: _themeController
+                                                                      .textColor
+                                                                      .value),
                                                               textScaleFactor:
                                                                   1.0,
                                                             ),
                                                           ),
-                                                        ),
+                                                          SizedBox(
+                                                            width: margin10,
+                                                          ),
+                                                          Material(
+                                                            color: Colors
+                                                                .transparent,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                // Get.to(ChapterDetails());
+
+                                                                _subjectController
+                                                                        .selectedChapterPosition =
+                                                                    index;
+                                                                _subjectController
+                                                                    .selectedTab
+                                                                    .value = 0;
+
+                                                                _subjectController
+                                                                    .setSelectedChapter(
+                                                                        index);
+                                                              },
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsets.all(
+                                                                        margin8),
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          right:
+                                                                              0),
+                                                                  child: Text(
+                                                                    "View All(" +
+                                                                        _subjectController
+                                                                            .arrOfChapter[index]
+                                                                            .topicCount
+                                                                            .toString() +
+                                                                        ")".toUpperCase(),
+                                                                    style: textStyle9Bold
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Color(0xff7FCB4F)),
+                                                                    textScaleFactor:
+                                                                        1.0,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: margin4,
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: margin4,
-                                                    ),
-                                                  ],
-                                                ),
                                                 Container(
                                                   height: _subjectController
                                                               .arrOfChapter[
@@ -658,7 +667,14 @@ class _StateChapter extends State<Chapter> {
                                                     ? SizedBox.shrink()
                                                     : Container(
                                                         width: Get.width,
-                                                        height: 2,
+                                                        height: _subjectController
+                                                                    .arrOfChapter[
+                                                                        index]
+                                                                    .topic
+                                                                    .length ==
+                                                                0
+                                                            ? 0
+                                                            : 2,
                                                         margin: EdgeInsets
                                                             .symmetric(
                                                                 horizontal:
@@ -678,13 +694,5 @@ class _StateChapter extends State<Chapter> {
                 ],
               )),
         ));
-  }
-
-  getRandomBG() {
-    return (arrOfChapterBG.toList()..shuffle()).first;
-  }
-
-  getRandomColor() {
-    return (colors.toList()..shuffle()).first;
   }
 }

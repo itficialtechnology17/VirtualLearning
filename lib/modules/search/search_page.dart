@@ -6,7 +6,7 @@ import 'package:virtual_learning/controller/search_controller.dart';
 import 'package:virtual_learning/modules/search/chapter_tab.dart';
 import 'package:virtual_learning/modules/search/search_notes_tab.dart';
 import 'package:virtual_learning/modules/search/search_test_description_tab.dart';
-import 'package:virtual_learning/modules/search/topic_tab.dart';
+import 'package:virtual_learning/modules/search/search_topic_tab.dart';
 import 'package:virtual_learning/shimmer/shimmer_dummy_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
@@ -95,7 +95,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                           style: textStyle10.copyWith(
                               color: _themeController.textColor.value),
                           decoration: InputDecoration(
-                              hintText: "Search subject, chapter, topic",
+                              hintText: "Search chapter,topic,test,notes",
                               hintStyle:
                                   textStyle9.copyWith(color: Colors.grey),
                               border: InputBorder.none),
@@ -165,7 +165,7 @@ class _StateSearchPage extends State<SearchPage> with TickerProviderStateMixin {
                     body: TabBarView(
                       children: [
                         ChapterTab(),
-                        TopicTab(),
+                        SearchTopicTab(),
                         SearchTestDescriptionTab(),
                         SearchNotesTab()
                       ],

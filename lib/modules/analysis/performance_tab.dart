@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
-import 'package:virtual_learning/controller/dashboard_controller.dart';
-import 'package:virtual_learning/controller/subject_controller.dart';
+import 'package:virtual_learning/controller/analysis_controller.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -21,9 +21,8 @@ class PerformanceTab extends StatefulWidget {
 
 class _StatePerformanceTab extends State<PerformanceTab>
     with TickerProviderStateMixin {
-  SubjectController _subjectController = Get.find();
   ThemeController _themeController = Get.find();
-  DashboardController _dashboardController = Get.find();
+  AnalysisController analysisController = Get.find();
 
   TabController _tabController;
   List<Widget> _tabs = List<Widget>();
@@ -34,7 +33,7 @@ class _StatePerformanceTab extends State<PerformanceTab>
     super.initState();
     _tabs = getTabs();
     _tabController = TabController(
-        length: _subjectController.arrOfSubject.length + 1,
+        length: analysisController.arrOfPerformance.length,
         vsync: this,
         initialIndex: 0);
   }
@@ -53,112 +52,152 @@ class _StatePerformanceTab extends State<PerformanceTab>
 
     return Obx(() => Scaffold(
         backgroundColor: _themeController.background.value,
-        body: DefaultTabController(
-          length: _subjectController.arrOfSubject.length + 1,
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      labelStyle: textStyle10,
-                      labelColor: Colors.green,
-                      unselectedLabelColor: textColor,
-                      indicatorColor: Colors.green,
-                      labelPadding:
-                          EdgeInsets.only(left: margin8, right: margin8),
-                      isScrollable: true,
-                      tabs: _tabs,
-                      controller: _tabController,
-                    ),
+        body: analysisController.arrOfPerformance.isEmpty
+            ? Center(
+                child: Text("No data found"),
+              )
+            : DefaultTabController(
+                length: analysisController.arrOfPerformance.length,
+                child: NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverPersistentHeader(
+                        delegate: _SliverAppBarDelegate(
+                          TabBar(
+                            labelStyle: textStyle10,
+                            labelColor: Colors.green,
+                            unselectedLabelColor: textColor,
+                            indicatorColor: Colors.green,
+                            labelPadding:
+                                EdgeInsets.only(left: margin8, right: margin8),
+                            isScrollable: true,
+                            tabs: _tabs,
+                            controller: _tabController,
+                          ),
+                        ),
+                      )
+                    ];
+                  },
+                  body: TabBarView(
+                    children: getTabWidgets(),
+                    controller: _tabController,
                   ),
-                )
-              ];
-            },
-            body: TabBarView(
-              children: getTabWidgets(),
-              controller: _tabController,
-            ),
-          ),
-        )));
+                ),
+              )));
   }
 
   List<Widget> getTabs() {
     _tabs.clear();
-    for (int i = 0; i < _subjectController.arrOfSubject.length + 1; i++) {
+    for (int i = 0; i < analysisController.arrOfPerformance.length; i++) {
       _tabs.add(getTab(i));
     }
     return _tabs;
   }
 
+//https://www.youtube.com/watch?v=Ac3UD9DWYf4
   Widget getTab(title) {
-    if (title == 0) {
-      return Container(
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                height: Get.height * 0.06,
-                width: Get.height * 0.06,
-                decoration:
-                    BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
-                child: Center(
-                  child: Image.asset(
-                    ASSETS_ICONS_PATH + 'ic_small_logo.png',
-                    height: Get.height * 0.04,
-                    width: Get.height * 0.04,
-                    fit: BoxFit.fitWidth,
-                  ),
-                )),
-            SizedBox(
-              height: margin4,
-            ),
-            RichText(
-              textScaleFactor: 1.0,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  style: textStyle9.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: _themeController.textColor.value),
-                  text: "All Subject"),
-            )
-          ],
-        ),
-      ));
-    } else {
-      return Container(
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.network(
-              storageUrl + _subjectController.arrOfSubject[title - 1].icon,
-              height: Get.height * 0.06,
-              width: Get.height * 0.06,
-              fit: BoxFit.cover,
-            ),
-            SizedBox(
-              height: margin4,
-            ),
-            RichText(
-              textScaleFactor: 1.0,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  style: textStyle9.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: _themeController.textColor.value),
-                  text: _subjectController.arrOfSubject[title - 1].name),
-            )
-          ],
-        ),
-      ));
-    }
+    return Container(
+        child: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          title == 0
+              ? Image.asset(
+                  ASSETS_ICONS_PATH + 'ic_small_logo.png',
+                  height: Get.height * 0.06,
+                  width: Get.height * 0.06,
+                  fit: BoxFit.fitWidth,
+                )
+              : Image.network(
+                  storageUrl + analysisController.arrOfPerformance[title].icon,
+                  height: Get.height * 0.06,
+                  width: Get.height * 0.06,
+                  fit: BoxFit.cover,
+                ),
+          SizedBox(
+            height: margin4,
+          ),
+          RichText(
+            textScaleFactor: 1.0,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                style: textStyle9.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: _themeController.textColor.value),
+                text: analysisController.arrOfPerformance[title].name),
+          )
+        ],
+      ),
+    ));
+    // if (title == 0) {
+    //   return Container(
+    //       child: Center(
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         Container(
+    //             height: Get.height * 0.06,
+    //             width: Get.height * 0.06,
+    //             decoration:
+    //                 BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
+    //             child: Center(
+    //               child: Image.asset(
+    //                 ASSETS_ICONS_PATH + 'ic_small_logo.png',
+    //                 height: Get.height * 0.04,
+    //                 width: Get.height * 0.04,
+    //                 fit: BoxFit.fitWidth,
+    //               ),
+    //             )),
+    //         SizedBox(
+    //           height: margin4,
+    //         ),
+    //         RichText(
+    //           textScaleFactor: 1.0,
+    //           maxLines: 2,
+    //           overflow: TextOverflow.ellipsis,
+    //           textAlign: TextAlign.center,
+    //           text: TextSpan(
+    //               style: textStyle9.copyWith(
+    //                   fontWeight: FontWeight.w600,
+    //                   color: _themeController.textColor.value),
+    //               text: "All Subject"),
+    //         )
+    //       ],
+    //     ),
+    //   ));
+    // } else {
+    //   return Container(
+    //       child: Center(
+    //     child: Column(
+    //       mainAxisAlignment: MainAxisAlignment.center,
+    //       children: [
+    //         Image.network(
+    //           storageUrl + analysisController.arrOfPerformance[title - 1].icon,
+    //           height: Get.height * 0.06,
+    //           width: Get.height * 0.06,
+    //           fit: BoxFit.cover,
+    //         ),
+    //         SizedBox(
+    //           height: margin4,
+    //         ),
+    //         RichText(
+    //           textScaleFactor: 1.0,
+    //           maxLines: 2,
+    //           overflow: TextOverflow.ellipsis,
+    //           textAlign: TextAlign.center,
+    //           text: TextSpan(
+    //               style: textStyle9.copyWith(
+    //                   fontWeight: FontWeight.w600,
+    //                   color: _themeController.textColor.value),
+    //               text: analysisController.arrOfPerformance[title - 1].name),
+    //         )
+    //       ],
+    //     ),
+    //   ));
+    // }
   }
 
   List<Widget> getTabWidgets() {
@@ -172,9 +211,11 @@ class _StatePerformanceTab extends State<PerformanceTab>
 
   getTabContent(int position) {
     List<_PieData> pieData = List<_PieData>();
-    for (int i = 0; i < _subjectController.arrOfSubject.length; i++) {
-      pieData
-          .add(_PieData(_subjectController.arrOfSubject[i].name, 35, "Test"));
+    for (int i = 1; i < analysisController.arrOfPerformance.length; i++) {
+      pieData.add(_PieData(
+          analysisController.arrOfPerformance[i].name,
+          analysisController.arrOfPerformance[i].perfomance,
+          analysisController.arrOfPerformance[i].name));
     }
 
     TooltipBehavior _tooltipBehavior = TooltipBehavior(enable: true);
@@ -193,6 +234,8 @@ class _StatePerformanceTab extends State<PerformanceTab>
                 tooltipBehavior: _tooltipBehavior,
                 legend: Legend(
                     isVisible: true,
+                    textStyle: textStyle9.copyWith(
+                        color: _themeController.textColor.value),
                     toggleSeriesVisibility: false,
                     position: LegendPosition.bottom),
                 series: <PieSeries<_PieData, String>>[
@@ -227,7 +270,15 @@ class _StatePerformanceTab extends State<PerformanceTab>
                     child: Column(
                       children: [
                         Text(
-                          "10/25".toString(),
+                          "" +
+                              analysisController
+                                  .arrOfPerformance[position].correctQuestion
+                                  .toString() +
+                              "/" +
+                              analysisController
+                                  .arrOfPerformance[position].totalQuestion
+                                  .toString() +
+                              "".toString(),
                           style: textStyle11Bold.copyWith(
                               fontWeight: FontWeight.w900,
                               color: _themeController.textColor.value),
@@ -252,7 +303,15 @@ class _StatePerformanceTab extends State<PerformanceTab>
                     child: Column(
                       children: [
                         Text(
-                          "15/152".toString(),
+                          "" +
+                              analysisController
+                                  .arrOfPerformance[position].testAttempted
+                                  .toString() +
+                              "/" +
+                              analysisController
+                                  .arrOfPerformance[position].testAttempt
+                                  .toString() +
+                              "".toString(),
                           style: textStyle11Bold.copyWith(
                               fontWeight: FontWeight.w900,
                               color: _themeController.textColor.value),
@@ -277,7 +336,15 @@ class _StatePerformanceTab extends State<PerformanceTab>
                     child: Column(
                       children: [
                         Text(
-                          "4 sec".toString(),
+                          "" +
+                              analysisController
+                                  .arrOfPerformance[position].topicsLearned
+                                  .toString() +
+                              "/" +
+                              analysisController
+                                  .arrOfPerformance[position].totalTopics
+                                  .toString() +
+                              "".toString(),
                           style: textStyle11Bold.copyWith(
                               fontWeight: FontWeight.w900,
                               color: _themeController.textColor.value),
@@ -286,7 +353,7 @@ class _StatePerformanceTab extends State<PerformanceTab>
                           height: margin4,
                         ),
                         Text(
-                          "Avg. Time/\nquestion",
+                          "Topics\nLearned",
                           textAlign: TextAlign.center,
                           style: textStyle9Bold.copyWith(color: Colors.grey),
                         )
@@ -296,7 +363,7 @@ class _StatePerformanceTab extends State<PerformanceTab>
                 ],
               ),
             ),
-            _dashboardController.arrOfWatchHistory.isNotEmpty
+            analysisController.arrOfPerformance[position].recentTests.isNotEmpty
                 ? Container(
                     padding: EdgeInsets.symmetric(horizontal: margin16),
                     child: Column(
@@ -321,93 +388,131 @@ class _StatePerformanceTab extends State<PerformanceTab>
                         ListView.separated(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount:
-                              _dashboardController.arrOfWatchHistory.length > 3
-                                  ? 3
-                                  : _dashboardController
-                                      .arrOfWatchHistory.length,
+                          itemCount: analysisController
+                              .arrOfPerformance[position].recentTests.length,
                           itemBuilder: (context, index) {
-                            return Material(
-                              color: _themeController.cardBackground.value,
-                              borderRadius: BorderRadius.circular(8),
-                              child: InkWell(
-                                borderRadius: BorderRadius.circular(8),
-                                onTap: () {},
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.10,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8)),
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: margin16,
-                                      ),
-                                      Container(
-                                        height: iconMediumHeightWidth + 10,
-                                        width: iconMediumHeightWidth + 10,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              color: Colors.greenAccent,
-                                              width: 5),
-                                          shape: BoxShape.circle,
+                            return Container(
+                              height: MediaQuery.of(context).size.height * 0.08,
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.grey, width: 0.3),
+                                  borderRadius: BorderRadius.circular(8)),
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: margin16,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          textScaleFactor: 1.0,
+                                          text: TextSpan(
+                                              text: analysisController
+                                                  .arrOfPerformance[position]
+                                                  .recentTests[index]
+                                                  .title,
+                                              style: textStyle10Bold.copyWith(
+                                                  color: _themeController
+                                                      .textColor.value)),
+                                          maxLines: 1,
                                         ),
-                                        child: Center(
-                                          child: Text(
-                                            "10%",
-                                            style: textStyle9Bold,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: margin16,
-                                      ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                        Row(
                                           children: [
-                                            RichText(
+                                            Text(
+                                              analysisController
+                                                  .arrOfPerformance[position]
+                                                  .recentTests[index]
+                                                  .chapterName,
                                               textScaleFactor: 1.0,
-                                              text: TextSpan(
-                                                  text: _dashboardController
-                                                      .arrOfWatchHistory[index]
-                                                      .name,
-                                                  style: textStyle10.copyWith(
-                                                      color: _themeController
-                                                          .textColor.value)),
-                                              maxLines: 1,
-                                            ),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Start again",
-                                                  textScaleFactor: 1.0,
-                                                  style: textStyle9.copyWith(
-                                                      color: _themeController
-                                                          .textColor.value),
-                                                ),
-                                              ],
+                                              style: textStyle9.copyWith(
+                                                  color: _themeController
+                                                      .textColor.value),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: margin16,
-                                      ),
-                                      Icon(
-                                        Icons.refresh,
-                                        color: Colors.green,
-                                      ),
-                                      SizedBox(
-                                        width: margin16,
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                  // Expanded(
+                                  //   child: Column(
+                                  //     mainAxisAlignment:
+                                  //         MainAxisAlignment.center,
+                                  //     crossAxisAlignment:
+                                  //         CrossAxisAlignment.start,
+                                  //     children: [
+                                  //       RichText(
+                                  //         textScaleFactor: 1.0,
+                                  //         text: TextSpan(
+                                  //             text: analysisController
+                                  //                 .arrOfPerformance[position]
+                                  //                 .recentTests[index]
+                                  //                 .title,
+                                  //             style: textStyle10.copyWith(
+                                  //                 color: _themeController
+                                  //                     .textColor.value)),
+                                  //         maxLines: 1,
+                                  //       ),
+                                  //       Row(
+                                  //         children: [
+                                  //           Text(
+                                  //             "Start again",
+                                  //             textScaleFactor: 1.0,
+                                  //             style: textStyle9.copyWith(
+                                  //                 color: _themeController
+                                  //                     .textColor.value),
+                                  //           ),
+                                  //         ],
+                                  //       ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    width: margin16,
+                                  ),
+                                  Text(
+                                    analysisController
+                                            .arrOfPerformance[position]
+                                            .recentTests[index]
+                                            .correctQuestion
+                                            .toString() +
+                                        "/" +
+                                        analysisController
+                                            .arrOfPerformance[position]
+                                            .recentTests[index]
+                                            .marks
+                                            .toString() +
+                                        " Marks",
+                                    textAlign: TextAlign.center,
+                                    style: textStyle9Bold.copyWith(
+                                        color: Color(0xff7FCB4F)),
+                                  ),
+                                  // Material(
+                                  //   color: Colors.transparent,
+                                  //   child: InkWell(
+                                  //     onTap: () {
+                                  //       Get.to(TestGuide.testId(
+                                  //           analysisController
+                                  //               .arrOfPerformance[position]
+                                  //               .recentTests[index]
+                                  //               .id
+                                  //               .toString()));
+                                  //     },
+                                  //     child: Icon(
+                                  //       Icons.refresh,
+                                  //       color: Colors.green,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  SizedBox(
+                                    width: margin16,
+                                  ),
+                                ],
                               ),
                             );
                           },
@@ -427,11 +532,294 @@ class _StatePerformanceTab extends State<PerformanceTab>
     } else {
       return Container(
         color: _themeController.background.value,
-        margin: EdgeInsets.only(left: 16, top: 16),
-        child: Center(
-          child: Text(
-              _subjectController.arrOfSubject[position - 1].name + " Content"),
-        ),
+        margin: EdgeInsets.only(left: 0, top: 16),
+        child: analysisController.arrOfPerformance[position].recentTests.isEmpty
+            ? Center(
+                child: Text(
+                  "You have not given any test.",
+                  style: textStyle9.copyWith(
+                      color: _themeController.textColor.value),
+                ),
+              )
+            : ListView(
+                shrinkWrap: true,
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                        horizontal: 16, vertical: margin24),
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          !_themeController.isDarkTheme.value
+                              ? BoxShadow(
+                                  color: Colors.grey[300],
+                                  offset: Offset(0, 0),
+                                  blurRadius: 10.0,
+                                )
+                              : BoxShadow(),
+                        ],
+                        borderRadius: BorderRadius.circular(8),
+                        color: _themeController.cardBackground.value),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "" +
+                                    analysisController
+                                        .arrOfPerformance[position]
+                                        .correctQuestion
+                                        .toString() +
+                                    "/" +
+                                    analysisController
+                                        .arrOfPerformance[position]
+                                        .totalQuestion
+                                        .toString() +
+                                    "".toString(),
+                                style: textStyle11Bold.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    color: _themeController.textColor.value),
+                              ),
+                              SizedBox(
+                                height: margin4,
+                              ),
+                              Text(
+                                "Question\nCorrect",
+                                textAlign: TextAlign.center,
+                                style:
+                                    textStyle9Bold.copyWith(color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 2,
+                          color: Color(0xffE9E9E9),
+                          height: Get.height * 0.05,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "" +
+                                    analysisController
+                                        .arrOfPerformance[position]
+                                        .testAttempted
+                                        .toString() +
+                                    "/" +
+                                    analysisController
+                                        .arrOfPerformance[position].testAttempt
+                                        .toString() +
+                                    "".toString(),
+                                style: textStyle11Bold.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    color: _themeController.textColor.value),
+                              ),
+                              SizedBox(
+                                height: margin4,
+                              ),
+                              Text(
+                                "Test\nAttempted",
+                                textAlign: TextAlign.center,
+                                style:
+                                    textStyle9Bold.copyWith(color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: 2,
+                          color: Color(0xffE9E9E9),
+                          height: Get.height * 0.05,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "" +
+                                    analysisController
+                                        .arrOfPerformance[position]
+                                        .topicsLearned
+                                        .toString() +
+                                    "/" +
+                                    analysisController
+                                        .arrOfPerformance[position].totalTopics
+                                        .toString() +
+                                    "".toString(),
+                                style: textStyle11Bold.copyWith(
+                                    fontWeight: FontWeight.w900,
+                                    color: _themeController.textColor.value),
+                              ),
+                              SizedBox(
+                                height: margin4,
+                              ),
+                              Text(
+                                "Topics\nLearned",
+                                textAlign: TextAlign.center,
+                                style:
+                                    textStyle9Bold.copyWith(color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16),
+                    child: RichText(
+                      textScaleFactor: 1.0,
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: "Recently Taken",
+                            style: textStyle10Bold.copyWith(
+                                color: _themeController.textColor.value)),
+                        TextSpan(
+                            text: " Tests",
+                            style: textStyle10Bold.copyWith(
+                                color: Color(0xff7FCB4F))),
+                      ]),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: analysisController
+                          .arrOfPerformance[position].recentTests.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          height: MediaQuery.of(context).size.height * 0.08,
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.3),
+                              borderRadius: BorderRadius.circular(8)),
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: margin16,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RichText(
+                                      textScaleFactor: 1.0,
+                                      text: TextSpan(
+                                          text: analysisController
+                                              .arrOfPerformance[position]
+                                              .recentTests[index]
+                                              .title,
+                                          style: textStyle10Bold.copyWith(
+                                              color: _themeController
+                                                  .textColor.value)),
+                                      maxLines: 1,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Subject Name",
+                                          textScaleFactor: 1.0,
+                                          style: textStyle9.copyWith(
+                                              color: _themeController
+                                                  .textColor.value),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // Expanded(
+                              //   child: Column(
+                              //     mainAxisAlignment:
+                              //         MainAxisAlignment.center,
+                              //     crossAxisAlignment:
+                              //         CrossAxisAlignment.start,
+                              //     children: [
+                              //       RichText(
+                              //         textScaleFactor: 1.0,
+                              //         text: TextSpan(
+                              //             text: analysisController
+                              //                 .arrOfPerformance[position]
+                              //                 .recentTests[index]
+                              //                 .title,
+                              //             style: textStyle10.copyWith(
+                              //                 color: _themeController
+                              //                     .textColor.value)),
+                              //         maxLines: 1,
+                              //       ),
+                              //       Row(
+                              //         children: [
+                              //           Text(
+                              //             "Start again",
+                              //             textScaleFactor: 1.0,
+                              //             style: textStyle9.copyWith(
+                              //                 color: _themeController
+                              //                     .textColor.value),
+                              //           ),
+                              //         ],
+                              //       ),
+                              //     ],
+                              //   ),
+                              // ),
+                              SizedBox(
+                                width: margin16,
+                              ),
+                              Text(
+                                analysisController.arrOfPerformance[position]
+                                        .recentTests[index].correctQuestion
+                                        .toString() +
+                                    "/" +
+                                    analysisController
+                                        .arrOfPerformance[position]
+                                        .recentTests[index]
+                                        .marks
+                                        .toString() +
+                                    " Marks",
+                                textAlign: TextAlign.center,
+                                style: textStyle9Bold.copyWith(
+                                    color: Color(0xff7FCB4F)),
+                              ),
+                              // Material(
+                              //   color: Colors.transparent,
+                              //   child: InkWell(
+                              //     onTap: () {
+                              //       Get.to(TestGuide.testId(
+                              //           analysisController
+                              //               .arrOfPerformance[position]
+                              //               .recentTests[index]
+                              //               .id
+                              //               .toString()));
+                              //     },
+                              //     child: Icon(
+                              //       Icons.refresh,
+                              //       color: Colors.green,
+                              //     ),
+                              //   ),
+                              // ),
+                              SizedBox(
+                                width: margin16,
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 16,
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
       );
     }
   }

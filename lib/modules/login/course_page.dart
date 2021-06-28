@@ -59,7 +59,7 @@ class _StateCoursePage extends State<CoursePage> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/images/ic_select_course_bg.png"),
-                fit: BoxFit.cover)),
+                fit: BoxFit.fitHeight)),
         child: Obx(() => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
+import 'package:virtual_learning/controller/analysis_controller.dart';
 import 'package:virtual_learning/modules/analysis/performance_tab.dart';
 import 'package:virtual_learning/modules/analysis/progress_tab.dart';
+import 'package:virtual_learning/shimmer/shimmer_dummy_page.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
@@ -21,10 +23,14 @@ class StateAnalyticsPage extends State<AnalyticsPage>
   ThemeController _themeController = Get.find();
   TabController _tabController;
 
+  AnalysisController _analysisController = Get.find();
+
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this, initialIndex: 0);
+    _analysisController.getPerformance();
+    _analysisController.getProgress();
   }
 
   @override
@@ -85,38 +91,43 @@ class StateAnalyticsPage extends State<AnalyticsPage>
             ],
           ),
         ),
-        body: DefaultTabController(
-          length: 2,
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    TabBar(
-                      labelStyle: textStyle10,
-                      labelColor: Colors.green,
-                      unselectedLabelColor: textColor,
-                      indicatorColor: Colors.green,
-                      labelPadding:
-                          EdgeInsets.only(left: margin8, right: margin8),
-                      isScrollable: true,
-                      tabs: [
-                        getTab("Performance"),
-                        getTab("Progress"),
-                      ],
-                      controller: _tabController,
-                    ),
+        body: Obx(() => _analysisController.isLoading.value
+            ? Padding(
+                padding: EdgeInsets.all(margin16),
+                child: ShimmerDummyPage(),
+              )
+            : DefaultTabController(
+                length: 2,
+                child: NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverPersistentHeader(
+                        delegate: _SliverAppBarDelegate(
+                          TabBar(
+                            labelStyle: textStyle10,
+                            labelColor: Colors.green,
+                            unselectedLabelColor: textColor,
+                            indicatorColor: Colors.green,
+                            labelPadding:
+                                EdgeInsets.only(left: margin8, right: margin8),
+                            isScrollable: true,
+                            tabs: [
+                              getTab("Performance"),
+                              getTab("Progress"),
+                            ],
+                            controller: _tabController,
+                          ),
+                        ),
+                      )
+                    ];
+                  },
+                  body: TabBarView(
+                    children: [PerformanceTab(), ProgressTab()],
+                    controller: _tabController,
                   ),
-                )
-              ];
-            },
-            body: TabBarView(
-              children: [PerformanceTab(), ProgressTab()],
-              controller: _tabController,
-            ),
-          ),
-        ),
+                ),
+              )),
       ),
     );
   }

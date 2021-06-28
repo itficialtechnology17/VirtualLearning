@@ -57,7 +57,6 @@ class _YoutubeVideoState extends State<CustomNextVideoPlayer> {
       ..initialize().then((_) {
         startTimer();
         setState(() {
-          _controller.setVolume(0);
           isVideoLoaded = true;
           isTotalDurationVisible = true;
           isSkipVisible = true;
@@ -2600,11 +2599,7 @@ class _YoutubeVideoState extends State<CustomNextVideoPlayer> {
                               overflow: TextOverflow.ellipsis,
                               text: TextSpan(
                                 text: _subjectController
-                                    .arrOfChapter[_subjectController
-                                        .selectedChapterPosition]
-                                    .topic[_subjectController
-                                        .selectedTopicPosition]
-                                    .name,
+                                    .arrOfNextFourVideo[0].name,
                                 style: bodyMediumTestStyle.copyWith(
                                     color: _themeController.textColor.value),
                               ),
@@ -2620,44 +2615,24 @@ class _YoutubeVideoState extends State<CustomNextVideoPlayer> {
                               onTap: () {
                                 setState(() {
                                   if (_subjectController
-                                          .arrOfChapter[_subjectController
-                                              .selectedChapterPosition]
-                                          .topic[_subjectController
-                                              .selectedTopicPosition]
-                                          .isFavorite ==
+                                          .arrOfNextFourVideo[0].isFavorite ==
                                       0) {
                                     _subjectController.setFavorite(
                                         _subjectController
-                                            .arrOfChapter[_subjectController
-                                                .selectedChapterPosition]
-                                            .topic[_subjectController
-                                                .selectedTopicPosition]
-                                            .id
+                                            .arrOfNextFourVideo[0].id
                                             .toString());
 
                                     _subjectController
-                                        .arrOfChapter[_subjectController
-                                            .selectedChapterPosition]
-                                        .topic[_subjectController
-                                            .selectedTopicPosition]
-                                        .isFavorite = 1;
+                                        .arrOfNextFourVideo[0].isFavorite = 1;
                                   } else {
                                     _subjectController.removeFavorite(
                                         _subjectController
-                                            .arrOfChapter[_subjectController
-                                                .selectedChapterPosition]
-                                            .topic[_subjectController
-                                                .selectedTopicPosition]
-                                            .isFavorite
+                                            .arrOfNextFourVideo[0].isFavorite
                                             .toString(),
                                         false);
 
                                     _subjectController
-                                        .arrOfChapter[_subjectController
-                                            .selectedChapterPosition]
-                                        .topic[_subjectController
-                                            .selectedTopicPosition]
-                                        .isFavorite = 0;
+                                        .arrOfNextFourVideo[0].isFavorite = 0;
                                   }
                                 });
                               },
@@ -2665,11 +2640,7 @@ class _YoutubeVideoState extends State<CustomNextVideoPlayer> {
                                 padding: EdgeInsets.all(8),
                                 decoration: BoxDecoration(),
                                 child: Icon(
-                                  _subjectController
-                                              .arrOfChapter[_subjectController
-                                                  .selectedChapterPosition]
-                                              .topic[_subjectController
-                                                  .selectedTopicPosition]
+                                  _subjectController.arrOfNextFourVideo[0]
                                               .isFavorite ==
                                           0
                                       ? Icons.bookmark_border
@@ -2984,109 +2955,6 @@ class _YoutubeVideoState extends State<CustomNextVideoPlayer> {
                                         Navigator.pop(context);
                                       },
                                       title: Text(playbackSpeed[index].name,
-                                          style: textStyle10.copyWith(
-                                              color: _themeController
-                                                  .textColor.value)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  void _showQualityBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            color: Color.fromRGBO(0, 0, 0, 0.001),
-            child: GestureDetector(
-              onTap: () {},
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.4,
-                minChildSize: 0.2,
-                maxChildSize: 0.75,
-                builder: (_, controller) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: _themeController.background.value,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16.0),
-                        topRight: const Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Icon(
-                          Icons.remove,
-                          color: Colors.grey[600],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Video Quality",
-                          style: textStyle10Bold.copyWith(
-                              color: _themeController.textColor.value),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: controller,
-                            itemCount: arrOfVideoQuality.length,
-                            itemBuilder: (_, index) {
-                              return Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.back();
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    child: RadioListTile(
-                                      value:
-                                          arrOfVideoQuality[index].isSelected,
-                                      groupValue: 1,
-                                      selected:
-                                          arrOfVideoQuality[index].isSelected,
-                                      onChanged: (value) async {
-                                        setState(() {
-                                          videoQuality =
-                                              arrOfVideoQuality[index]
-                                                  .videoQuality;
-                                          for (var i = 0;
-                                              i < arrOfVideoQuality.length;
-                                              ++i) {
-                                            arrOfVideoQuality[i].isSelected =
-                                                false;
-                                          }
-                                          arrOfVideoQuality[index].isSelected =
-                                              true;
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      title: Text(arrOfVideoQuality[index].name,
                                           style: textStyle10.copyWith(
                                               color: _themeController
                                                   .textColor.value)),

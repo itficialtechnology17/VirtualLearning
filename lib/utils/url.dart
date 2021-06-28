@@ -34,3 +34,6 @@ String urlContactHours = "api/contact-hours";
 
 String urlSubmitChapterTest = "api/submit-chapter-test";
 String urlChapterTestResult = "api/chapter-test-result";
+
+String urlPerformance = "api/perfomance-analytics";
+String urlProgress = "api/progress-analytics";

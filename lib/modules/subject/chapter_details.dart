@@ -100,7 +100,8 @@ class _StateChapterDetails extends State<ChapterDetails> {
                                 ),
                                 Spacer(),
                                 Text(
-                                  _subjectController.selectedSubject.value.name,
+                                  _subjectController.selectedSubject.value.name
+                                      .toUpperCase(),
                                   style: textStyle10Bold.copyWith(
                                       color: _themeController.textColor.value),
                                   textScaleFactor: 1.0,

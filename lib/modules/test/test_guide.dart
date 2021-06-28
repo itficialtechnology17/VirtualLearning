@@ -281,16 +281,20 @@ class _StateTestGuide extends State<TestGuide> {
                       splashColor: Colors.white,
                       borderRadius: BorderRadius.circular(24),
                       onTap: () {
-                        if (widget.testId != "") {
-                          ModelTestDescription _modelTestDescription =
-                              ModelTestDescription();
-                          _modelTestDescription.id = int.parse(widget.testId);
-                          _modelTestDescription.title = widget.testName;
-                          Get.off(ChapterTest(arrOfQuestion,
-                              _modelTestDescription, widget.testName));
+                        if (isLoadingTest) {
+                          showToast("Please Wait");
                         } else {
-                          Get.off(ChapterTest(arrOfQuestion,
-                              widget.modelTestDescription, widget.testName));
+                          if (widget.testId != "") {
+                            ModelTestDescription _modelTestDescription =
+                                ModelTestDescription();
+                            _modelTestDescription.id = int.parse(widget.testId);
+                            _modelTestDescription.title = widget.testName;
+                            Get.off(ChapterTest(arrOfQuestion,
+                                _modelTestDescription, widget.testName));
+                          } else {
+                            Get.off(ChapterTest(arrOfQuestion,
+                                widget.modelTestDescription, widget.testName));
+                          }
                         }
                       },
                       child: Container(
@@ -301,12 +305,20 @@ class _StateTestGuide extends State<TestGuide> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Continue",
-                              textScaleFactor: 1.0,
-                              style:
-                                  textStyle10Bold.copyWith(color: Colors.white),
-                            ),
+                            isLoadingTest
+                                ? SizedBox(
+                                    height: Get.width * 0.06,
+                                    width: Get.width * 0.06,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    "Continue",
+                                    textScaleFactor: 1.0,
+                                    style: textStyle10Bold.copyWith(
+                                        color: Colors.white),
+                                  ),
                           ],
                         ),
                       ),

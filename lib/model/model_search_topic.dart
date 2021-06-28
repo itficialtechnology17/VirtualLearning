@@ -1,7 +1,20 @@
-import 'package:virtual_learning/model/model_question.dart';
+// To parse this JSON data, do
+//
+//     final modelSearchTopic = modelSearchTopicFromJson(jsonString);
 
-class ModelTopic {
-  ModelTopic({
+import 'dart:convert';
+
+import 'model_question.dart';
+
+List<ModelSearchTopic> modelSearchTopicFromJson(String str) =>
+    List<ModelSearchTopic>.from(
+        json.decode(str).map((x) => ModelSearchTopic.fromJson(x)));
+
+String modelSearchTopicToJson(List<ModelSearchTopic> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class ModelSearchTopic {
+  ModelSearchTopic({
     this.id,
     this.name,
     this.minutes,
@@ -20,7 +33,7 @@ class ModelTopic {
 
   int id;
   String name;
-  dynamic minutes;
+  String minutes;
   String icon;
   int standardId;
   int subjectId;
@@ -33,10 +46,11 @@ class ModelTopic {
   Content content;
   int isFavorite;
 
-  factory ModelTopic.fromJson(Map<String, dynamic> json) => ModelTopic(
+  factory ModelSearchTopic.fromJson(Map<String, dynamic> json) =>
+      ModelSearchTopic(
         id: json["id"],
         name: json["name"],
-        minutes: json["minutes"],
+        minutes: json["minutes"] == null ? null : json["minutes"],
         icon: json["icon"],
         standardId: json["standard_id"],
         subjectId: json["subject_id"],
@@ -46,15 +60,14 @@ class ModelTopic {
         color: json["color"],
         image: json["image"],
         isBookmark: json["is_bookmark"] == null ? null : json["is_bookmark"],
-        content:
-            json["content"] == null ? null : Content.fromJson(json["content"]),
+        content: Content.fromJson(json["content"]),
         isFavorite: json["is_favorite"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "minutes": minutes,
+        "minutes": minutes == null ? null : minutes,
         "icon": icon,
         "standard_id": standardId,
         "subject_id": subjectId,
@@ -64,7 +77,7 @@ class ModelTopic {
         "color": color,
         "image": image,
         "is_bookmark": isBookmark == null ? null : isBookmark,
-        "content": content == null ? null : content.toJson(),
+        "content": content.toJson(),
         "is_favorite": isFavorite,
       };
 }

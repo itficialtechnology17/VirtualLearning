@@ -6,6 +6,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:virtual_learning/controller/ThemeController.dart';
+import 'package:virtual_learning/controller/analysis_controller.dart';
 import 'package:virtual_learning/controller/dashboard_controller.dart';
 import 'package:virtual_learning/controller/subject_controller.dart';
 import 'package:virtual_learning/controller/subscription_controller.dart';
@@ -39,6 +40,8 @@ class _StateMainPage extends State<MainPage>
   DashboardController _dashboardController = Get.put(DashboardController());
   SubscriptionController _subscriptionController =
       Get.put(SubscriptionController());
+
+  AnalysisController _analysisController = Get.put(AnalysisController());
 
   SubjectController _subjectController = Get.find();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
