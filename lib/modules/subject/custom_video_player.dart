@@ -283,109 +283,6 @@ class _YoutubeVideoState extends State<CustomVideoPlayer> {
     );
   }
 
-  void _showQualityBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            color: Color.fromRGBO(0, 0, 0, 0.001),
-            child: GestureDetector(
-              onTap: () {},
-              child: DraggableScrollableSheet(
-                initialChildSize: 0.4,
-                minChildSize: 0.2,
-                maxChildSize: 0.75,
-                builder: (_, controller) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: _themeController.background.value,
-                      borderRadius: BorderRadius.only(
-                        topLeft: const Radius.circular(16.0),
-                        topRight: const Radius.circular(16.0),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Icon(
-                          Icons.remove,
-                          color: Colors.grey[600],
-                        ),
-                        SizedBox(
-                          height: 8,
-                        ),
-                        Text(
-                          "Video Quality",
-                          style: textStyle10Bold.copyWith(
-                              color: _themeController.textColor.value),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            controller: controller,
-                            itemCount: arrOfVideoQuality.length,
-                            itemBuilder: (_, index) {
-                              return Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.back();
-                                    setState(() {});
-                                  },
-                                  child: Container(
-                                    child: RadioListTile(
-                                      value:
-                                          arrOfVideoQuality[index].isSelected,
-                                      groupValue: 1,
-                                      selected:
-                                          arrOfVideoQuality[index].isSelected,
-                                      onChanged: (value) async {
-                                        setState(() {
-                                          videoQuality =
-                                              arrOfVideoQuality[index]
-                                                  .videoQuality;
-                                          for (var i = 0;
-                                              i < arrOfVideoQuality.length;
-                                              ++i) {
-                                            arrOfVideoQuality[i].isSelected =
-                                                false;
-                                          }
-                                          arrOfVideoQuality[index].isSelected =
-                                              true;
-                                        });
-                                        Navigator.pop(context);
-                                      },
-                                      title: Text(arrOfVideoQuality[index].name,
-                                          style: textStyle10.copyWith(
-                                              color: _themeController
-                                                  .textColor.value)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   Widget getLandscapeView() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.black, // navigation bar color
@@ -1688,23 +1585,6 @@ var playbackSpeed = [
   ModelPlaybackSpeed("1.5x", false, 1.5),
   ModelPlaybackSpeed("2x", false, 2)
 ];
-
-var arrOfVideoQuality = [
-  ModelVideoQuality("144", false, VideoQuality.low144),
-  ModelVideoQuality("240", false, VideoQuality.low144),
-  ModelVideoQuality("360", false, VideoQuality.medium360),
-  ModelVideoQuality("480", true, VideoQuality.medium480),
-  ModelVideoQuality("720", false, VideoQuality.high720),
-  ModelVideoQuality("1080", false, VideoQuality.high1080)
-];
-
-class ModelVideoQuality {
-  String name;
-  bool isSelected = false;
-  VideoQuality videoQuality;
-
-  ModelVideoQuality(this.name, this.isSelected, this.videoQuality);
-}
 
 class ModelPlaybackSpeed {
   String name;

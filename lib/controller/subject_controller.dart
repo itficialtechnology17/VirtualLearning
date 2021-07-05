@@ -52,7 +52,6 @@ class SubjectController extends GetxController {
     request.post().then((value) {
       isChapterLoading.value = false;
       final responseData = json.decode(value.body);
-      String jsonFormat = jsonEncode(responseData);
 
       if (responseData['status_code'] == 1) {
         var list = (responseData['data'] as List)

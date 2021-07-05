@@ -1395,23 +1395,6 @@ var playbackSpeed = [
   ModelPlaybackSpeed("2x", false, 2)
 ];
 
-var arrOfVideoQuality = [
-  ModelVideoQuality("144", false, VideoQuality.low144),
-  ModelVideoQuality("240", false, VideoQuality.low144),
-  ModelVideoQuality("360", false, VideoQuality.medium360),
-  ModelVideoQuality("480", true, VideoQuality.medium480),
-  ModelVideoQuality("720", false, VideoQuality.high720),
-  ModelVideoQuality("1080", false, VideoQuality.high1080)
-];
-
-class ModelVideoQuality {
-  String name;
-  bool isSelected = false;
-  VideoQuality videoQuality;
-
-  ModelVideoQuality(this.name, this.isSelected, this.videoQuality);
-}
-
 class ModelPlaybackSpeed {
   String name;
   bool isSelected = false;

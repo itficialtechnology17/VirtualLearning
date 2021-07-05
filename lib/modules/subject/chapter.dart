@@ -28,10 +28,6 @@ class _StateChapter extends State<Chapter> {
   SubjectController _subjectController = Get.find();
   DashboardController _dashboardController = Get.find();
 
-  var arrOfChapterBG = [
-    'https://itficial.app/virtuale/storage/pencils-5096372_960_720.jpeg',
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -362,84 +358,77 @@ class _StateChapter extends State<Chapter> {
                                                     : SizedBox(
                                                         height: margin8,
                                                       ),
-                                                _subjectController
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: margin12,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        _subjectController
                                                             .arrOfChapter[index]
-                                                            .topic
-                                                            .length ==
-                                                        0
-                                                    ? SizedBox.shrink()
-                                                    : Row(
-                                                        children: [
-                                                          SizedBox(
-                                                            width: margin12,
-                                                          ),
-                                                          Expanded(
+                                                            .name,
+                                                        style: textStyle10Bold
+                                                            .copyWith(
+                                                                color:
+                                                                    _themeController
+                                                                        .textColor
+                                                                        .value),
+                                                        textScaleFactor: 1.0,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: margin10,
+                                                    ),
+                                                    Material(
+                                                      color: Colors.transparent,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          // Get.to(ChapterDetails());
+
+                                                          _subjectController
+                                                                  .selectedChapterPosition =
+                                                              index;
+                                                          _subjectController
+                                                              .selectedTab
+                                                              .value = 0;
+
+                                                          _subjectController
+                                                              .setSelectedChapter(
+                                                                  index);
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  margin8),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 0),
                                                             child: Text(
-                                                              _subjectController
-                                                                  .arrOfChapter[
-                                                                      index]
-                                                                  .name,
-                                                              style: textStyle10Bold.copyWith(
-                                                                  color: _themeController
-                                                                      .textColor
-                                                                      .value),
+                                                              "View All(" +
+                                                                  _subjectController
+                                                                      .arrOfChapter[
+                                                                          index]
+                                                                      .topicCount
+                                                                      .toString() +
+                                                                  ")".toUpperCase(),
+                                                              style: textStyle9Bold
+                                                                  .copyWith(
+                                                                      color: Color(
+                                                                          0xff7FCB4F)),
                                                               textScaleFactor:
                                                                   1.0,
                                                             ),
                                                           ),
-                                                          SizedBox(
-                                                            width: margin10,
-                                                          ),
-                                                          Material(
-                                                            color: Colors
-                                                                .transparent,
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                // Get.to(ChapterDetails());
-
-                                                                _subjectController
-                                                                        .selectedChapterPosition =
-                                                                    index;
-                                                                _subjectController
-                                                                    .selectedTab
-                                                                    .value = 0;
-
-                                                                _subjectController
-                                                                    .setSelectedChapter(
-                                                                        index);
-                                                              },
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsets.all(
-                                                                        margin8),
-                                                                child: Padding(
-                                                                  padding: EdgeInsets
-                                                                      .only(
-                                                                          right:
-                                                                              0),
-                                                                  child: Text(
-                                                                    "View All(" +
-                                                                        _subjectController
-                                                                            .arrOfChapter[index]
-                                                                            .topicCount
-                                                                            .toString() +
-                                                                        ")".toUpperCase(),
-                                                                    style: textStyle9Bold
-                                                                        .copyWith(
-                                                                            color:
-                                                                                Color(0xff7FCB4F)),
-                                                                    textScaleFactor:
-                                                                        1.0,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: margin4,
-                                                          ),
-                                                        ],
+                                                        ),
                                                       ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: margin4,
+                                                    ),
+                                                  ],
+                                                ),
                                                 Container(
                                                   height: _subjectController
                                                               .arrOfChapter[
