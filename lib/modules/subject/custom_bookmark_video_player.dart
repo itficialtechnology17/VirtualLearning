@@ -12,7 +12,6 @@ import 'package:virtual_learning/model/model_bookmark.dart';
 import 'package:virtual_learning/utils/constant.dart';
 import 'package:virtual_learning/utils/methods.dart';
 import 'package:virtual_learning/utils/textstyle.dart';
-import 'package:virtual_learning/utils/url.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class CustomBookmarkVideoPlayer extends StatefulWidget {
@@ -44,9 +43,11 @@ class _YoutubeVideoState extends State<CustomBookmarkVideoPlayer> {
     super.initState();
     _enableRotation();
 
+    // _controller = VideoPlayerController.network(
+    //     videoUrl + widget.favourite.content.video,
+    //     youtubeVideoQuality: videoQuality)
     _controller = VideoPlayerController.network(
-        videoUrl + widget.favourite.content.video,
-        youtubeVideoQuality: videoQuality)
+        "https://vod-progressive.akamaized.net/exp=1625570660~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F4311%2F22%2F571557324%2F2701107352.mp4~hmac=629cecebd74bfdb40056bfd495f8b4a6abcd876cb8bef91bc397dc83512e06de/vimeo-prod-skyfire-std-us/01/4311/22/571557324/2701107352.mp4")
       ..initialize().then((_) {
         startTimer();
         setState(() {

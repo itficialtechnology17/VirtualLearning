@@ -23,6 +23,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.0,
+          ), //set desired text scale factor here
+          child: child,
+        );
+      },
       theme: _themeController.isDarkTheme.value
           ? ThemeData.dark()
           : ThemeData.light(),
