@@ -61,7 +61,6 @@ dependencies:
   scrollable_positioned_list: ^0.1.10
   ext_video_player: ^0.0.6
   youtube_player_flutter: ^7.0.0+7
-  better_player: ^0.0.61
   pip_view: ^0.9.5
   get_storage:
   syncfusion_flutter_charts: ^18.3.50
